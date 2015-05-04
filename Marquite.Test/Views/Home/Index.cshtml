@@ -1,0 +1,50 @@
+﻿@using Marquite.Bootstrap
+@using Marquite.Bootstrap.Extensions
+@using Marquite.Core
+@{
+    ViewBag.Title = "Home Page";
+    Random r = new Random();
+    bool condition = r.Next(5) > 2;
+}
+
+
+
+
+@using (Html.Bootstrap().Container(true).Open())
+{
+    using (Html.Bootstrap().Row().Open())
+    {
+        using (Html.Bootstrap().Column(3).Open())
+        {
+            <h1>Column 1</h1>
+        }
+        using (Html.Bootstrap().Column(6).When(condition, a => a.Danger()).Open())
+        {
+            <h1>Hello! This is Marquitte</h1>
+            <p>Lorem ipsum, guys!</p>
+            @Html.Bootstrap().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Diabled()
+
+            @Html.Bootstrap().Button("Hello bootstrap!").Mixin(Html.BigRedButton).HiddenOn(Device.Print)
+
+            using (Html.Bootstrap().Table("#","User Name","Email","Password").Stripped().Condensed().Hover().Open())
+            {<text>
+                @Html.Bootstrap().Tr("1","Pavel Novikov","pavel.b.novikov@gmail.com","*****")
+               
+                @Html.Bootstrap().Tr("3", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Info()
+                @Html.Bootstrap().Tr("4", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Warning()
+                 @Html.Bootstrap().Tr("5", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").HiddenOn(Device.Print)
+                 @Html.Bootstrap().Tr("6", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****")
+             </text>
+            }
+            <p>
+                Aliquam pe
+                llentesque urna erat, nec convallis lacus pellentesque vitae. Donec ut risus id arcu tempor egestas vitae id diam. Vestibulum eu rutrum libero. Aenean vel tincidunt eros. Etiam nunc tortor, auctor ac lorem sed, gravida auctor elit. Nullam lacinia eleifend bibendum. Ut rhoncus interdum tellus, eget suscipit lacus egestas fermentum. Morbi consectetur sem ex, vel pretium neque sodales sed. Praesent dapibus varius molestie. Mauris ex justo, luctus vel orci vel, elementum laoreet magna. Phasellus imperdiet justo ligula, a pulvinar eros molestie sit amet. Vestibulum nisi diam, sodales at ipsum a, dignissim cursus urna. Duis dolor ante, lobortis eu enim eget, ullamcorper mattis sem. Mauris in ornare nisi, in finibus justo.
+            </p>
+        }
+        using (Html.Bootstrap().Column(3).Open())
+        {
+            <h1>Hello! This is Marquitte</h1>
+
+        }
+    }
+}
