@@ -24,5 +24,10 @@ namespace Marquite.Core
             var tVal = typeof(TextAreaWrap);
             return ClassLookup.Cache[tVal][(int)value];
         }
+        public static string Lookup(FormEnctype value)
+        {
+            var tVal = typeof(FormEnctype);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
     }
 }

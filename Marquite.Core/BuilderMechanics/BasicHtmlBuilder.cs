@@ -268,7 +268,7 @@ namespace Marquite.Core.BuilderMechanics
         public virtual MvcHtmlString Render()
         {
             PrepareForRender();
-            Marquite.ViewContext.Writer.RenderClient(this);
+            Marquite.GetTopmostWriter().RenderClient(this);
             return MvcHtmlString.Empty;
         }
 
@@ -410,10 +410,10 @@ namespace Marquite.Core.BuilderMechanics
             return TagName;
         }
 
-        public string ToHtmlString()
+        public virtual string ToHtmlString()
         {
-            Render();
-            return null;
+
+            return Render().ToString();
         }
 
         public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes, bool replaceExisting)
@@ -424,7 +424,25 @@ namespace Marquite.Core.BuilderMechanics
                 {
                     string key = System.Convert.ToString(entry.Key, CultureInfo.InvariantCulture);
                     string value = System.Convert.ToString(entry.Value, CultureInfo.InvariantCulture);
-                    Attr(key, value, replaceExisting);
+                    if (key == "class")
+                    {
+                        if (value.Contains(" "))
+                        {
+                            var classes = value.Split(' ');
+                            foreach (var @class in classes)
+                            {
+                                AddClass(@class);
+                            }
+                        }
+                        else
+                        {
+                            AddClass(value);
+                        }
+                    }
+                    else
+                    {
+                        Attr(key, value, replaceExisting);
+                    }
                 }
             }
         }

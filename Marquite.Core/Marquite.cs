@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web.Mvc;
 
 namespace Marquite.Core
 {
@@ -33,8 +36,15 @@ namespace Marquite.Core
             var m = h.ViewContext.TempData[MarquiteId];
             if (m == null)
             {
-                m = new Marquite(h.ViewContext,h.ViewData);
-                h.ViewContext.TempData[MarquiteId] = m;
+                var marq = new Marquite(h) {IsGlobal = true};
+                marq.AddThis(h);
+                h.ViewContext.TempData[MarquiteId] = marq;
+                m = marq;
+            }
+            else
+            {
+                Marquite marq = (Marquite) m;
+                m = marq.LookupOrCreate<Marquite>(h);
             }
             return (Marquite) m;
         }
@@ -50,26 +60,38 @@ namespace Marquite.Core
                 var n = new TMarquite
                 {
                     ViewContext = h.ViewContext,
-                    ViewData = h.ViewData
+                    ViewData = h.ViewData,
+                    IsGlobal = true
                 };
+                n.AddThis(h);
                 m = n;
                 h.ViewContext.TempData[MarquiteId] = m;
+            }
+            else
+            {
+                Marquite marq = (Marquite)m;
+                m = marq.LookupOrCreate<TMarquite>(h);
             }
             return (TMarquite)m;
         }
 
-        public Marquite(ViewContext viewContext, ViewDataDictionary viewData)
+        public Marquite(HtmlHelper h)
         {
-            ViewContext = viewContext;
-            ViewData = viewData;
+            var vp = (WebViewPage) h.ViewDataContainer;
+
+            ViewContext = h.ViewContext;
+            ViewData = h.ViewData;
+            _outputStack = vp.OutputStack;
             InitDefaultCssStyles();
         }
 
-        protected Marquite() { InitDefaultCssStyles(); }
+        public Marquite() { InitDefaultCssStyles(); }
 
         public ViewContext ViewContext { get; private set; }
 
         public ViewDataDictionary ViewData { get; private set; }
+
+        private Stack<TextWriter> _outputStack;
 
         public string ValidationInputCssClassName { get; private set; }
 
@@ -93,5 +115,54 @@ namespace Marquite.Core
             ValidationSummaryValidCssClassName = "validation-summary-valid";
         }
 
+        private int _formsCount = 0;
+        public string GenerateNewFormId()
+        {
+            _formsCount++;
+            return String.Format("form{0}", _formsCount);
+        }
+
+        public TextWriter GetTopmostWriter()
+        {
+            return _outputStack.Peek();
+        }
+
+        public Marquite Global { get; private set; }
+
+        public bool IsGlobal
+        {
+            get { return _isGlobal; }
+            private set
+            {
+                _isGlobal = value;
+                if (value)
+                {
+                    _globalCache = new Dictionary<IViewDataContainer, Marquite>();
+                    Global = this;
+                }
+            }
+        }
+
+        private bool _isGlobal;
+        private Dictionary<IViewDataContainer, Marquite> _globalCache;
+
+        private void AddThis(HtmlHelper h)
+        {
+            _globalCache[h.ViewDataContainer] = this;
+        }
+
+        private T LookupOrCreate<T>(HtmlHelper h) where T: Marquite,new()
+        {
+            if (_globalCache.ContainsKey(h.ViewDataContainer)) return (T) _globalCache[h.ViewDataContainer];
+            var vp = (WebViewPage) h.ViewDataContainer;
+            var tlk = new T();
+            tlk.ViewContext = h.ViewContext;
+            tlk.ViewData = h.ViewData;
+            tlk.IsGlobal = false;
+            tlk.Global = this;
+            tlk._outputStack = vp.OutputStack;
+            _globalCache[vp] = tlk;
+            return tlk;
+        }
     }
 }

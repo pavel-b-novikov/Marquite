@@ -73,6 +73,8 @@
     <Compile Include="BuilderMechanics\SimpleHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\StringCategory.cs" />
     <Compile Include="Css.cs" />
+    <Compile Include="ElementBuilders\BaseInputField.cs" />
+    <Compile Include="ElementBuilders\FormBuilder.cs" />
     <Compile Include="ElementBuilders\LabelBuilder.cs" />
     <Compile Include="ElementBuilders\LinkBuilder.cs" />
     <Compile Include="ElementBuilders\ListBuilder.cs" />
@@ -80,8 +82,10 @@
     <Compile Include="ElementBuilders\OrderedListBuilder.cs" />
     <Compile Include="ElementBuilders\TableBuilder.cs" />
     <Compile Include="ElementBuilders\TableRowBuilder.cs" />
+    <Compile Include="ElementBuilders\TextareaBuilder.cs" />
     <Compile Include="ElementBuilders\UnorderedListBuilder.cs" />
     <Compile Include="Html\ChildActionExtensions.cs" />
+    <Compile Include="Html\FormExtensions.cs" />
     <Compile Include="Html\GlobalExtensions.cs" />
     <Compile Include="Html\LabelExtensions.cs" />
     <Compile Include="Html\LinkExtensions.cs" />
@@ -90,6 +94,7 @@
     <Compile Include="Html\PartialExtensions.cs" />
     <Compile Include="Html\RenderPartialExtensions.cs" />
     <Compile Include="Html\TableExtensions.cs" />
+    <Compile Include="Html\TextAreaExtensions.cs" />
     <Compile Include="Lookups.cs" />
     <Compile Include="MvcHelpers\PropertyHelper.cs" />
     <Compile Include="MvcHelpers\TypeHelper.cs" />
