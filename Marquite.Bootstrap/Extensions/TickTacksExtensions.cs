@@ -51,9 +51,33 @@ namespace Marquite.Bootstrap.Extensions
             return CompiledGlyphIcons[icon];
         }
 
-        public static BootstrapElementBuilder GlyphIcon(this Core.Marquite t, GlyphIcon icon)
+        public static SimpleHtmlBuilder GlyphIcon(this Core.Marquite t, GlyphIcon icon)
         {
-            return new BootstrapElementBuilder(t,"span").AddClass(Lookups.Lookup(icon)).Aria("hidden","true");
+            return new SimpleHtmlBuilder(t, "span").AddClass(Lookups.Lookup(icon)).Aria("hidden", "true");
+        }
+
+        public static SimpleHtmlBuilder Badge(this Core.Marquite t, string badgeText)
+        {
+            return new SimpleHtmlBuilder(t, "span").AddClass("badge").TrailingText(badgeText);
+        }
+
+
+        public static T Tooltip<T>(this T t, TooltipPlacement placement, string tooltipText)
+            where T:ElementHtmlBuilder<T>
+        {
+            return t.Data("toggle", "tooltip").Data("placement", Lookups.Lookup(placement)).Title(tooltipText);
+        }
+
+        public static T Popover<T>(this T t, TooltipPlacement placement, string title,string content,bool dismissive = true)
+            where T : ElementHtmlBuilder<T>
+        {
+            return t.Data("toggle", "popover")
+                .Data("placement", Lookups.Lookup(placement))
+                .Data("container","body")
+                .Data("content",content)
+                .Title(title)
+                .When(dismissive, c => c.Data("trigger","focus"))
+                ;
         }
     }
 }

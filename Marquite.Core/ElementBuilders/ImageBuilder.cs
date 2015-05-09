@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using Marquite.Core.BuilderMechanics;
 using Marquite.Core.Rendering;
 
-namespace Marquite.Bootstrap.Elements
+namespace Marquite.Core.ElementBuilders
 {
-    public class ImageBuilder : BootstrapBasicBuilder<ImageBuilder>
+    public class ImageBuilder : ElementHtmlBuilder<ImageBuilder>
     {
         public ImageBuilder(Core.Marquite marquite,string src = null,string alt = null) : base(marquite, "img")
         {
@@ -25,26 +21,6 @@ namespace Marquite.Bootstrap.Elements
         public ImageBuilder AltText(string text)
         {
             return Attr("alt", text);
-        }
-
-        public ImageBuilder Style(ImageStyle style)
-        {
-            return AddClass(Lookups.Lookup(style));
-        }
-
-        public ImageBuilder Rounded()
-        {
-            return Style(ImageStyle.Rounded);
-        }
-
-        public ImageBuilder Circle()
-        {
-            return Style(ImageStyle.Circle);
-        }
-
-        public ImageBuilder Thumbnail()
-        {
-            return Style(ImageStyle.Thumbnail);
         }
 
         public override InnerTagScope Open()

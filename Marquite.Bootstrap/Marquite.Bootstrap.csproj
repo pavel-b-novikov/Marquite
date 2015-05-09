@@ -69,16 +69,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockQuoteBuilder.cs" />
-    <Compile Include="BootstrapBasicBuilder.cs" />
-    <Compile Include="BootstrapElementBuilder.cs" />
     <Compile Include="BootstrapEnums.cs" />
     <Compile Include="Elements\ButtonBuilder.cs" />
-    <Compile Include="Elements\ImageBuilder.cs" />
+    <Compile Include="Elements\DropdownBuilder.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\ElementsExtensions.cs" />
     <Compile Include="Extensions\GlobalExtensions.cs" />
     <Compile Include="Extensions\GridExtensions.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\TableExtensions.cs" />
     <Compile Include="Forms\BaseInputBuilder.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

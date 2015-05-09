@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Marquite.Bootstrap.Elements;
 using Marquite.Bootstrap.Grid;
+using Marquite.Core.ElementBuilders;
 
 namespace Marquite.Bootstrap.Extensions
 {
@@ -30,10 +31,7 @@ namespace Marquite.Bootstrap.Extensions
             return new ButtonBuilder(b, "a").Content(text);
         }
 
-        public static ImageBuilder Image(this Core.Marquite b, string src = null, string alternativeText = null)
-        {
-            return new ImageBuilder(b, src, alternativeText);
-        }
+        
 
     }
 }

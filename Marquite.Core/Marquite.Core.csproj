@@ -75,6 +75,7 @@
     <Compile Include="Css.cs" />
     <Compile Include="ElementBuilders\BaseInputField.cs" />
     <Compile Include="ElementBuilders\FormBuilder.cs" />
+    <Compile Include="ElementBuilders\ImageBuilder.cs" />
     <Compile Include="ElementBuilders\LabelBuilder.cs" />
     <Compile Include="ElementBuilders\LinkBuilder.cs" />
     <Compile Include="ElementBuilders\ListBuilder.cs" />
@@ -95,7 +96,13 @@
     <Compile Include="Html\RenderPartialExtensions.cs" />
     <Compile Include="Html\TableExtensions.cs" />
     <Compile Include="Html\TextAreaExtensions.cs" />
+    <Compile Include="Html\VariousExtensions.cs" />
     <Compile Include="Lookups.cs" />
+    <Compile Include="Messages.Designer.cs">
+      <DependentUpon>Messages.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="MvcHelpers\PropertyHelper.cs" />
     <Compile Include="MvcHelpers\TypeHelper.cs" />
     <Compile Include="Rendering\RenderingItem.cs" />
@@ -113,7 +120,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

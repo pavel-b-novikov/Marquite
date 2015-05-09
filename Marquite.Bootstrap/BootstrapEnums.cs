@@ -417,4 +417,17 @@ namespace Marquite.Bootstrap
         [LookupString("glyphicon glyphicon-menu-down")] MenuDown,
         [LookupString("glyphicon glyphicon-menu-up")] MenuUp
     }
+
+    [LookupEnum]
+    public enum TooltipPlacement
+    {
+        [LookupString("left")]
+        Left,
+        [LookupString("top")]
+        Top,
+        [LookupString("right")]
+        Right,
+        [LookupString("bottom")]
+        Bottom
+    }
 }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Menus
 {
-    public class NavigationBuilder : BootstrapBasicBuilder<NavigationBuilder>
+    public class NavigationBuilder : ElementHtmlBuilder<NavigationBuilder>
     {
         public NavigationBuilder(Core.Marquite marquite) : base(marquite, "nav")
         {

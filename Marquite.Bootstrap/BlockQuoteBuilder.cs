@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap
 {
-    public class BlockQuoteBuilder : BootstrapBasicBuilder<BlockQuoteBuilder>
+    public class BlockQuoteBuilder : ElementHtmlBuilder<BlockQuoteBuilder>
     {
 
         public BlockQuoteBuilder(Core.Marquite m)

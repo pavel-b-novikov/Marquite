@@ -1,9 +1,10 @@
 ﻿using System;
 using Marquite.Bootstrap.Extensions;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Elements
 {
-    public class ButtonBuilder : BootstrapBasicBuilder<ButtonBuilder>
+    public class ButtonBuilder : ElementHtmlBuilder<ButtonBuilder>
     {
         public ButtonBuilder(Core.Marquite marquite, string tagName) : base(marquite, tagName)
         {
@@ -41,27 +42,27 @@ namespace Marquite.Bootstrap.Elements
             return This;
         }
 
-        public override ButtonBuilder Danger()
+        public ButtonBuilder Danger()
         {
             return Color(ButtonColor.Danger);
         }
 
-        public override ButtonBuilder Info()
+        public ButtonBuilder Info()
         {
             return Color(ButtonColor.Info);
         }
 
-        public override ButtonBuilder Primary()
+        public ButtonBuilder Primary()
         {
             return Color(ButtonColor.Primary);
         }
 
-        public override ButtonBuilder Success()
+        public ButtonBuilder Success()
         {
             return Color(ButtonColor.Success);
         }
 
-        public override ButtonBuilder Warning()
+        public ButtonBuilder Warning()
         {
             return Color(ButtonColor.Warning);
         }
@@ -119,7 +120,7 @@ namespace Marquite.Bootstrap.Elements
             return This;
         }
 
-        public override ButtonBuilder TrailIcon(GlyphIcon icon)
+        public ButtonBuilder TrailIcon(GlyphIcon icon)
         {
             if (TagName == "input")
             {
@@ -132,7 +133,7 @@ namespace Marquite.Bootstrap.Elements
             return This;
         }
 
-        public override ButtonBuilder LeadIcon(GlyphIcon icon)
+        public ButtonBuilder LeadIcon(GlyphIcon icon)
         {
             if (TagName == "input")
             {

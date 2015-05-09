@@ -1,6 +1,8 @@
-﻿namespace Marquite.Bootstrap.Grid
+﻿using Marquite.Core.BuilderMechanics;
+
+namespace Marquite.Bootstrap.Grid
 {
-    public class ContainerGridBuilder : BootstrapBasicBuilder<ContainerGridBuilder>
+    public class ContainerGridBuilder : ElementHtmlBuilder<ContainerGridBuilder>
     {
         public ContainerGridBuilder(Core.Marquite m,bool fluid) : base(m,"div")
         {

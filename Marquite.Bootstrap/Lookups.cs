@@ -99,5 +99,10 @@ namespace Marquite.Bootstrap
             var tVal = typeof(InputType);
             return ClassLookup.Cache[tVal][(int)value];
         }
+        public static string Lookup(TooltipPlacement value)
+        {
+            var tVal = typeof(TooltipPlacement);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
     }
 }

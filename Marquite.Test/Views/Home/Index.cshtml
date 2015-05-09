@@ -20,16 +20,16 @@
         {
             <h1>Hello! This is Marquitte</h1>
             <p>Lorem ipsum, guys!</p>
-            @Html.Marquite().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Diabled()
+            @Html.Marquite().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Tooltip(TooltipPlacement.Top, "button tooltip")
 
-            @Html.Marquite().Button("Hello bootstrap!").Mixin(Html.BigRedButton).HiddenOn(Device.Print)
+            @Html.Marquite().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Marquite().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover","This is popover test",true)
 
             using (Html.Marquite().Table("#","User Name","Email","Password").Stripped().Condensed().Hover().Open())
             {<text>
                 @Html.Marquite().Tr("1","Pavel Novikov","pavel.b.novikov@gmail.com","*****")
-               
-                @Html.Marquite().Tr("3", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Info()
-                @Html.Marquite().Tr("4", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Warning()
+
+                 @Html.Marquite().Tr("3", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Info().Tooltip(TooltipPlacement.Left, "Table cell tooltip")
+                 @Html.Marquite().Tr("4", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Warning()
                  @Html.Marquite().Tr("5", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").HiddenOn(Device.Print)
                  @Html.Marquite().Tr("6", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****")
              </text>
@@ -46,4 +46,16 @@
 
         }
     }
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(function() {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
 }

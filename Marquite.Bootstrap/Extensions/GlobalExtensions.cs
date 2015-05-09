@@ -26,6 +26,11 @@ namespace Marquite.Bootstrap.Extensions
             return BootstrapTextAlign(t, TextAlign.Right);
         }
 
+        public static T Role<T>(this BasicHtmlBuilder<T> t, string role)
+        {
+            return t.Attr("role",role);
+        }
+
         public static BasicHtmlBuilder<T> TextCenter<T>(this BasicHtmlBuilder<T> t)
         {
             return BootstrapTextAlign(t, TextAlign.Center);

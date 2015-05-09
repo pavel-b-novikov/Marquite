@@ -33,10 +33,5 @@ namespace Marquite.Bootstrap.Extensions
         {
             return new BlockQuoteBuilder(b, text);
         }
-
-        public static BootstrapElementBuilder Custom(this Core.Marquite b, string tagName)
-        {
-            return new BootstrapElementBuilder(b, tagName);
-        }
     }
 }

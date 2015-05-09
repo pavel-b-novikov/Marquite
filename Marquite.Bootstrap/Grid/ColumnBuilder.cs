@@ -1,8 +1,9 @@
 ﻿using System;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Grid
 {
-    public class ColumnGridBuilder : BootstrapBasicBuilder<ColumnGridBuilder>
+    public class ColumnGridBuilder : ElementHtmlBuilder<ColumnGridBuilder>
     {
         
         public ColumnGridBuilder(Core.Marquite m,int mdWidth = 0, int xsWidth = 0, int smWidth = 0,int lgWidth = 0)

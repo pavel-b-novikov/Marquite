@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Forms
 {
-    public class BaseInputBuilder<T> : BootstrapBasicBuilder<T>
+    public class BaseInputBuilder<T> : ElementHtmlBuilder<T>
     {
         public BaseInputBuilder(Core.Marquite marquite) : base(marquite, "input")
         {
