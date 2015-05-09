@@ -28,6 +28,7 @@ namespace Marquite.Core
             return string.Format(str, args);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this T[] array, Action<T> a)
         {
             if (array == null) return;
@@ -38,6 +39,7 @@ namespace Marquite.Core
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RevForEach<T>(this T[] array, Action<T> a)
         {
             if (array == null) return;

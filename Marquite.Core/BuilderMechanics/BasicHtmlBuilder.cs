@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Marquite.Core.Rendering;
 
-namespace Marquite.Core
+namespace Marquite.Core.BuilderMechanics
 {
     /// <summary>
     /// Warning! This class is mutable! Dont re-use its static instances!
     /// </summary>
     /// <typeparam name="TReturn"></typeparam>
     public class BasicHtmlBuilder<TReturn>
-        : IRenderingClient, IHtmlString, IEmpyStateHandler
+        : IRenderingClient, IHtmlString
     {
         #region Private fields
-
-        private bool _isEmpty;
         private readonly LinkedList<RenderingItem> _renderingQueue = new LinkedList<RenderingItem>();
         private readonly Marquite _marquite;
         private readonly TReturn _this;
@@ -25,14 +24,12 @@ namespace Marquite.Core
         private readonly SortedDictionary<Css, string> _style = new SortedDictionary<Css, string>();
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         #endregion
-
-        public bool IsEmpty { get { return _isEmpty; } }
-
+        
         public BasicHtmlBuilder(Marquite marquite, string tagName)
         {
             _marquite = marquite;
             _this = (TReturn)((object)this);
-            TagsCategory = new StringCategory(_cssClasses, this);
+            TagsCategory = new StringCategory(_cssClasses);
             TagName = tagName;
         }
 
@@ -44,16 +41,24 @@ namespace Marquite.Core
             return _this;
         }
 
-        public virtual TReturn Id(string id)
+        public virtual TReturn Attr(string attrName, string value,bool replaceExisting)
         {
-            Attr("id", id);
+            if (attrName == "class") throw new Exception("Dont try to operate directly with class attribute. Use AddClass and RemoveClass for manupulation with classes.");
+            if (value == null) throw new Exception("To self-closed attributes use method 'SelfCloseAttr'");
+            if (!replaceExisting && _attributes.ContainsKey(attrName)) return _this;
+            _attributes[attrName] = value;
             return _this;
         }
 
         public virtual TReturn Attr(string attrName, string value)
         {
+            return Attr(attrName, value, false);
+        }
+
+        public virtual TReturn SelfCloseAttr(string attrName)
+        {
             if (attrName == "class") throw new Exception("Dont try to operate directly with class attribute. Use AddClass and RemoveClass for manupulation with classes.");
-            _attributes[attrName] = value;
+            _attributes[attrName] = null;
             return _this;
         }
 
@@ -103,6 +108,12 @@ namespace Marquite.Core
             return _this;
         }
 
+        public virtual TReturn LeadingText(string text)
+        {
+            Lead(text,encode:true);
+            return _this;
+        }
+
         public virtual TReturn LeadingHtml(IRenderingClient content)
         {
             Lead(content);
@@ -112,6 +123,12 @@ namespace Marquite.Core
         public virtual TReturn TrailingHtml(string html)
         {
             Trail(html);
+            return _this;
+        }
+
+        public virtual TReturn TrailingText(string text)
+        {
+            Trail(text,encode:true);
             return _this;
         }
 
@@ -219,9 +236,9 @@ namespace Marquite.Core
         #endregion
 
         #region Rendering queue
-        protected void Trail(string content, string wrapTag = null)
+        protected void Trail(string content, string wrapTag = null,bool encode = false)
         {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content));
+            _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content,encode));
         }
 
         protected void Trail(IRenderingClient client, string wrapTag = null)
@@ -234,9 +251,9 @@ namespace Marquite.Core
             _renderingQueue.AddFirst(new RenderingItem(wrapTag, client, null));
         }
 
-        protected void Lead(string content, string wrapTag = null)
+        protected void Lead(string content, string wrapTag = null, bool encode = false)
         {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, null, content));
+            _renderingQueue.AddFirst(new RenderingItem(wrapTag, null, content,encode));
         }
 
         #endregion
@@ -309,7 +326,7 @@ namespace Marquite.Core
             {
                 foreach (var attribute in _attributes)
                 {
-                    if (attribute.Value == String.Empty)
+                    if (attribute.Value == null)
                     {
                         tw.ChainWrite(attribute.Key).ChainWrite(' ');
                     }
@@ -399,18 +416,22 @@ namespace Marquite.Core
             return null;
         }
 
-        void IEmpyStateHandler.UpdateEmptyState()
+        public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes, bool replaceExisting)
         {
-            _isEmpty = CheckEmpty();
+            if (attributes != null)
+            {
+                foreach (var entry in attributes)
+                {
+                    string key = System.Convert.ToString(entry.Key, CultureInfo.InvariantCulture);
+                    string value = System.Convert.ToString(entry.Value, CultureInfo.InvariantCulture);
+                    Attr(key, value, replaceExisting);
+                }
+            }
         }
 
-        private bool CheckEmpty()
+        public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes)
         {
-            if (_cssClasses.Count > 0) return false;
-            if (_style.Count == 0) return false;
-            if (_renderingQueue.Count > 0) return false;
-            if (_attributes.Count > 0) return false;
-            return true;
+            MergeAttributes(attributes,replaceExisting:false);
         }
     }
 }

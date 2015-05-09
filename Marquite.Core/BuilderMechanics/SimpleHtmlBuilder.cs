@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Marquite.Core
+namespace Marquite.Core.BuilderMechanics
 {
-    public class SimpleHtmlBuilder : BasicHtmlBuilder<SimpleHtmlBuilder>
+    public class SimpleHtmlBuilder : ElementHtmlBuilder<SimpleHtmlBuilder>
     {
         public SimpleHtmlBuilder(Marquite marquite, string tagName) : base(marquite, tagName)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Marquite.Core.ElementBuilders;
 
 namespace Marquite.Core
 {
@@ -11,6 +12,16 @@ namespace Marquite.Core
         public static string Lookup(Css value)
         {
             var tVal = typeof(Css);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
+        public static string Lookup(TargetWindowType value)
+        {
+            var tVal = typeof(TargetWindowType);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
+        public static string Lookup(TextAreaWrap value)
+        {
+            var tVal = typeof(TextAreaWrap);
             return ClassLookup.Cache[tVal][(int)value];
         }
     }

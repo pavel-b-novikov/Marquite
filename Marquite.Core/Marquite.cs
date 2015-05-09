@@ -47,9 +47,11 @@ namespace Marquite.Core
             var m = h.ViewContext.TempData[key];
             if (m == null)
             {
-                var n = new TMarquite();
-                n.ViewContext = h.ViewContext;
-                n.ViewData = h.ViewData;
+                var n = new TMarquite
+                {
+                    ViewContext = h.ViewContext,
+                    ViewData = h.ViewData
+                };
                 m = n;
                 h.ViewContext.TempData[MarquiteId] = m;
             }
@@ -60,12 +62,36 @@ namespace Marquite.Core
         {
             ViewContext = viewContext;
             ViewData = viewData;
+            InitDefaultCssStyles();
         }
 
-        protected Marquite() { }
+        protected Marquite() { InitDefaultCssStyles(); }
 
         public ViewContext ViewContext { get; private set; }
 
         public ViewDataDictionary ViewData { get; private set; }
+
+        public string ValidationInputCssClassName { get; private set; }
+
+        public string ValidationInputValidCssClassName { get; private set; }
+
+        public string ValidationMessageCssClassName { get; private set; }
+
+        public string ValidationMessageValidCssClassName { get; private set; }
+
+        public string ValidationSummaryCssClassName { get; private set; }
+
+        public string ValidationSummaryValidCssClassName { get; private set; }
+
+        private void InitDefaultCssStyles()
+        {
+            ValidationInputCssClassName = "input-validation-error";
+            ValidationInputValidCssClassName = "input-validation-valid";
+            ValidationMessageCssClassName = "field-validation-error";
+            ValidationMessageValidCssClassName = "field-validation-valid";
+            ValidationSummaryCssClassName = "validation-summary-errors";
+            ValidationSummaryValidCssClassName = "validation-summary-valid";
+        }
+
     }
 }

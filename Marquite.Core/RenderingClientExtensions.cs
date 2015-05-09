@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Web;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Core
@@ -25,8 +26,8 @@ namespace Marquite.Core
                     tw.Write('>');
                 }
             }
-            
-            if (item.StringContent!=null)
+
+            if (item.StringContent != null)
             {
                 if (item.WrappingTag != null)
                 {
@@ -35,7 +36,7 @@ namespace Marquite.Core
                     tw.Write('>');
                 }
 
-                tw.Write(item.StringContent);
+                tw.Write(item.Encode ? HttpUtility.HtmlEncode(item.StringContent) : item.StringContent);
 
                 if (item.WrappingTag != null)
                 {

@@ -29,6 +29,47 @@ namespace Marquite.Core.Hooks
 
     public abstract class WebViewPageBaseHook<TModel> : System.Web.Mvc.WebViewPage<TModel>
     {
+
+        public override void Write(object value)
+        {
+            if (ViewContext.Writer.GetType() == typeof(HookedStringWriter))
+            {
+                ViewContext.Writer.Write(value);
+            }
+            else
+            {
+                base.Write(value);
+            }
+
+        }
+
+        public override void WriteLiteral(object value)
+        {
+            if (ViewContext.Writer.GetType() == typeof(HookedStringWriter))
+            {
+                ViewContext.Writer.Write(value);
+            }
+            else
+            {
+                base.WriteLiteral(value);
+            }
+        }
+
+        public override void Write(HelperResult result)
+        {
+            if (ViewContext.Writer.GetType() == typeof(HookedStringWriter))
+            {
+                ViewContext.Writer.Write(result);
+            }
+            else
+            {
+                base.Write(result);
+            }
+        }
+    }
+
+    public abstract class WebViewPageBaseHook: System.Web.Mvc.WebViewPage
+    {
         public override void Write(object value)
         {
             if (ViewContext.Writer.GetType() == typeof(HookedStringWriter))

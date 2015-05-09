@@ -14,11 +14,14 @@ namespace Marquite.Core.Rendering
 
         public string StringContent;
 
-        public RenderingItem(string wrappingTag, IRenderingClient renderingClient, string stringContent)
+        public bool Encode;
+
+        public RenderingItem(string wrappingTag, IRenderingClient renderingClient, string stringContent,bool encode = false)
         {
             WrappingTag = wrappingTag;
             RenderingClient = renderingClient;
             StringContent = stringContent;
+            Encode = encode;
         }
     }
 }

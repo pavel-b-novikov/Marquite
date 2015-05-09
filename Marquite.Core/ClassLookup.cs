@@ -7,9 +7,17 @@ namespace Marquite.Core
 {
     public static class ClassLookup
     {
-        private static readonly Dictionary<Type, List<string>> _cache = new Dictionary<Type, List<string>>();
+        private class TypeComparer : IComparer<Type>
+        {
+            public int Compare(Type x, Type y)
+            {
+                return x.GUID.CompareTo(y.GUID);
+            }
+        }
 
-        public static Dictionary<Type, List<string>> Cache { get { return _cache; } }
+        private static readonly SortedDictionary<Type, List<string>> _cache = new SortedDictionary<Type, List<string>>(new TypeComparer());
+
+        public static SortedDictionary<Type, List<string>> Cache { get { return _cache; } }
         
         public static void Init()
         {

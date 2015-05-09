@@ -1,0 +1,46 @@
+﻿using Marquite.Core.ElementBuilders;
+using Marquite.Core.Rendering;
+
+namespace Marquite.Core.Html
+{
+    public static class TableExtensions
+    {
+        public static TableBuilder Table(this Marquite m)
+        {
+            return new TableBuilder(m);
+        }
+
+        public static TableBuilder Table(this Marquite m, params string[] columns)
+        {
+            var t = new TableBuilder(m);
+            t.AddHeadings(columns);
+            return t;
+        }
+
+        public static TableBuilder Table(this Marquite m, params IRenderingClient[] columns)
+        {
+            var t = new TableBuilder(m);
+            t.AddHeadings(columns);
+            return t;
+        }
+
+        public static TableRowBuilder Tr(this Marquite m)
+        {
+            return new TableRowBuilder(m);
+        }
+
+        public static TableRowBuilder Tr(this Marquite m, params string[] columns)
+        {
+            var t = new TableRowBuilder(m);
+            t.AddCells(columns);
+            return t;
+        }
+
+        public static TableRowBuilder Tr(this Marquite m, params IRenderingClient[] columns)
+        {
+            var t = new TableRowBuilder(m);
+            t.AddCells(columns);
+            return t;
+        }
+    }
+}

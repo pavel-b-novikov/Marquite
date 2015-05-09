@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Marquite.Core;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Extensions
 {

@@ -74,19 +74,15 @@
     <Compile Include="BootstrapEnums.cs" />
     <Compile Include="Elements\ButtonBuilder.cs" />
     <Compile Include="Elements\ImageBuilder.cs" />
+    <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\ElementsExtensions.cs" />
     <Compile Include="Extensions\GlobalExtensions.cs" />
     <Compile Include="Extensions\GridExtensions.cs" />
-    <Compile Include="Extensions\MainExtensions.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\TableExtensions.cs" />
     <Compile Include="Forms\BaseInputBuilder.cs" />
-    <Compile Include="Lists\ListBuilder.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Lists\ListItemBuilder.cs" />
-    <Compile Include="Lists\OrderedListBuilder.cs" />
     <Compile Include="Menus\NavigationBuilder.cs" />
-    <Compile Include="Tables\TableBuilder.cs" />
-    <Compile Include="Lists\UnorderedListBuilder.cs" />
     <Compile Include="Lookups.cs" />
     <Compile Include="Grid\ColumnBuilder.cs" />
     <Compile Include="Grid\ContainerGridBuilder.cs" />
@@ -98,7 +94,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Grid\RowGridBuilder.cs" />
     <Compile Include="Extensions\TickTacksExtensions.cs" />
-    <Compile Include="Tables\TableRowBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marquite.Core\Marquite.Core.csproj">
@@ -115,6 +110,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,47 +1,54 @@
-﻿using Marquite.Bootstrap.Tables;
+﻿using Marquite.Core.ElementBuilders;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Extensions
 {
     public static class TableExtensions
     {
-        public static TableBuilder Table(this Core.Marquite m)
+        public static TableBuilder Stripped(this TableBuilder table,bool set = true)
         {
-            return new TableBuilder(m);
+            var str = Lookups.Lookup(TableClasses.Striped);
+            if (!set)
+            {
+                return table.RemoveClass(str);
+            }
+            return table.AddClass(str);
         }
 
-        public static TableBuilder Table(this Core.Marquite m, params string[] columns)
+        public static TableBuilder Condensed(this TableBuilder table, bool set = true)
         {
-            var t = new TableBuilder(m);
-            t.AddHeadings(columns);
-            return t;
+            var str = Lookups.Lookup(TableClasses.Condensed);
+            if (!set)
+            {
+                return table.RemoveClass(str);
+            }
+            return table.AddClass(str);
         }
 
-        public static TableBuilder Table(this Core.Marquite m, params IRenderingClient[] columns)
+        public static TableBuilder Bordered(this TableBuilder table, bool set = true)
         {
-            var t = new TableBuilder(m);
-            t.AddHeadings(columns);
-            return t;
+            var str = Lookups.Lookup(TableClasses.Bordered);
+            if (!set)
+            {
+                return table.RemoveClass(str);
+            }
+            return table.AddClass(str);
         }
 
-
-        public static TableRowBuilder Tr(this Core.Marquite m)
+        public static TableBuilder Hover(this TableBuilder table, bool set = true)
         {
-            return new TableRowBuilder(m);
+            var str = Lookups.Lookup(TableClasses.HoverRows);
+            if (!set)
+            {
+                return table.RemoveClass(str);
+            }
+            return table.AddClass(str);
         }
 
-        public static TableRowBuilder Tr(this Core.Marquite m, params string[] columns)
+        public static TableRowBuilder Active(this TableRowBuilder rb)
         {
-            var t = new TableRowBuilder(m);
-            t.AddCells(columns);
-            return t;
-        }
-
-        public static TableRowBuilder Tr(this Core.Marquite m, params IRenderingClient[] columns)
-        {
-            var t = new TableRowBuilder(m);
-            t.AddCells(columns);
-            return t;
+            rb.TagsCategory.CleanupAndAdd("el-color", Lookups.Lookup(Bootstrap.Color.Active));
+            return rb;
         }
     }
 }
