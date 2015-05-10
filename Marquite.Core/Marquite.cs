@@ -1,99 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Web.Mvc;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Core
 {
-    public class Marquite //todo inherit marquite object
+    public class Marquite
     {
-        private const string MarquiteId = "__Marquite";
-
-        public static Marquite Instance(HtmlHelper h)
-        {
-            return GetOrCreateMain(h);
-        }
-
-        public static Marquite Instance<TModel>(HtmlHelper<TModel> h)
-        {
-            return GetOrCreateMain(h);
-        }
-
-        public static TMarquite Instance<TMarquite>(HtmlHelper h)
-            where TMarquite : Marquite,new()
-        {
-            return GetOrCreate<TMarquite>(h);
-        }
-
-        public static TMarquite Instance<TModel, TMarquite>(HtmlHelper<TModel> h)
-            where TMarquite : Marquite,new()
-        {
-            return GetOrCreate<TMarquite>(h);
-        }
-
-        private static Marquite GetOrCreateMain(HtmlHelper h,string typename = null)
-        {
-            var m = h.ViewContext.TempData[MarquiteId];
-            if (m == null)
-            {
-                var marq = new Marquite(h) {IsGlobal = true};
-                marq.AddThis(h);
-                h.ViewContext.TempData[MarquiteId] = marq;
-                m = marq;
-            }
-            else
-            {
-                Marquite marq = (Marquite) m;
-                m = marq.LookupOrCreate<Marquite>(h);
-            }
-            return (Marquite) m;
-        }
-
-        private static TMarquite GetOrCreate<TMarquite>(HtmlHelper h)
-            where TMarquite : Marquite, new()
-        {
-            var key = MarquiteId + typeof(TMarquite).FullName;
-
-            var m = h.ViewContext.TempData[key];
-            if (m == null)
-            {
-                var n = new TMarquite
-                {
-                    ViewContext = h.ViewContext,
-                    ViewData = h.ViewData,
-                    IsGlobal = true
-                };
-                n.AddThis(h);
-                m = n;
-                h.ViewContext.TempData[MarquiteId] = m;
-            }
-            else
-            {
-                Marquite marq = (Marquite)m;
-                m = marq.LookupOrCreate<TMarquite>(h);
-            }
-            return (TMarquite)m;
-        }
-
         public Marquite(HtmlHelper h)
         {
             var vp = (WebViewPage) h.ViewDataContainer;
-
             ViewContext = h.ViewContext;
             ViewData = h.ViewData;
-            _outputStack = vp.OutputStack;
+            OutputStack = vp.OutputStack;
             InitDefaultCssStyles();
         }
 
-        public Marquite() { InitDefaultCssStyles(); }
+        public ViewContext ViewContext { get; internal set; }
 
-        public ViewContext ViewContext { get; private set; }
+        public ViewDataDictionary ViewData { get; internal set; }
 
-        public ViewDataDictionary ViewData { get; private set; }
+        internal Stack<TextWriter> OutputStack;
 
-        private Stack<TextWriter> _outputStack;
-
+        #region CSS
         public string ValidationInputCssClassName { get; private set; }
 
         public string ValidationInputValidCssClassName { get; private set; }
@@ -115,10 +46,13 @@ namespace Marquite.Core
             ValidationSummaryCssClassName = "validation-summary-errors";
             ValidationSummaryValidCssClassName = "validation-summary-valid";
         }
+        #endregion
 
         private int _formsCount = 0;
+
         public string GenerateNewFormId()
         {
+            if (!_isGlobal) return Global.GenerateNewFormId();
             _formsCount++;
             return String.Format("form{0}", _formsCount);
         }
@@ -127,47 +61,28 @@ namespace Marquite.Core
 
         public TextWriter GetTopmostWriter()
         {
-            return _outputStack.Peek();
+            return OutputStack.Peek();
         }
 
-        public Marquite Global { get; private set; }
+        public Marquite Global { get; internal set; }
 
         public bool IsGlobal
         {
             get { return _isGlobal; }
-            private set
+            internal set
             {
                 _isGlobal = value;
                 if (value)
                 {
-                    _globalCache = new Dictionary<IViewDataContainer, Marquite>();
                     _scaffoldedCache = new SortedDictionary<string, List<IRenderingClient>>(StringComparer.OrdinalIgnoreCase);
+                    _pluginsCache = new Dictionary<Type, IMarquitePlugin>();
                     Global = this;
                 }
             }
         }
 
         private bool _isGlobal;
-        private Dictionary<IViewDataContainer, Marquite> _globalCache;
-
-        private void AddThis(HtmlHelper h)
-        {
-            _globalCache[h.ViewDataContainer] = this;
-        }
-
-        private T LookupOrCreate<T>(HtmlHelper h) where T: Marquite,new()
-        {
-            if (_globalCache.ContainsKey(h.ViewDataContainer)) return (T) _globalCache[h.ViewDataContainer];
-            var vp = (WebViewPage) h.ViewDataContainer;
-            var tlk = new T();
-            tlk.ViewContext = h.ViewContext;
-            tlk.ViewData = h.ViewData;
-            tlk.IsGlobal = false;
-            tlk.Global = this;
-            tlk._outputStack = vp.OutputStack;
-            _globalCache[vp] = tlk;
-            return tlk;
-        }
+        
         #endregion
 
         #region Scaffoder Queue
@@ -175,7 +90,7 @@ namespace Marquite.Core
 
         public void Scaffold(string key, IRenderingClient client)
         {
-            if (!IsGlobal) throw new Exception("Scaffolding works only on global context. Use .Global.Scaffold(...)");
+            if (!_isGlobal) Global.Scaffold(key,client);
             List<IRenderingClient> rcList;
             bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
             if (!exists)
@@ -188,13 +103,29 @@ namespace Marquite.Core
 
         public void RenderScaffoldedQueue(string key, TextWriter tw)
         {
-            if (!IsGlobal) throw new Exception("Scaffolding works only on global context. Use .Global.Scaffold(...)");
+            if (!_isGlobal) Global.RenderScaffoldedQueue(key,tw);
             List<IRenderingClient> rcList;
             bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
             if (!exists) return;
             var a = rcList.ToArray();
             a.ForEach(tw.RenderClient);
         }
+        #endregion
+
+        #region Plugins
+
+        private Dictionary<Type, IMarquitePlugin> _pluginsCache;
+
+        public T ResolvePlugin<T>() where T : IMarquitePlugin, new()
+        {
+            if (!_isGlobal) return Global.ResolvePlugin<T>();
+            if (_pluginsCache.ContainsKey(typeof (T))) return (T) _pluginsCache[typeof (T)];
+            T pluginInstance = new T();
+            pluginInstance.Marquite = this;
+            _pluginsCache[typeof (T)] = pluginInstance;
+            return pluginInstance;
+        }
+
         #endregion
     }
 }

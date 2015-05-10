@@ -107,7 +107,9 @@
     <Compile Include="Html\TableExtensions.cs" />
     <Compile Include="Html\TextAreaExtensions.cs" />
     <Compile Include="Html\VariousExtensions.cs" />
+    <Compile Include="IMarquitePlugin.cs" />
     <Compile Include="Lookups.cs" />
+    <Compile Include="MarquiteInstanceManager.cs" />
     <Compile Include="Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
       <AutoGen>True</AutoGen>

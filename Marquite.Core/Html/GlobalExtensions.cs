@@ -1,18 +1,21 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Core.Html
 {
     public static class GlobalExtensions
     {
+        
         public static Marquite Marquite(this HtmlHelper h)
         {
-            return Core.Marquite.Instance(h);
+            var im = MarquiteInstanceManager.GetInstanceManager(h);
+            return im.GetInstance(h);
         }
 
         public static Marquite Marquite<TModel>(this HtmlHelper<TModel> h)
         {
-            return Core.Marquite.Instance(h);
+            return Marquite((HtmlHelper)h);
         }
 
         public static SimpleHtmlBuilder ToBuilder(this Marquite m, string tagName)
@@ -22,12 +25,12 @@ namespace Marquite.Core.Html
 
         public static SimpleHtmlBuilder ToBuilder(this HtmlHelper h, string tagName)
         {
-            return new SimpleHtmlBuilder(Core.Marquite.Instance(h), tagName);
+            return new SimpleHtmlBuilder(Marquite(h), tagName);
         }
 
         public static SimpleHtmlBuilder ToBuilder<TModel>(this HtmlHelper<TModel> h, string tagName)
         {
-            return new SimpleHtmlBuilder(Core.Marquite.Instance(h), tagName);
+            return new SimpleHtmlBuilder(Marquite(h), tagName);
         }
     }
 }
