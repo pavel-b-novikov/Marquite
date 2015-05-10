@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,11 +77,15 @@
     <Compile Include="ElementBuilders\BaseInputField.cs" />
     <Compile Include="ElementBuilders\FormBuilder.cs" />
     <Compile Include="ElementBuilders\ImageBuilder.cs" />
+    <Compile Include="ElementBuilders\InputElementBuilder.cs" />
     <Compile Include="ElementBuilders\LabelBuilder.cs" />
     <Compile Include="ElementBuilders\LinkBuilder.cs" />
     <Compile Include="ElementBuilders\ListBuilder.cs" />
     <Compile Include="ElementBuilders\ListItemBuilder.cs" />
+    <Compile Include="ElementBuilders\OptgroupBuilder.cs" />
+    <Compile Include="ElementBuilders\OptionBuilder.cs" />
     <Compile Include="ElementBuilders\OrderedListBuilder.cs" />
+    <Compile Include="ElementBuilders\SelectBuilder.cs" />
     <Compile Include="ElementBuilders\TableBuilder.cs" />
     <Compile Include="ElementBuilders\TableRowBuilder.cs" />
     <Compile Include="ElementBuilders\TextareaBuilder.cs" />
@@ -88,12 +93,14 @@
     <Compile Include="Html\ChildActionExtensions.cs" />
     <Compile Include="Html\FormExtensions.cs" />
     <Compile Include="Html\GlobalExtensions.cs" />
+    <Compile Include="Html\InputExtensions.cs" />
     <Compile Include="Html\LabelExtensions.cs" />
     <Compile Include="Html\LinkExtensions.cs" />
     <Compile Include="Html\ListExtensions.cs" />
     <Compile Include="Html\NameExtensions.cs" />
     <Compile Include="Html\PartialExtensions.cs" />
     <Compile Include="Html\RenderPartialExtensions.cs" />
+    <Compile Include="Html\SelectExtensions.cs" />
     <Compile Include="Html\TableExtensions.cs" />
     <Compile Include="Html\TextAreaExtensions.cs" />
     <Compile Include="Html\VariousExtensions.cs" />

@@ -1,5 +1,6 @@
 ﻿@using Marquite.Bootstrap
 @using Marquite.Bootstrap.Extensions
+@using Marquite.Core
 @{
     ViewBag.Title = "Home Page";
     Random r = new Random();
@@ -22,7 +23,7 @@
             <p>Lorem ipsum, guys!</p>
             @Html.Marquite().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Tooltip(TooltipPlacement.Top, "button tooltip")
 
-            @Html.Marquite().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Marquite().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover","This is popover test",true)
+            @Html.Marquite().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Marquite().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover","This is popover test")
 
             using (Html.Marquite().Table("#","User Name","Email","Password").Stripped().Condensed().Hover().Open())
             {<text>

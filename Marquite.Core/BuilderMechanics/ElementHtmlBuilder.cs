@@ -25,12 +25,6 @@
             return Attr("title", title);
         }
 
-        public virtual T Id(string id)
-        {
-            Attr("id", id);
-            return This;
-        }
-
         public virtual T ContextMenu(string menuId)
         {
             return Attr("contextmenu", menuId);

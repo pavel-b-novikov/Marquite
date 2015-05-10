@@ -23,6 +23,7 @@ namespace Marquite.Core.BuilderMechanics
         private readonly HashSet<string> _cssClasses = new HashSet<string>();
         private readonly SortedDictionary<Css, string> _style = new SortedDictionary<Css, string>();
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        private string _id;
         #endregion
         
         public BasicHtmlBuilder(Marquite marquite, string tagName)
@@ -34,6 +35,13 @@ namespace Marquite.Core.BuilderMechanics
         }
 
         #region Fluent Methods
+
+        public virtual TReturn Id(string id)
+        {
+            _id = id;
+            Attr("id", id);
+            return _this;
+        }
 
         public virtual TReturn Css(Css property, string value)
         {
@@ -167,6 +175,7 @@ namespace Marquite.Core.BuilderMechanics
         #endregion
 
         #region Protected shortcuts
+        protected bool IsSelfClosing { get; set; }
 
         protected virtual void ClearQueue()
         {
@@ -348,7 +357,7 @@ namespace Marquite.Core.BuilderMechanics
                 }
                 tw.Write("\"");
             }
-
+            if (IsSelfClosing) tw.Write('/');
             tw.Write('>');
         }
 
@@ -390,20 +399,25 @@ namespace Marquite.Core.BuilderMechanics
 
         void IRenderingClient.RenderBeforeClosingTag(TextWriter tw)
         {
+            if (IsSelfClosing) return;
             RenderBeforeClosingTag(tw);
         }
 
         void IRenderingClient.RenderClosingTag(TextWriter tw)
         {
+            if (IsSelfClosing) return;
             RenderClosingTag(tw);
         }
 
         void IRenderingClient.RenderAfterClosingTag(TextWriter tw)
         {
+            if (IsSelfClosing) return;
             RenderAfterClosingTag(tw);
         }
 
         #endregion
+
+        public string IdVal { get { return _id; } }
 
         public override string ToString()
         {

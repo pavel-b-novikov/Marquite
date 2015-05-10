@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using Marquite.Core.Rendering;
 
 namespace Marquite.Core
 {
@@ -122,6 +123,8 @@ namespace Marquite.Core
             return String.Format("form{0}", _formsCount);
         }
 
+        #region Global cache and context nesting
+
         public TextWriter GetTopmostWriter()
         {
             return _outputStack.Peek();
@@ -138,6 +141,7 @@ namespace Marquite.Core
                 if (value)
                 {
                     _globalCache = new Dictionary<IViewDataContainer, Marquite>();
+                    _scaffoldedCache = new SortedDictionary<string, List<IRenderingClient>>(StringComparer.OrdinalIgnoreCase);
                     Global = this;
                 }
             }
@@ -164,5 +168,33 @@ namespace Marquite.Core
             _globalCache[vp] = tlk;
             return tlk;
         }
+        #endregion
+
+        #region Scaffoder Queue
+        private SortedDictionary<string,List<IRenderingClient>> _scaffoldedCache;
+
+        public void Scaffold(string key, IRenderingClient client)
+        {
+            if (!IsGlobal) throw new Exception("Scaffolding works only on global context. Use .Global.Scaffold(...)");
+            List<IRenderingClient> rcList;
+            bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
+            if (!exists)
+            {
+                rcList = new List<IRenderingClient>(50);
+                _scaffoldedCache[key] = rcList;
+            }
+            rcList.Add(client);
+        }
+
+        public void RenderScaffoldedQueue(string key, TextWriter tw)
+        {
+            if (!IsGlobal) throw new Exception("Scaffolding works only on global context. Use .Global.Scaffold(...)");
+            List<IRenderingClient> rcList;
+            bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
+            if (!exists) return;
+            var a = rcList.ToArray();
+            a.ForEach(tw.RenderClient);
+        }
+        #endregion
     }
 }

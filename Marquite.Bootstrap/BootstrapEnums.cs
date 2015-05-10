@@ -127,28 +127,7 @@ namespace Marquite.Bootstrap
         [LookupString("img-thumbnail")] Thumbnail
     }
 
-    [LookupEnum]
-    public enum InputType
-    {
-        [LookupString("text")] Text,
-        [LookupString("password")] Password,
-        [LookupString("radio")] Radio,
-        [LookupString("checkbox")] Checkbox,
-        [LookupString("button")] Button,
-        [LookupString("color")] Color,
-        [LookupString("date")] Date,
-        [LookupString("datetime")] Datetime,
-        [LookupString("datetime-local")] DatetimeLocal,
-        [LookupString("email")] Email,
-        [LookupString("month")] Month,
-        [LookupString("number")] Number,
-        [LookupString("range")] Range,
-        [LookupString("search")] Search,
-        [LookupString("tel")] Tel,
-        [LookupString("time")] Time,
-        [LookupString("url")] Url,
-        [LookupString("week")] Week
-    }
+    
 
     [LookupEnum]
     public enum GlyphIcon
