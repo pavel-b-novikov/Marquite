@@ -75,6 +75,7 @@
     <Compile Include="BuilderMechanics\StringCategory.cs" />
     <Compile Include="Css.cs" />
     <Compile Include="ElementBuilders\BaseInputField.cs" />
+    <Compile Include="ElementBuilders\DisplayExtensions.cs" />
     <Compile Include="ElementBuilders\FormBuilder.cs" />
     <Compile Include="ElementBuilders\ImageBuilder.cs" />
     <Compile Include="ElementBuilders\InputElementBuilder.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="ElementBuilders\TextareaBuilder.cs" />
     <Compile Include="ElementBuilders\UnorderedListBuilder.cs" />
     <Compile Include="Html\ChildActionExtensions.cs" />
+    <Compile Include="Html\DisplayNameExtensions.cs" />
+    <Compile Include="Html\DisplayTextExtensions.cs" />
     <Compile Include="Html\FormExtensions.cs" />
     <Compile Include="Html\GlobalExtensions.cs" />
     <Compile Include="Html\InputExtensions.cs" />
