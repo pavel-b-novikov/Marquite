@@ -7,7 +7,7 @@ using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class SelectBuilder : BaseInputField<SelectBuilder>
+    public class SelectBuilder : BaseInputField<SelectBuilder>, IInputField
     {
         public SelectBuilder(Marquite marquite) : base(marquite, "select")
         {
@@ -44,5 +44,10 @@ namespace Marquite.Core.ElementBuilders
         {
             return SelfCloseAttr("multiple");
         }
+
+        public string FieldId { get { return IdVal; } }
+
+        public string FieldName { get { return GetAttr("name"); } }
+        public MarquiteInputType FieldType { get { return MarquiteInputType.Select; } }
     }
 }

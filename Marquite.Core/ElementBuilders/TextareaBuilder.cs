@@ -2,7 +2,7 @@
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class TextareaBuilder : BaseInputField<TextareaBuilder>
+    public class TextareaBuilder : BaseInputField<TextareaBuilder>, IInputField
     {
         public TextareaBuilder(Marquite marquite) : base(marquite, "textarea")
         {
@@ -25,15 +25,30 @@ namespace Marquite.Core.ElementBuilders
             return Attr("maxlength", max.ToString());
         }
 
-        public TextareaBuilder Placeholder(string placeholder)
-        {
-            return Attr("placeholder", placeholder);
-        }
-
         public TextareaBuilder Wrap(TextAreaWrap wrapping)
         {
             return Attr("wrap", Lookups.Lookup(wrapping));
         }
+
+        public TextareaBuilder Placeholder(string value)
+        {
+            return Attr("placeholder", value);
+        }
+
+        public TextareaBuilder Placeholder(object value)
+        {
+            return Attr("placeholder", value.ToString());
+        }
+
+        public TextareaBuilder Placeholder(object value, string format)
+        {
+            return Attr("placeholder", String.Format(format, value));
+        }
+
+
+        public string FieldId { get { return IdVal; } }
+        public string FieldName { get { return GetAttr("name"); } }
+        public MarquiteInputType FieldType { get { return MarquiteInputType.Textarea; } }
     }
 
     [LookupEnum]

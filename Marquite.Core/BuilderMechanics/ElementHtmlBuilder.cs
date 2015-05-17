@@ -1,6 +1,6 @@
 ﻿namespace Marquite.Core.BuilderMechanics
 {
-    public abstract class ElementHtmlBuilder<T> : BasicHtmlBuilder<T>
+    public abstract class ElementHtmlBuilder<T> : BasicHtmlBuilder<T> where T : BasicHtmlBuilder<T>
     {
         protected ElementHtmlBuilder(Marquite marquite, string tagName) : base(marquite, tagName)
         {

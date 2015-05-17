@@ -3,7 +3,7 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public abstract class ListBuilder<T> : ElementHtmlBuilder<T>
+    public abstract class ListBuilder<T> : ElementHtmlBuilder<T> where T : ListBuilder<T>
     {
         protected ListBuilder(Marquite m, string tagName)
             : base(m, tagName)

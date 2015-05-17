@@ -8,19 +8,19 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class TickTacksExtensions
     {
-        public static SimpleHtmlBuilder Clearfix(this Core.Marquite t)
+        public static SimpleHtmlBuilder Clearfix(this BootstrapPlugin t)
         {
-            return new SimpleHtmlBuilder(t,"div").AddClass("clearfix");
+            return new SimpleHtmlBuilder(t.Marquite,"div").AddClass("clearfix");
         }
 
-        public static SimpleHtmlBuilder Caret(this Core.Marquite t)
+        public static SimpleHtmlBuilder Caret(this BootstrapPlugin t)
         {
-            return new SimpleHtmlBuilder(t, "span").AddClass("caret");
+            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("caret");
         }
 
-        public static SimpleHtmlBuilder CloseButton(this Core.Marquite t,string label = "Close")
+        public static SimpleHtmlBuilder CloseButton(this BootstrapPlugin t,string label = "Close")
         {
-            return new SimpleHtmlBuilder(t, "button")
+            return new SimpleHtmlBuilder(t.Marquite, "button")
                 .Attr("type","button")
                 .AddClass("close")
                 .Attr("aria-label",label)
@@ -46,29 +46,29 @@ namespace Marquite.Bootstrap.Extensions
             }
         }
 
-        public static string CompiledGlyphIcon(this Core.Marquite t, GlyphIcon icon)
+        public static string CompiledGlyphIcon(this BootstrapPlugin t, GlyphIcon icon)
         {
             return CompiledGlyphIcons[icon];
         }
 
-        public static SimpleHtmlBuilder GlyphIcon(this Core.Marquite t, GlyphIcon icon)
+        public static SimpleHtmlBuilder GlyphIcon(this BootstrapPlugin t, GlyphIcon icon)
         {
-            return new SimpleHtmlBuilder(t, "span").AddClass(Lookups.Lookup(icon)).Aria("hidden", "true");
+            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass(Lookups.Lookup(icon)).Aria("hidden", "true");
         }
 
-        public static SimpleHtmlBuilder Badge(this Core.Marquite t, string badgeText)
+        public static SimpleHtmlBuilder Badge(this BootstrapPlugin t, string badgeText)
         {
-            return new SimpleHtmlBuilder(t, "span").AddClass("badge").TrailingText(badgeText);
+            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("badge").TrailingText(badgeText);
         }
 
 
-        public static T Tooltip<T>(this T t, TooltipPlacement placement, string tooltipText)
+        public static ElementHtmlBuilder<T> Tooltip<T>(this ElementHtmlBuilder<T> t, TooltipPlacement placement, string tooltipText)
             where T:ElementHtmlBuilder<T>
         {
             return t.Data("toggle", "tooltip").Data("placement", Lookups.Lookup(placement)).Title(tooltipText);
         }
 
-        public static T Popover<T>(this T t, TooltipPlacement placement, string title,string content,bool dismissive = true)
+        public static ElementHtmlBuilder<T> Popover<T>(this ElementHtmlBuilder<T> t, TooltipPlacement placement, string title, string content, bool dismissive = true)
             where T : ElementHtmlBuilder<T>
         {
             return t.Data("toggle", "popover")

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class InputElementBuilder : BaseInputField<InputElementBuilder>
+    public class InputElementBuilder : BaseInputField<InputElementBuilder>, IInputField
     {
         public InputElementBuilder(Marquite marquite) : base(marquite, "input")
         {
             IsSelfClosing = true;
+            Type(InputType.Text);
         }
 
         public InputElementBuilder Value(string value)
@@ -28,8 +29,32 @@ namespace Marquite.Core.ElementBuilders
             return Attr("value", String.Format(format,value));
         }
 
+
+        public InputElementBuilder Placeholder(string value)
+        {
+            var t = GetAttr("type");
+            if (t != "text" && t != "password") throw new Exception("Non-text fields should not contain placeholder");
+            return Attr("placeholder", value);
+        }
+
+        public InputElementBuilder Placeholder(object value)
+        {
+            var t = GetAttr("type");
+            if (t != "text" && t != "password") throw new Exception("Non-text fields should not contain placeholder");
+            return Attr("placeholder", value.ToString());
+        }
+
+        public InputElementBuilder Placeholder(object value, string format)
+        {
+            var t = GetAttr("type");
+            if (t != "text" && t != "password") throw new Exception("Non-text fields should not contain placeholder");
+            return Attr("placeholder", String.Format(format, value));
+        }
+
+        private InputType _type;
         public InputElementBuilder Type(InputType type)
         {
+            _type = type;
             return Attr("type", Lookups.Lookup(type));
         }
 
@@ -46,6 +71,10 @@ namespace Marquite.Core.ElementBuilders
             if (t != "checkbox" && t != "radio") throw new Exception("Only checkboxes and radios can be checked");
             return RemoveAttr("checked");
         }
+
+        public string FieldId { get { return IdVal; } }
+        public string FieldName { get { return GetAttr("name"); } }
+        public MarquiteInputType FieldType { get { return (MarquiteInputType)_type; } }
 
     }
 

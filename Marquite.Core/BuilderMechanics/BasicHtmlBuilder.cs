@@ -13,8 +13,7 @@ namespace Marquite.Core.BuilderMechanics
     /// Warning! This class is mutable! Dont re-use its static instances!
     /// </summary>
     /// <typeparam name="TReturn"></typeparam>
-    public class BasicHtmlBuilder<TReturn>
-        : IRenderingClient, IHtmlString
+    public class BasicHtmlBuilder<TReturn>: IRenderingClient, IHtmlString, IHtmlBuilder where TReturn : BasicHtmlBuilder<TReturn>
     {
         #region Private fields
         private readonly LinkedList<RenderingItem> _renderingQueue = new LinkedList<RenderingItem>();
@@ -29,7 +28,7 @@ namespace Marquite.Core.BuilderMechanics
         public BasicHtmlBuilder(Marquite marquite, string tagName)
         {
             _marquite = marquite;
-            _this = (TReturn)((object)this);
+            _this = (TReturn)(this);
             TagsCategory = new StringCategory(_cssClasses);
             TagName = tagName;
         }
@@ -51,8 +50,13 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual TReturn Attr(string attrName, string value,bool replaceExisting)
         {
+            // To self-closed attributes use method 'SelfCloseAttr'
             if (attrName == "class") throw new Exception("Dont try to operate directly with class attribute. Use AddClass and RemoveClass for manupulation with classes.");
-            if (value == null) throw new Exception("To self-closed attributes use method 'SelfCloseAttr'");
+            if (string.IsNullOrEmpty(value))
+            {
+                if (_attributes.ContainsKey(attrName)) _attributes.Remove(attrName);
+                return _this;
+            }
             if (!replaceExisting && _attributes.ContainsKey(attrName)) return _this;
             _attributes[attrName] = value;
             return _this;
@@ -465,5 +469,102 @@ namespace Marquite.Core.BuilderMechanics
         {
             MergeAttributes(attributes,replaceExisting:false);
         }
+
+        #region Nongeneric
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Id(string id)
+        {
+            return Id(id);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Css(Css property, string value)
+        {
+            return Css(property, value);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Attr(string attrName, string value, bool replaceExisting)
+        {
+            return Attr(attrName, value, replaceExisting);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Attr(string attrName, string value)
+        {
+            return Attr(attrName, value);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_SelfCloseAttr(string attrName)
+        {
+            return SelfCloseAttr(attrName);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Data(string key, string value)
+        {
+            return Data(key, value);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_Aria(string key, string value)
+        {
+            return Aria(key, value);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_AddClass(string clazz)
+        {
+            return AddClass(clazz);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_RemoveAttr(string attr)
+        {
+            return RemoveAttr(attr);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_RemoveClass(string clazz)
+        {
+            return RemoveClass(clazz);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_RemoveData(string clazz)
+        {
+            return RemoveData(clazz);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_RemoveAria(string clazz)
+        {
+            return RemoveAria(clazz);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_LeadingHtml(string html)
+        {
+            return LeadingHtml(html);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_LeadingText(string text)
+        {
+            return LeadingText(text);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_LeadingHtml(IRenderingClient content)
+        {
+            return LeadingHtml(content);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_TrailingHtml(string html)
+        {
+            return TrailingHtml(html);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_TrailingText(string text)
+        {
+            return TrailingText(text);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_TrailingHtml(IRenderingClient content)
+        {
+            return TrailingHtml(content);
+        }
+
+        IHtmlBuilder IHtmlBuilder.NonGeneric_PullInnerContentUp()
+        {
+            return PullInnerContentUp();
+        }
+        #endregion
     }
 }

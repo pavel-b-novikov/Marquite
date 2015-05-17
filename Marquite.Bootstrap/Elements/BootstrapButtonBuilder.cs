@@ -1,68 +1,67 @@
 ﻿using System;
 using Marquite.Bootstrap.Extensions;
 using Marquite.Core.BuilderMechanics;
+using Marquite.Core.ElementBuilders;
 
 namespace Marquite.Bootstrap.Elements
 {
-    public class ButtonBuilder : ElementHtmlBuilder<ButtonBuilder>
+    public class BootstrapButtonBuilder : ButtonBuilderBase<BootstrapButtonBuilder>
     {
-        public ButtonBuilder(Core.Marquite marquite, string tagName) : base(marquite, tagName)
+        private readonly BootstrapPlugin _bootstrap;
+        public BootstrapButtonBuilder(Core.Marquite marquite, string tagName)
+            : base(marquite, tagName)
         {
             AddClass("btn");
             AddClass(Lookups.Lookup(ButtonColor.Default));
+            _bootstrap = marquite.ResolvePlugin<BootstrapPlugin>();
         }
-        
-        public ButtonBuilder Block()
+
+        public BootstrapButtonBuilder Block()
         {
             AddClass("btn-block");
             return This;
         }
 
-        public ButtonBuilder Active()
+        public BootstrapButtonBuilder Active()
         {
             AddClass("active");
             return This;
         }
 
-        public ButtonBuilder Diabled()
+        public BootstrapButtonBuilder Diabled()
         {
             AddClass("disabled");
             return This;
         }
-
-        public ButtonBuilder Submit()
-        {
-            Attr("type","submit");
-            return This;
-        }
+        
         #region Color
-        public ButtonBuilder Color(ButtonColor color)
+        public BootstrapButtonBuilder Color(ButtonColor color)
         {
             TagsCategory.CleanupAndAdd("color", Lookups.Lookup(color));
             return This;
         }
 
-        public ButtonBuilder Danger()
+        public BootstrapButtonBuilder Danger()
         {
             return Color(ButtonColor.Danger);
         }
 
-        public ButtonBuilder Info()
+        public BootstrapButtonBuilder Info()
         {
             return Color(ButtonColor.Info);
         }
 
-        public ButtonBuilder Primary()
+        public BootstrapButtonBuilder Primary()
         {
             return Color(ButtonColor.Primary);
         }
 
-        public ButtonBuilder Success()
+        public BootstrapButtonBuilder Success()
         {
             return Color(ButtonColor.Success);
         }
 
-        public ButtonBuilder Warning()
+        public BootstrapButtonBuilder Warning()
         {
             return Color(ButtonColor.Warning);
         }
@@ -70,57 +69,27 @@ namespace Marquite.Bootstrap.Elements
         #endregion
 
         #region Size
-        public ButtonBuilder Size(ButtonSize size)
+        public BootstrapButtonBuilder Size(ButtonSize size)
         {
             TagsCategory.CleanupAndAdd("btnsize", Lookups.Lookup(size));
             return This;
         }
 
-        public ButtonBuilder XtraSmall()
+        public BootstrapButtonBuilder XtraSmall()
         {
             return Size(ButtonSize.XtraSmall);
         }
-        public ButtonBuilder Small()
+        public BootstrapButtonBuilder Small()
         {
             return Size(ButtonSize.Small);
         }
-        public ButtonBuilder Large()
+        public BootstrapButtonBuilder Large()
         {
             return Size(ButtonSize.Large);
         }
         #endregion
 
-        public ButtonBuilder Content(string text)
-        {
-            if (TagName == "input")
-            {
-                if (string.IsNullOrEmpty(text)) RemoveAttr("value");
-                else Attr("value", text);
-            }
-            else
-            {
-                ClearQueue();
-                Trail(text);
-            }
-            return This;
-        }
-
-        public ButtonBuilder AppendText(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return This;
-
-            if (TagName == "input")
-            {
-                Attr("value", GetAttr("value")+text);
-            }
-            else
-            {
-                Trail(text);
-            }
-            return This;
-        }
-
-        public ButtonBuilder TrailIcon(GlyphIcon icon)
+        public BootstrapButtonBuilder TrailIcon(GlyphIcon icon)
         {
             if (TagName == "input")
             {
@@ -128,12 +97,12 @@ namespace Marquite.Bootstrap.Elements
             }
             else
             {
-                Trail(Marquite.CompiledGlyphIcon(icon));
+                Trail(_bootstrap.CompiledGlyphIcon(icon));
             }
             return This;
         }
 
-        public ButtonBuilder LeadIcon(GlyphIcon icon)
+        public BootstrapButtonBuilder LeadIcon(GlyphIcon icon)
         {
             if (TagName == "input")
             {
@@ -141,7 +110,7 @@ namespace Marquite.Bootstrap.Elements
             }
             else
             {
-                Lead(Marquite.CompiledGlyphIcon(icon));
+                Lead(_bootstrap.CompiledGlyphIcon(icon));
             }
             return This;
         }

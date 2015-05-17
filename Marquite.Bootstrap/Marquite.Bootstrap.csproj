@@ -70,17 +70,17 @@
   <ItemGroup>
     <Compile Include="BlockQuoteBuilder.cs" />
     <Compile Include="BootstrapEnums.cs" />
-    <Compile Include="Elements\ButtonBuilder.cs" />
+    <Compile Include="BootstrapPlugin.cs" />
+    <Compile Include="Elements\BootstrapButtonBuilder.cs" />
     <Compile Include="Elements\DropdownBuilder.cs" />
-    <Compile Include="Extensions\CommonExtensions.cs" />
-    <Compile Include="Extensions\ElementsExtensions.cs" />
+    <Compile Include="Extensions\ButtonExtensions.cs" />
+    <Compile Include="Extensions\FormsExtensions.cs" />
     <Compile Include="Extensions\GlobalExtensions.cs" />
     <Compile Include="Extensions\GridExtensions.cs" />
-    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\TableExtensions.cs" />
-    <Compile Include="Forms\BaseInputBuilder.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Forms\FormGroupBuilder.cs" />
     <Compile Include="Menus\NavigationBuilder.cs" />
     <Compile Include="Lookups.cs" />
     <Compile Include="Grid\ColumnBuilder.cs" />

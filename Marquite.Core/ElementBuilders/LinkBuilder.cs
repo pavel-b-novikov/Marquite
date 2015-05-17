@@ -2,33 +2,40 @@
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class LinkBuilder : ElementHtmlBuilder<LinkBuilder>
+    public class LinkBuilder : LinkBuilderBase<LinkBuilder>
     {
-        public LinkBuilder(Marquite marquite) : base(marquite, "a")
+        public LinkBuilder(Marquite marquite) : base(marquite)
+        {
+        }
+    }
+
+    public class LinkBuilderBase<T> : ElementHtmlBuilder<T> where T : LinkBuilderBase<T>
+    {
+        public LinkBuilderBase(Marquite marquite) : base(marquite, "a")
         {
         }
 
-        public LinkBuilder Href(string reference)
+        public T Href(string reference)
         {
             return Attr("href", reference);
         }
 
-        public LinkBuilder Download()
+        public T Download()
         {
             return SelfCloseAttr("download");
         }
 
-        public LinkBuilder Anchor(string anchorName)
+        public T Anchor(string anchorName)
         {
             return Attr("name", anchorName);
         }
 
-        public LinkBuilder Target(string target)
+        public T Target(string target)
         {
             return Attr("target", target);
         }
 
-        public LinkBuilder Target(TargetWindowType type)
+        public T Target(TargetWindowType type)
         {
             return Target(Lookups.Lookup(type));
         }

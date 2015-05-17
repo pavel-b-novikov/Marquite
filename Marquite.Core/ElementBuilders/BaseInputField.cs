@@ -7,7 +7,7 @@ using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class BaseInputField<T> : ElementHtmlBuilder<T>
+    public class BaseInputField<T> : ElementHtmlBuilder<T> where T : BaseInputField<T> 
     {
         public BaseInputField(Marquite marquite, string tagName) : base(marquite, tagName)
         {
@@ -43,5 +43,8 @@ namespace Marquite.Core.ElementBuilders
             return Attr("name", fieldName);
         }
 
+        
     }
+
+    
 }

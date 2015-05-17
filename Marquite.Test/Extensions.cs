@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Marquite.Bootstrap;
 using Marquite.Bootstrap.Elements;
 using Marquite.Bootstrap.Extensions;
-using Marquite.Core;
-using Marquite.Core.Html;
 
 namespace Marquite.Test
 {
@@ -16,7 +10,7 @@ namespace Marquite.Test
         public static MvcHtmlString MyCoolButton(this HtmlHelper h,bool condition)
         {
             return
-                h.Marquite()
+                h.Bootstrap()
                     .Button()
                     .When(condition, c => c.AppendText("Больше двух"))
                     .When(!condition, c => c.AppendText("Меньше двух"))
@@ -26,7 +20,7 @@ namespace Marquite.Test
 
         }
 
-        public static ButtonBuilder BigRedButton(this HtmlHelper h,ButtonBuilder b)
+        public static BootstrapButtonBuilder BigRedButton(this HtmlHelper h, BootstrapButtonBuilder b)
         {
             return
                     b

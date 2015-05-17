@@ -9,21 +9,21 @@
 }
 
 
-@using (Html.Marquite().Container(true).Open())
+@using (Html.Bootstrap().Container(true).Open())
 {
-    using (Html.Marquite().Row().Open())
+    using (Html.Bootstrap().Row().Open())
     {
-        using (Html.Marquite().Column(3).Open())
+        using (Html.Bootstrap().Column(3).Open())
         {
             <h1>Column 1</h1>
         }
-        using (Html.Marquite().Column(6).When(condition, a => a.Danger()).Open())
+        using (Html.Bootstrap().Column(6).When(condition, a => a.Danger()).Open())
         {
             <h1>Hello! This is Marquitte</h1>
             <p>Lorem ipsum, guys!</p>
-            @Html.Marquite().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Tooltip(TooltipPlacement.Top, "button tooltip")
+            @Html.Bootstrap().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Tooltip(TooltipPlacement.Top, "button tooltip")
 
-            @Html.Marquite().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Marquite().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover","This is popover test")
+            @Html.Bootstrap().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Bootstrap().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover", "This is popover test")
 
             using (Html.Marquite().Table("#","User Name","Email","Password").Stripped().Condensed().Hover().Open())
             {<text>
@@ -41,7 +41,7 @@
                 llentesque urna erat, nec convallis lacus pellentesque vitae. Donec ut risus id arcu tempor egestas vitae id diam. Vestibulum eu rutrum libero. Aenean vel tincidunt eros. Etiam nunc tortor, auctor ac lorem sed, gravida auctor elit. Nullam lacinia eleifend bibendum. Ut rhoncus interdum tellus, eget suscipit lacus egestas fermentum. Morbi consectetur sem ex, vel pretium neque sodales sed. Praesent dapibus varius molestie. Mauris ex justo, luctus vel orci vel, elementum laoreet magna. Phasellus imperdiet justo ligula, a pulvinar eros molestie sit amet. Vestibulum nisi diam, sodales at ipsum a, dignissim cursus urna. Duis dolor ante, lobortis eu enim eget, ullamcorper mattis sem. Mauris in ornare nisi, in finibus justo.
             </p>
         }
-        using (Html.Marquite().Column(3).Open())
+        using (Html.Bootstrap().Column(3).Open())
         {
             <h1>Hello! This is Marquitte</h1>
 

@@ -5,63 +5,70 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class FormBuilder : ElementHtmlBuilder<FormBuilder>
+    public class FormBuilder : FormBuilderBase<FormBuilder>
     {
-        public FormBuilder(Marquite marquite) : base(marquite, "form")
+        public FormBuilder(Marquite marquite) : base(marquite)
+        {
+        }
+    }
+    public class FormBuilderBase<T> : ElementHtmlBuilder<T> where T : FormBuilderBase<T>
+    {
+        public FormBuilderBase(Marquite marquite)
+            : base(marquite, "form")
         {
         }
 
-        public FormBuilder Action(string url)
+        public T Action(string url)
         {
             return Attr("action", url);
         }
 
-        public FormBuilder Novalidate()
+        public T Novalidate()
         {
             return SelfCloseAttr("novalidate");
         }
 
-        public FormBuilder Method(string method)
+        public T Method(string method)
         {
             return Attr("method",method);
         }
 
-        public FormBuilder Method(FormMethod method)
+        public T Method(FormMethod method)
         {
             return Attr("method", method==FormMethod.Get?"GET":"POST");
         }
 
-        public FormBuilder Target(string target)
+        public T Target(string target)
         {
             return Attr("target", target);
         }
 
-        public FormBuilder Target(TargetWindowType type)
+        public T Target(TargetWindowType type)
         {
             return Target(Lookups.Lookup(type));
         }
 
-        public FormBuilder Autocomplete(bool enable)
+        public T Autocomplete(bool enable)
         {
             return Attr("autocomplete", enable?"on":"off");
         }
 
-        public FormBuilder Name(string name)
+        public T Name(string name)
         {
             return Attr("name", name);
         }
 
-        public FormBuilder Charset(string charset)
+        public T Charset(string charset)
         {
             return Attr("accept-charset", charset);
         }
 
-        public FormBuilder Enctype(string enctype)
+        public T Enctype(string enctype)
         {
             return Attr("enctype", enctype);
         }
 
-        public FormBuilder Enctype(FormEnctype enctype)
+        public T Enctype(FormEnctype enctype)
         {
             return Attr("enctype", Lookups.Lookup(enctype));
         }

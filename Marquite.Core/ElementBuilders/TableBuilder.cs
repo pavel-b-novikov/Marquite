@@ -4,44 +4,50 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class TableBuilder : ElementHtmlBuilder<TableBuilder>
+    public class TableBuilder : TableBuilderBase<TableBuilder>
+    {
+        public TableBuilder(Marquite m) : base(m)
+        {
+        }
+    }
+    public class TableBuilderBase<T> : ElementHtmlBuilder<T> where T : TableBuilderBase<T>
     {
         private bool _renderTbody = true;
 
-        public TableBuilder(Marquite m)
+        public TableBuilderBase(Marquite m)
             : base(m, "table")
         {
             AddClass("table");
         }
 
-        public TableBuilder AddHeadings(params string[] columnNames)
+        public T AddHeadings(params string[] columnNames)
         {
             columnNames.ForEach(c => Trail(c, "td"));
-            return this;
+            return This;
         }
 
-        public TableBuilder AddHeading(string columnName)
+        public T AddHeading(string columnName)
         {
             Trail(columnName, "td");
-            return this;
+            return This;
         }
 
-        public TableBuilder AddHeadings(params IRenderingClient[] columnNames)
+        public T AddHeadings(params IRenderingClient[] columnNames)
         {
             columnNames.ForEach(c => Trail(c));
-            return this;
+            return This;
         }
 
-        public TableBuilder AddHeading(IRenderingClient columnName)
+        public T AddHeading(IRenderingClient columnName)
         {
             Trail(columnName, "td");
-            return this;
+            return This;
         }
 
-        public TableBuilder DontRenderTbody()
+        public T DontRenderTbody()
         {
             _renderTbody = false;
-            return this;
+            return This;
         }
 
         protected override void RenderAfterOpeningTag(TextWriter tw)
