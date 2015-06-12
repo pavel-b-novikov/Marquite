@@ -13,7 +13,7 @@ namespace Marquite.Core.BuilderMechanics
     /// Warning! This class is mutable! Dont re-use its static instances!
     /// </summary>
     /// <typeparam name="TReturn"></typeparam>
-    public class BasicHtmlBuilder<TReturn>: IRenderingClient, IHtmlString, IHtmlBuilder where TReturn : BasicHtmlBuilder<TReturn>
+    public class BasicHtmlBuilder<TReturn> : IHtmlString, IHtmlBuilder where TReturn : BasicHtmlBuilder<TReturn>
     {
         #region Private fields
         private readonly LinkedList<RenderingItem> _renderingQueue = new LinkedList<RenderingItem>();
@@ -24,13 +24,14 @@ namespace Marquite.Core.BuilderMechanics
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         private string _id;
         #endregion
-        
+
         public BasicHtmlBuilder(Marquite marquite, string tagName)
         {
             _marquite = marquite;
             _this = (TReturn)(this);
             TagsCategory = new StringCategory(_cssClasses);
             TagName = tagName;
+            Marquite.EventsManager.OnCreated(This);
         }
 
         #region Fluent Methods
@@ -48,7 +49,7 @@ namespace Marquite.Core.BuilderMechanics
             return _this;
         }
 
-        public virtual TReturn Attr(string attrName, string value,bool replaceExisting)
+        public virtual TReturn Attr(string attrName, string value, bool replaceExisting)
         {
             // To self-closed attributes use method 'SelfCloseAttr'
             if (attrName == "class") throw new Exception("Dont try to operate directly with class attribute. Use AddClass and RemoveClass for manupulation with classes.");
@@ -59,6 +60,10 @@ namespace Marquite.Core.BuilderMechanics
             }
             if (!replaceExisting && _attributes.ContainsKey(attrName)) return _this;
             _attributes[attrName] = value;
+            if (string.Compare(attrName, "id", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _id = value;
+            }
             return _this;
         }
 
@@ -122,7 +127,7 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual TReturn LeadingText(string text)
         {
-            Lead(text,encode:true);
+            Lead(text, encode: true);
             return _this;
         }
 
@@ -140,7 +145,7 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual TReturn TrailingText(string text)
         {
-            Trail(text,encode:true);
+            Trail(text, encode: true);
             return _this;
         }
 
@@ -176,9 +181,18 @@ namespace Marquite.Core.BuilderMechanics
             return converter(This);
         }
 
+
         #endregion
 
         #region Protected shortcuts
+
+        protected void ReplaceClass(string classStartsWith, string anotherClass)
+        {
+            string already = AutocompleteClass(classStartsWith);
+            if (already != null) RemoveClass(already);
+            AddClass(anotherClass);
+        }
+
         protected bool IsSelfClosing { get; set; }
 
         protected virtual void ClearQueue()
@@ -218,13 +232,6 @@ namespace Marquite.Core.BuilderMechanics
             return _cssClasses.FirstOrDefault(c => c.StartsWith(classStartsWith));
         }
 
-        protected void ReplaceClass(string classStartsWith, string anotherClass)
-        {
-            string already = AutocompleteClass(classStartsWith);
-            if (already != null) RemoveClass(already);
-            AddClass(anotherClass);
-        }
-
         protected bool ContainsClass(string clazz)
         {
             return _cssClasses.Contains(clazz);
@@ -234,6 +241,11 @@ namespace Marquite.Core.BuilderMechanics
         {
             if (!_attributes.ContainsKey(data)) return null;
             return _attributes[data];
+        }
+
+        protected bool ContainsAttr(string attrKey)
+        {
+            return _attributes.ContainsKey(attrKey);
         }
 
         protected string GetData(string data)
@@ -249,24 +261,24 @@ namespace Marquite.Core.BuilderMechanics
         #endregion
 
         #region Rendering queue
-        protected void Trail(string content, string wrapTag = null,bool encode = false)
+        protected void Trail(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content,encode));
+            _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content, encode, wrappingTagAttrs));
         }
 
-        protected void Trail(IRenderingClient client, string wrapTag = null)
+        protected void Trail(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, client, null));
+            _renderingQueue.AddLast(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
         }
 
-        protected void Lead(IRenderingClient client, string wrapTag = null)
+        protected void Lead(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, client, null));
+            _renderingQueue.AddFirst(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
         }
 
-        protected void Lead(string content, string wrapTag = null, bool encode = false)
+        protected void Lead(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, null, content,encode));
+            _renderingQueue.AddFirst(new RenderingItem(wrapTag, null, content, encode, wrappingTagAttrs: wrappingTagAttrs));
         }
 
         #endregion
@@ -383,6 +395,7 @@ namespace Marquite.Core.BuilderMechanics
 
         void IRenderingClient.RenderBeforeOpenTag(TextWriter tw)
         {
+            Marquite.EventsManager.OnRenderBegin(This);
             RenderBeforeOpeningTag(tw);
         }
 
@@ -417,11 +430,14 @@ namespace Marquite.Core.BuilderMechanics
         {
             if (IsSelfClosing) return;
             RenderAfterClosingTag(tw);
+            Marquite.EventsManager.OnRenderEnd(This);
         }
 
         #endregion
 
         public string IdVal { get { return _id; } }
+
+        public int RenderingQueueCount { get { return _renderingQueue.Count; } }
 
         public override string ToString()
         {
@@ -467,10 +483,16 @@ namespace Marquite.Core.BuilderMechanics
 
         public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes)
         {
-            MergeAttributes(attributes,replaceExisting:false);
+            MergeAttributes(attributes, replaceExisting: false);
         }
 
         #region Nongeneric
+
+        string IHtmlBuilder.Tag
+        {
+            get { return TagName; }
+        }
+
         IHtmlBuilder IHtmlBuilder.NonGeneric_Id(string id)
         {
             return Id(id);

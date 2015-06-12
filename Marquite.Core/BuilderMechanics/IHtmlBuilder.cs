@@ -2,8 +2,10 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Core.BuilderMechanics
 {
-    public interface IHtmlBuilder
+    public interface IHtmlBuilder : IRenderingClient
     {
+        string Tag { get; }
+
         IHtmlBuilder NonGeneric_Id(string id);
         IHtmlBuilder NonGeneric_Css(Css property, string value);
         IHtmlBuilder NonGeneric_Attr(string attrName, string value,bool replaceExisting);

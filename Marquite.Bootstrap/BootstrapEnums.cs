@@ -409,4 +409,15 @@ namespace Marquite.Bootstrap
         [LookupString("bottom")]
         Bottom
     }
+
+    [LookupEnum]
+    public enum FormgroupState
+    {
+        [LookupString("has-success")]
+        HasSuccess,
+        [LookupString("has-warning")]
+        HasWarning,
+        [LookupString("has-error")]
+        HasError
+    }
 }

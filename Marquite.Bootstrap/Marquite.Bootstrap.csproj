@@ -72,6 +72,7 @@
     <Compile Include="BootstrapEnums.cs" />
     <Compile Include="BootstrapPlugin.cs" />
     <Compile Include="Elements\BootstrapButtonBuilder.cs" />
+    <Compile Include="Elements\BootstrapCheckboxBuilder.cs" />
     <Compile Include="Elements\DropdownBuilder.cs" />
     <Compile Include="Extensions\ButtonExtensions.cs" />
     <Compile Include="Extensions\FormsExtensions.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Extensions\TableExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Forms\FormGroupBuilder.cs" />
+    <Compile Include="Forms\InputGroup.cs" />
     <Compile Include="Menus\NavigationBuilder.cs" />
     <Compile Include="Lookups.cs" />
     <Compile Include="Grid\ColumnBuilder.cs" />

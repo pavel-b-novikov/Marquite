@@ -43,7 +43,7 @@ namespace Marquite.Core.ElementBuilders
             return Attr("name", fieldName);
         }
 
-        
+        public bool IsDisabled { get { return ContainsAttr("disabled"); } }
     }
 
     

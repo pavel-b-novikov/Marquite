@@ -10,18 +10,21 @@ namespace Marquite.Core.Rendering
     {
         public string WrappingTag;
 
+        public string WrappingTagAttrs;
+
         public IRenderingClient RenderingClient;
 
         public string StringContent;
 
         public bool Encode;
 
-        public RenderingItem(string wrappingTag, IRenderingClient renderingClient, string stringContent,bool encode = false)
+        public RenderingItem(string wrappingTag, IRenderingClient renderingClient, string stringContent,bool encode = false,string wrappingTagAttrs = null)
         {
             WrappingTag = wrappingTag;
             RenderingClient = renderingClient;
             StringContent = stringContent;
             Encode = encode;
+            WrappingTagAttrs = wrappingTagAttrs;
         }
     }
 }

@@ -14,6 +14,11 @@ namespace Marquite.Core
                 {
                     tw.Write('<');
                     tw.Write(item.WrappingTag);
+
+                    if (item.WrappingTagAttrs != null)
+                    {
+                        tw.ChainWrite(' ').Write(item.WrappingTagAttrs);
+                    }
                     tw.Write('>');
                 }
 
@@ -33,6 +38,10 @@ namespace Marquite.Core
                 {
                     tw.Write('<');
                     tw.Write(item.WrappingTag);
+                    if (item.WrappingTagAttrs != null)
+                    {
+                        tw.ChainWrite(' ').Write(item.WrappingTagAttrs);
+                    }
                     tw.Write('>');
                 }
 

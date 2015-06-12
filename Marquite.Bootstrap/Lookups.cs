@@ -105,5 +105,10 @@ namespace Marquite.Bootstrap
             var tVal = typeof(TooltipPlacement);
             return ClassLookup.Cache[tVal][(int)value];
         }
+        public static string Lookup(FormgroupState value)
+        {
+            var tVal = typeof(FormgroupState);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
     }
 }

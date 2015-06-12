@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web.Mvc;
+using Marquite.Core.BuilderMechanics;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Core
@@ -16,6 +17,7 @@ namespace Marquite.Core
             ViewData = h.ViewData;
             OutputStack = vp.OutputStack;
             InitDefaultCssStyles();
+            EventsManager = new MarquiteEventsManager();
         }
 
         public ViewContext ViewContext { get; internal set; }
@@ -127,5 +129,12 @@ namespace Marquite.Core
         }
 
         #endregion
+
+        internal MarquiteEventsManager EventsManager;
+
+        public string GenerateId(string name)
+        {
+            return TagBuilder.CreateSanitizedId(name, HtmlHelper.IdAttributeDotReplacement);
+        }
     }
 }

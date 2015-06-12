@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
@@ -8,6 +9,7 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class GlobalExtensions
     {
+
         public static BootstrapPlugin Bootstrap(this HtmlHelper h)
         {
             return h.Marquite().ResolvePlugin<BootstrapPlugin>();
@@ -176,6 +178,64 @@ namespace Marquite.Bootstrap.Extensions
         {
             return elem.AddClass("sr-only");
         }
+
+        #region Internal
+        internal static IHtmlBuilder MdWidth(this IHtmlBuilder elem, int width) 
+        {
+            if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
+            elem.NonGeneric_AddClass("col-md-" + width);
+            return elem;
+        }
+
+        internal static IHtmlBuilder XsWidth(this IHtmlBuilder elem, int width) 
+        {
+            if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
+            elem.NonGeneric_AddClass("col-xs-" + width);
+            return elem;
+        }
+
+        internal static IHtmlBuilder SmWidth(this IHtmlBuilder elem, int width) 
+        {
+            if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
+            elem.NonGeneric_AddClass("col-sm-" + width);
+            return elem;
+        }
+
+        internal static IHtmlBuilder LgWidth(this IHtmlBuilder elem, int width) 
+        {
+            if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
+            elem.NonGeneric_AddClass("col-lg-" + width);
+            return elem;
+        }
+
+        internal static IHtmlBuilder MdOffset(this IHtmlBuilder elem, int offset) 
+        {
+            if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
+            elem.NonGeneric_AddClass("col-md-" + offset);
+            return elem;
+        }
+
+        internal static IHtmlBuilder XsOffset(this IHtmlBuilder elem, int offset) 
+        {
+            if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
+            elem.NonGeneric_AddClass("col-xs-" + offset);
+            return elem;
+        }
+
+        internal static IHtmlBuilder SmOffset(this IHtmlBuilder elem, int offset) 
+        {
+            if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
+            elem.NonGeneric_AddClass( "col-sm-" + offset);
+            return elem;
+        }
+
+        internal static IHtmlBuilder LgOffset(this IHtmlBuilder elem, int offset) 
+        {
+            if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
+            elem.NonGeneric_AddClass("col-lg-" + offset);
+            return elem;
+        }
+        #endregion
 
     }
 }

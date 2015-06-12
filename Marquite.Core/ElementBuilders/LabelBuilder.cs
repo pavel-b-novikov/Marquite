@@ -25,5 +25,10 @@ namespace Marquite.Core.ElementBuilders
         {
             return Attr("for", forField);
         }
+
+        public T Text(string text)
+        {
+            return TrailingText(text);
+        }
     }
 }

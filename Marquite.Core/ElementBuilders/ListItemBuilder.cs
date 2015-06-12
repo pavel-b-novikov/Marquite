@@ -2,7 +2,7 @@
 
 namespace Marquite.Core.ElementBuilders
 {
-    public class ListItemBuilder<T> : ElementHtmlBuilder<T> where T : ListItemBuilder<T>
+    public class ListItemBuilder : ElementHtmlBuilder<ListItemBuilder>
     {
         public ListItemBuilder(Marquite m) : base(m, "li")
         {

@@ -28,6 +28,12 @@ namespace Marquite.Core.ElementBuilders
             return This;
         }
 
+        public T AddItem(ListItemBuilder listItem)
+        {
+            Trail(listItem);
+            return This;
+        }
+
         public T AddItems(params IRenderingClient[] items)
         {
             items.ForEach(c => Trail(c, "li"));
