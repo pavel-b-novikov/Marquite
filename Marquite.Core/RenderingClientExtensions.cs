@@ -57,6 +57,8 @@ namespace Marquite.Core
         }
         public static void RenderClient(this TextWriter tw, IRenderingClient client)
         {
+            if (client==null) return;
+            
             client.RenderBeforeOpenTag(tw);
             client.RenderOpeningTag(tw);
             client.RenderAfterOpeningTag(tw);

@@ -3,54 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Marquite.Bootstrap.Extensions;
 using Marquite.Core.BuilderMechanics;
-using Marquite.Core.ElementBuilders;
+using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Elements
 {
     public class DropdownBuilder : ElementHtmlBuilder<DropdownBuilder>
     {
-        public DropdownBuilder(Core.Marquite marquite, string labell = null)
-            : base(marquite, "ul")
+        public DropdownBuilder(Core.Marquite marquite, string tagName) : base(marquite, tagName)
         {
-            AddClass("dropdown-menu");
-            this.Role("menu");
-            if (!string.IsNullOrEmpty(labell))
-            {
-                Aria("labelledby", labell);
-            }
+            AddClass("dropdown");
         }
 
-        private SimpleHtmlBuilder Li()
+        public DropdownBuilder(Core.Marquite marquite, string tagName, IHtmlBuilder triggeringElement, DropdownMenuBuilder menu)
+            : base(marquite, tagName)
         {
-            return (new SimpleHtmlBuilder(Marquite, "li")).Role("presentation");
+            _triggeringElement = triggeringElement;
+            _menu = menu;
+            AddClass("dropdown");
         }
 
-        public DropdownBuilder Divider()
+        public void Dropup()
         {
-            Trail(Li().AddClass("divider"));
+            RemoveClass("dropdown");
+            AddClass("dropup");
+        }
+
+        private IRenderingClient _triggeringElement;
+        private DropdownMenuBuilder _menu;
+
+        public DropdownBuilder TriggeringElement(IRenderingClient element)
+        {
+            _triggeringElement = element;
             return this;
         }
 
-        public DropdownBuilder LinkItem(string text, string href, string id = null, bool enabled = true)
+        public DropdownBuilder Menu(DropdownMenuBuilder menu)
         {
-            LinkBuilder lb = new LinkBuilder(Marquite);
-            lb.TrailingText(text).Href(href).Tabindex(-1);
-            
-            var li = Li()
-                .TrailingHtml(lb)
-                .When(!enabled, c => c.AddClass("disabled"))
-                .When(!string.IsNullOrEmpty(id), c => c.Id(id));
-            
-            Trail(li);
+            _menu = menu;
             return this;
         }
 
-        public DropdownBuilder Header(string header)
+        protected override void PrepareForRender()
         {
-            Trail(Li().AddClass("dropdown-header").TrailingText(header));
-            return this;
+            Trail(_triggeringElement);
+            Trail(_menu);
+            base.PrepareForRender();
         }
     }
 }

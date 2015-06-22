@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Marquite.Bootstrap.Elements;
 using Marquite.Core;
 using Marquite.Core.ElementBuilders;
 
@@ -108,6 +109,18 @@ namespace Marquite.Bootstrap
         public static string Lookup(FormgroupState value)
         {
             var tVal = typeof(FormgroupState);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
+
+        public static string Lookup(NavbarFix value)
+        {
+            var tVal = typeof(NavbarFix);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
+
+        public static string Lookup(NavbarPlacement value)
+        {
+            var tVal = typeof(NavbarPlacement);
             return ClassLookup.Cache[tVal][(int)value];
         }
     }

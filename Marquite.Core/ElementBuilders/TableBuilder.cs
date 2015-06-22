@@ -32,15 +32,15 @@ namespace Marquite.Core.ElementBuilders
             return This;
         }
 
-        public T AddHeadings(params IRenderingClient[] columnNames)
+        public T AddHeadings(params IRenderingClient[] columnHeaderContents)
         {
-            columnNames.ForEach(c => Trail(c));
+            columnHeaderContents.ForEach(c => Trail(c,"td"));
             return This;
         }
 
-        public T AddHeading(IRenderingClient columnName)
+        public T AddHeading(IRenderingClient columnHeaderContent)
         {
-            Trail(columnName, "td");
+            Trail(columnHeaderContent, "td");
             return This;
         }
 

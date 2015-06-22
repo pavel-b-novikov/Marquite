@@ -338,6 +338,8 @@ namespace Marquite.Core.BuilderMechanics
 
         protected virtual void RenderOpeningTag(TextWriter tw)
         {
+            if (string.IsNullOrEmpty(TagName)) return;
+            
             var css = _cssClasses.ToArray();
 
             tw.ChainWrite('<').ChainWrite(TagName).ChainWrite(' ');
@@ -387,6 +389,7 @@ namespace Marquite.Core.BuilderMechanics
         protected virtual void RenderBeforeClosingTag(TextWriter tw) { }
         protected virtual void RenderClosingTag(TextWriter tw)
         {
+            if (string.IsNullOrEmpty(TagName)) return;
             tw.ChainWrite("</").ChainWrite(TagName).ChainWrite('>');
         }
 

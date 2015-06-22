@@ -94,7 +94,7 @@
     <Compile Include="ElementBuilders\TableRowBuilder.cs" />
     <Compile Include="ElementBuilders\TextareaBuilder.cs" />
     <Compile Include="ElementBuilders\UnorderedListBuilder.cs" />
-    <Compile Include="HtmlFormattingHelpers.cs" />
+    <Compile Include="HtmlText.cs" />
     <Compile Include="Html\ButtonExtensions.cs" />
     <Compile Include="Html\ChildActionExtensions.cs" />
     <Compile Include="Html\DisplayNameExtensions.cs" />

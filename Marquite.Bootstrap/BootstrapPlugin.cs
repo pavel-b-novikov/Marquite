@@ -31,5 +31,7 @@ namespace Marquite.Bootstrap
         internal int CurrentFormLabelWidth { get; set; }
 
         internal int CurrentFormContentWidth { get; set; }
+
+        internal string CurrentActiveTab { get; set; }
     }
 }

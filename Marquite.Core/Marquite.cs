@@ -12,7 +12,7 @@ namespace Marquite.Core
     {
         public Marquite(HtmlHelper h)
         {
-            var vp = (WebViewPage) h.ViewDataContainer;
+            var vp = (WebViewPage)h.ViewDataContainer;
             ViewContext = h.ViewContext;
             ViewData = h.ViewData;
             OutputStack = vp.OutputStack;
@@ -51,6 +51,12 @@ namespace Marquite.Core
         #endregion
 
         private int _formsCount = 0;
+        private int _marquiteElements = 0;
+
+        public string GenerateNewId()
+        {
+            return String.Format("__marquite{0}", ++_marquiteElements);
+        }
 
         public string GenerateNewFormId()
         {
@@ -84,15 +90,15 @@ namespace Marquite.Core
         }
 
         private bool _isGlobal;
-        
+
         #endregion
 
         #region Scaffoder Queue
-        private SortedDictionary<string,List<IRenderingClient>> _scaffoldedCache;
+        private SortedDictionary<string, List<IRenderingClient>> _scaffoldedCache;
 
         public void Scaffold(string key, IRenderingClient client)
         {
-            if (!_isGlobal) Global.Scaffold(key,client);
+            if (!_isGlobal) Global.Scaffold(key, client);
             List<IRenderingClient> rcList;
             bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
             if (!exists)
@@ -105,7 +111,7 @@ namespace Marquite.Core
 
         public void RenderScaffoldedQueue(string key, TextWriter tw)
         {
-            if (!_isGlobal) Global.RenderScaffoldedQueue(key,tw);
+            if (!_isGlobal) Global.RenderScaffoldedQueue(key, tw);
             List<IRenderingClient> rcList;
             bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
             if (!exists) return;
@@ -121,10 +127,10 @@ namespace Marquite.Core
         public T ResolvePlugin<T>() where T : IMarquitePlugin, new()
         {
             if (!_isGlobal) return Global.ResolvePlugin<T>();
-            if (_pluginsCache.ContainsKey(typeof (T))) return (T) _pluginsCache[typeof (T)];
+            if (_pluginsCache.ContainsKey(typeof(T))) return (T)_pluginsCache[typeof(T)];
             T pluginInstance = new T();
             pluginInstance.Marquite = this;
-            _pluginsCache[typeof (T)] = pluginInstance;
+            _pluginsCache[typeof(T)] = pluginInstance;
             return pluginInstance;
         }
 

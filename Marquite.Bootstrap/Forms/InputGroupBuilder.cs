@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Marquite.Bootstrap.Elements;
+using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 using Marquite.Core.Rendering;
@@ -16,7 +19,7 @@ namespace Marquite.Bootstrap.Forms
         {
             AddClass("input-group");
         }
-
+        
         public InputGroupBuilder(InputElementBuilder textField):this(textField.Marquite)
         {
             WithTextField(textField);
@@ -36,6 +39,8 @@ namespace Marquite.Bootstrap.Forms
         private string _rightText;
         private IRenderingClient _leftContent;
         private IRenderingClient _rightContent;
+        private BootstrapButtonBuilder _leftButton;
+        private BootstrapButtonBuilder _rightButton;
 
         public InputGroupBuilder WithLeftAddon(string leftText)
         {
@@ -48,6 +53,20 @@ namespace Marquite.Bootstrap.Forms
         {
             _leftText = null;
             _leftContent = leftContent;
+            return this;
+        }
+
+        public InputGroupBuilder WithLeftButton(BootstrapButtonBuilder button)
+        {
+            if (_leftContent != null || _leftText != null) throw new Exception("Addon left content already set and button cannot be added");
+            _leftButton = button;
+            return this;
+        }
+
+        public InputGroupBuilder WithRightButton(BootstrapButtonBuilder button)
+        {
+            if (_rightContent!=null||_rightText!=null) throw new Exception("Addon right content already set and button cannot be added");
+            _rightButton = button;
             return this;
         }
 
@@ -67,10 +86,16 @@ namespace Marquite.Bootstrap.Forms
 
         protected override void PrepareForRender()
         {
-            if (_leftText != null) TrailingText(_leftText);
-            if (_leftContent != null) TrailingHtml(_leftContent);
+            if (_leftText != null) Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_leftContent != null) Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_leftButton != null) Trail(_leftButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
+            Trail(_inputElement);
+            if (_rightText != null) Trail(_rightText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_rightContent != null) Trail(_rightContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_rightButton != null) Trail(_rightButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
 
             base.PrepareForRender();
         }
+
     }
 }

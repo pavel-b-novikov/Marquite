@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Marquite.Bootstrap.Extensions;
-using Marquite.Core;
+﻿using Marquite.Bootstrap.Extensions;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
-using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Forms
 {
@@ -94,7 +90,7 @@ namespace Marquite.Bootstrap.Forms
         #region States
         public FormGroupBuilder State(FormgroupState state)
         {
-            TagsCategory.CleanupAndAdd("frmgrp-state",Lookups.Lookup(state));
+            TagsCategory.CleanupAndAdd("frmgrp-state", Lookups.Lookup(state));
             return this;
         }
 
@@ -114,11 +110,10 @@ namespace Marquite.Bootstrap.Forms
         }
         #endregion
 
-        protected override void RenderAfterOpeningTag(TextWriter tw)
+        protected override void PrepareForRender()
         {
-            base.RenderAfterOpeningTag(tw);
+            base.PrepareForRender();
             if (_contentWidth == 0 && _labelWidth != 0) _contentWidth = 12 - _labelWidth;
-
             if (_label != null)
             {
                 if (_bs.IsCurrentFormHorizontal)
@@ -133,7 +128,7 @@ namespace Marquite.Bootstrap.Forms
                             .MdWidth(_labelWidth);
                     }
                 }
-                tw.RenderClient(_label);
+                Trail(_label);
             }
 
             SimpleHtmlBuilder divElement = new SimpleHtmlBuilder(Marquite, "div");
@@ -182,10 +177,10 @@ namespace Marquite.Bootstrap.Forms
             var help = ProduceHelpBlock();
             if (help != null) divElement.TrailingHtml(help);
 
-            tw.RenderClient(divElement);
+            Trail(divElement);
         }
 
-       private SimpleHtmlBuilder ProduceHelpBlock()
+        private SimpleHtmlBuilder ProduceHelpBlock()
         {
             if (_helpBlockClient != null || _helpBlockString != null)
             {
