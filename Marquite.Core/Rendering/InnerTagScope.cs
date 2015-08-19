@@ -18,7 +18,7 @@ namespace Marquite.Core.Rendering
 
         public void Render(IRenderingClient renderingClient)
         {
-            _writer = renderingClient.Marquite.ViewContext.Writer;
+            _writer = renderingClient.Marquite.GetTopmostWriter();
             _renderingClient = renderingClient;
             _renderingClient.RenderBeforeOpenTag(_writer);
             _renderingClient.RenderOpeningTag(_writer);

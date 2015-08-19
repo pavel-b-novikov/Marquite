@@ -97,6 +97,7 @@
     <Compile Include="HtmlText.cs" />
     <Compile Include="Html\ButtonExtensions.cs" />
     <Compile Include="Html\ChildActionExtensions.cs" />
+    <Compile Include="Html\CssNames.cs" />
     <Compile Include="Html\DisplayNameExtensions.cs" />
     <Compile Include="Html\DisplayTextExtensions.cs" />
     <Compile Include="Html\FormExtensions.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Html\ValidationExtensions.cs" />
     <Compile Include="Html\ValueExtensions.cs" />
     <Compile Include="Html\VariousExtensions.cs" />
+    <Compile Include="IMarquite.cs" />
     <Compile Include="IMarquitePlugin.cs" />
     <Compile Include="Lookups.cs" />
     <Compile Include="MarquiteEventsManager.cs" />
@@ -129,11 +131,12 @@
     <Compile Include="Rendering\RenderingItem.cs" />
     <Compile Include="ClassLookup.cs" />
     <Compile Include="LookupStringAttribute.cs" />
-    <Compile Include="Marquite.cs" />
+    <Compile Include="RazorMarquite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\ContinousRenderer.cs" />
     <Compile Include="Rendering\InnerTagScope.cs" />
     <Compile Include="Rendering\IRenderingClient.cs" />
+    <Compile Include="Rendering\RenderingQueue.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Hooks\WebPageBaseHook.cs" />
     <Compile Include="RenderingClientExtensions.cs" />

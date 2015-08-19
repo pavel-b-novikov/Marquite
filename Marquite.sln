@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.CssHoneypot", "Mar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.Test", "Marquite.Test\Marquite.Test.csproj", "{F2E8AD26-B14C-4ABC-9EA7-B64786C2EC77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.Scaffolder", "Marquite.Scaffolder\Marquite.Scaffolder.csproj", "{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F2E8AD26-B14C-4ABC-9EA7-B64786C2EC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2E8AD26-B14C-4ABC-9EA7-B64786C2EC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2E8AD26-B14C-4ABC-9EA7-B64786C2EC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

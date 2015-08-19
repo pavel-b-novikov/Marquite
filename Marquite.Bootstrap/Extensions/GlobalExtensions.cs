@@ -15,7 +15,7 @@ namespace Marquite.Bootstrap.Extensions
             return h.Marquite().ResolvePlugin<BootstrapPlugin>();
         }
 
-        public static BootstrapPlugin Bootstrap(this Core.Marquite m)
+        public static BootstrapPlugin Bootstrap(this Core.IMarquite m)
         {
             return m.ResolvePlugin<BootstrapPlugin>();
         }

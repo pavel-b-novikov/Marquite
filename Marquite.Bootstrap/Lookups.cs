@@ -123,5 +123,11 @@ namespace Marquite.Bootstrap
             var tVal = typeof(NavbarPlacement);
             return ClassLookup.Cache[tVal][(int)value];
         }
+
+        public static string Lookup(PanelColor value)
+        {
+            var tVal = typeof(PanelColor);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
     }
 }

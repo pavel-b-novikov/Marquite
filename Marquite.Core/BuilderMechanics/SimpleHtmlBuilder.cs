@@ -8,7 +8,7 @@ namespace Marquite.Core.BuilderMechanics
 {
     public class SimpleHtmlBuilder : ElementHtmlBuilder<SimpleHtmlBuilder>
     {
-        public SimpleHtmlBuilder(Marquite marquite, string tagName) : base(marquite, tagName)
+        public SimpleHtmlBuilder(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
         }
     }

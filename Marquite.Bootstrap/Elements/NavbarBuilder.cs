@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
@@ -13,7 +9,7 @@ namespace Marquite.Bootstrap.Elements
 {
     public class NavbarToggleButton : ButtonBuilderBase<NavbarToggleButton>
     {
-        public NavbarToggleButton(Core.Marquite marquite)
+        public NavbarToggleButton(Core.IMarquite marquite)
             : base(marquite, "button")
         {
 
@@ -21,10 +17,10 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarToggleButton Default(string text = "Toggle navigation")
         {
-            Trail(text, "span", wrappingTagAttrs: HtmlText.Class("sr-only"));
-            Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
-            Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
-            Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
+            RenderingQueue.Trail(text, "span", wrappingTagAttrs: HtmlText.Class("sr-only"));
+            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
+            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
+            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
             return this;
         }
 
@@ -43,7 +39,7 @@ namespace Marquite.Bootstrap.Elements
         private string _navId;
         private LinkBuilder _brandLink;
 
-        public NavbarBuilder(Core.Marquite marquite)
+        public NavbarBuilder(Core.IMarquite marquite)
             : base(marquite, "nav")
         {
             AddClass("navbar");
@@ -69,7 +65,7 @@ namespace Marquite.Bootstrap.Elements
         public NavbarBuilder AddItem(IHtmlBuilder builder, NavbarPlacement placement = NavbarPlacement.None)
         {
             builder.NonGeneric_AddClass(Lookups.Lookup(placement));
-            Trail(builder);
+            RenderingQueue.Trail(builder);
             return this;
         }
 

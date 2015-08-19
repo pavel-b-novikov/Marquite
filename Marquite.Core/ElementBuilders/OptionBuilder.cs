@@ -9,7 +9,7 @@ namespace Marquite.Core.ElementBuilders
 {
     public class OptionBuilder : ElementHtmlBuilder<OptionBuilder>
     {
-        public OptionBuilder(Marquite marquite) : base(marquite, "option")
+        public OptionBuilder(IMarquite marquite) : base(marquite, "option")
         {
         }
 

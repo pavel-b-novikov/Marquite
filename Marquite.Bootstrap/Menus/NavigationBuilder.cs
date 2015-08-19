@@ -10,7 +10,7 @@ namespace Marquite.Bootstrap.Menus
 {
     public class NavigationBuilder : ElementHtmlBuilder<NavigationBuilder>
     {
-        public NavigationBuilder(Core.Marquite marquite) : base(marquite, "nav")
+        public NavigationBuilder(Core.IMarquite marquite) : base(marquite, "nav")
         {
             TagsCategory.Add("navtype","nav-tabs");
         }

@@ -13,11 +13,12 @@ namespace Marquite.Core.BuilderMechanics
     /// Warning! This class is mutable! Dont re-use its static instances!
     /// </summary>
     /// <typeparam name="TReturn"></typeparam>
-    public class BasicHtmlBuilder<TReturn> : IHtmlString, IHtmlBuilder where TReturn : BasicHtmlBuilder<TReturn>
+    public class BasicHtmlBuilder<TReturn> : IHtmlString, IHtmlBuilder 
+        where TReturn : BasicHtmlBuilder<TReturn>
     {
         #region Private fields
-        private readonly LinkedList<RenderingItem> _renderingQueue = new LinkedList<RenderingItem>();
-        private readonly Marquite _marquite;
+        private readonly RenderingQueue _renderingQueue = new RenderingQueue();
+        private readonly IMarquite _marquite;
         private readonly TReturn _this;
         private readonly HashSet<string> _cssClasses = new HashSet<string>();
         private readonly SortedDictionary<Css, string> _style = new SortedDictionary<Css, string>();
@@ -25,7 +26,7 @@ namespace Marquite.Core.BuilderMechanics
         private string _id;
         #endregion
 
-        public BasicHtmlBuilder(Marquite marquite, string tagName)
+        public BasicHtmlBuilder(IMarquite marquite, string tagName)
         {
             _marquite = marquite;
             _this = (TReturn)(this);
@@ -121,37 +122,37 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual TReturn LeadingHtml(string html)
         {
-            Lead(html);
+            RenderingQueue.LeadingHtml(html);
             return _this;
         }
 
         public virtual TReturn LeadingText(string text)
         {
-            Lead(text, encode: true);
+            RenderingQueue.LeadingText(text);
             return _this;
         }
 
         public virtual TReturn LeadingHtml(IRenderingClient content)
         {
-            Lead(content);
+            RenderingQueue.LeadingHtml(content);
             return _this;
         }
 
         public virtual TReturn TrailingHtml(string html)
         {
-            Trail(html);
+            RenderingQueue.TrailingHtml(html);
             return _this;
         }
 
         public virtual TReturn TrailingText(string text)
         {
-            Trail(text, encode: true);
+            RenderingQueue.TrailingText(text);
             return _this;
         }
 
         public virtual TReturn TrailingHtml(IRenderingClient content)
         {
-            Trail(content);
+            RenderingQueue.TrailingHtml(content);
             return _this;
         }
 
@@ -186,6 +187,8 @@ namespace Marquite.Core.BuilderMechanics
 
         #region Protected shortcuts
 
+        protected RenderingQueue RenderingQueue { get { return _renderingQueue; } }
+
         protected void ReplaceClass(string classStartsWith, string anotherClass)
         {
             string already = AutocompleteClass(classStartsWith);
@@ -195,20 +198,7 @@ namespace Marquite.Core.BuilderMechanics
 
         protected bool IsSelfClosing { get; set; }
 
-        protected virtual void ClearQueue()
-        {
-            _renderingQueue.Clear();
-        }
-
-        protected virtual void RenderQueue(TextWriter tw)
-        {
-            foreach (var renderingItem in _renderingQueue)
-            {
-                tw.RenderItem(renderingItem);
-            }
-            _renderingQueue.Clear();
-        }
-
+        
         protected bool HasPendingItems { get { return _renderingQueue.Count > 0; } }
 
         protected string TagName { get; set; }
@@ -216,7 +206,7 @@ namespace Marquite.Core.BuilderMechanics
         protected IDictionary<string, string> Attributes { get { return _attributes; } }
         protected TReturn This { get { return _this; } }
 
-        public Marquite Marquite
+        public IMarquite Marquite
         {
             get { return _marquite; }
         }
@@ -258,29 +248,6 @@ namespace Marquite.Core.BuilderMechanics
             data = "aria-" + data;
             return GetAttr(data);
         }
-        #endregion
-
-        #region Rendering queue
-        protected void Trail(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
-        {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content, encode, wrappingTagAttrs));
-        }
-
-        protected void Trail(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
-        {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
-        }
-
-        protected void Lead(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
-        {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
-        }
-
-        protected void Lead(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
-        {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, null, content, encode, wrappingTagAttrs: wrappingTagAttrs));
-        }
-
         #endregion
 
         #region Rendering
@@ -383,7 +350,7 @@ namespace Marquite.Core.BuilderMechanics
 
         protected virtual void RenderContent(TextWriter tw)
         {
-            RenderQueue(tw);
+            RenderingQueue.RenderQueue(tw);
         }
 
         protected virtual void RenderBeforeClosingTag(TextWriter tw) { }

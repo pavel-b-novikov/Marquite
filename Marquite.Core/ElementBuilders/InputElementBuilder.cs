@@ -8,7 +8,7 @@ namespace Marquite.Core.ElementBuilders
 {
     public class InputElementBuilder : BaseInputField<InputElementBuilder>, IInputField
     {
-        public InputElementBuilder(Marquite marquite) : base(marquite, "input")
+        public InputElementBuilder(IMarquite marquite) : base(marquite, "input")
         {
             IsSelfClosing = true;
             Type(InputType.Text);

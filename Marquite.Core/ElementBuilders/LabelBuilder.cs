@@ -9,14 +9,14 @@ namespace Marquite.Core.ElementBuilders
 {
     public class LabelBuilder : LabelBuilderBase<LabelBuilder>
     {
-        public LabelBuilder(Marquite marquite) : base(marquite)
+        public LabelBuilder(IMarquite marquite) : base(marquite)
         {
         }
     }
 
     public class LabelBuilderBase<T> : ElementHtmlBuilder<T> where T : LabelBuilderBase<T>
     {
-        public LabelBuilderBase(Marquite marquite)
+        public LabelBuilderBase(IMarquite marquite)
             : base(marquite, "label")
         {
         }

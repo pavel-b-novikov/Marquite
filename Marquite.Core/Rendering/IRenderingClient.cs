@@ -4,7 +4,7 @@ namespace Marquite.Core.Rendering
 {
     public interface IRenderingClient
     {
-        Core.Marquite Marquite { get; }
+        Core.IMarquite Marquite { get; }
         void RenderBeforeOpenTag(TextWriter tw);
         void RenderOpeningTag( TextWriter tw);
         void RenderAfterOpeningTag( TextWriter tw);

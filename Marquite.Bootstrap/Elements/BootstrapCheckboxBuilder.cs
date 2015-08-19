@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 using Marquite.Core.Rendering;
@@ -11,7 +7,7 @@ namespace Marquite.Bootstrap.Elements
 {
     public class BootstrapCheckboxBuilder : BasicHtmlBuilder<BootstrapCheckboxBuilder>
     {
-        public BootstrapCheckboxBuilder(Core.Marquite marquite) : base(marquite, "div")
+        public BootstrapCheckboxBuilder(Core.IMarquite marquite) : base(marquite, "div")
         {
             AddClass("checkbox");
         }

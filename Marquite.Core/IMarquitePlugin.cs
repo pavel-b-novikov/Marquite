@@ -8,7 +8,7 @@ namespace Marquite.Core
 {
     public interface IMarquitePlugin
     {
-        Marquite Marquite { get; set; }
+        IMarquite Marquite { get; set; }
 
         void SubscribeEvents(MarquiteEventsManager eventsManager);
     }

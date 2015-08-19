@@ -7,13 +7,13 @@ namespace Marquite.Core.ElementBuilders
 {
     public class FormBuilder : FormBuilderBase<FormBuilder>
     {
-        public FormBuilder(Marquite marquite) : base(marquite)
+        public FormBuilder(IMarquite marquite) : base(marquite)
         {
         }
     }
     public class FormBuilderBase<T> : ElementHtmlBuilder<T> where T : FormBuilderBase<T>
     {
-        public FormBuilderBase(Marquite marquite)
+        public FormBuilderBase(IMarquite marquite)
             : base(marquite, "form")
         {
         }

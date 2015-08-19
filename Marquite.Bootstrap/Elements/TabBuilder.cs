@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Marquite.Bootstrap.Extensions;
+﻿using Marquite.Bootstrap.Extensions;
 using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Elements
@@ -14,7 +9,7 @@ namespace Marquite.Bootstrap.Elements
         private BootstrapPlugin _bs;
         private NavBuilder _navBuilder;
 
-        public TabPanelBuilder(Core.Marquite marquite) : base(marquite, "div")
+        public TabPanelBuilder(Core.IMarquite marquite) : base(marquite, "div")
         {
             this.Role("tabpanel");
             _bs = marquite.ResolvePlugin<BootstrapPlugin>();

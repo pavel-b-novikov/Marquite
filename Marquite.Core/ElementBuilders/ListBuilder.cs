@@ -5,38 +5,38 @@ namespace Marquite.Core.ElementBuilders
 {
     public abstract class ListBuilder<T> : ElementHtmlBuilder<T> where T : ListBuilder<T>
     {
-        protected ListBuilder(Marquite m, string tagName)
+        protected ListBuilder(IMarquite m, string tagName)
             : base(m, tagName)
         {
         }
 
         public T AddItem(string itemContent)
         {
-            Trail(itemContent, "li");
+            RenderingQueue.Trail(itemContent, "li");
             return This;
         }
 
         public T AddItems(params string[] itemContent)
         {
-            itemContent.ForEach(c => Trail(c, "li"));
+            itemContent.ForEach(c => RenderingQueue.Trail(c, "li"));
             return This;
         }
 
         public T AddItem(IRenderingClient item)
         {
-            Trail(item, "li");
+            RenderingQueue.Trail(item, "li");
             return This;
         }
 
         public T AddItem(ListItemBuilder listItem)
         {
-            Trail(listItem);
+            RenderingQueue.Trail(listItem);
             return This;
         }
 
         public T AddItems(params IRenderingClient[] items)
         {
-            items.ForEach(c => Trail(c, "li"));
+            items.ForEach(c => RenderingQueue.Trail(c, "li"));
             return This;
         }
     }

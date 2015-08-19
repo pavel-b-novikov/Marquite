@@ -2,7 +2,7 @@
 {
     public class UnorderedListBuilder : ListBuilder<UnorderedListBuilder>
     {
-        public UnorderedListBuilder(Marquite m) : base(m, "ul")
+        public UnorderedListBuilder(IMarquite m) : base(m, "ul")
         {
         }
     }

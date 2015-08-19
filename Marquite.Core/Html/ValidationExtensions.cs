@@ -416,7 +416,7 @@ namespace Marquite.Core.Html
         private static SimpleHtmlBuilder ValidationMessageHelper(this HtmlHelper htmlHelper, ModelMetadata modelMetadata,
             string expression, string validationMessage, IDictionary<string, object> htmlAttributes, string tag)
         {
-            Marquite marq = htmlHelper.Marquite();
+            IMarquite marq = htmlHelper.Marquite();
             string modelName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(expression);
             FormContext formContext = htmlHelper.ViewContext.ClientValidationEnabled? htmlHelper.ViewContext.FormContext : null;
 

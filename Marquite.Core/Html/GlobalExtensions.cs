@@ -7,18 +7,18 @@ namespace Marquite.Core.Html
     public static class GlobalExtensions
     {
         
-        public static Marquite Marquite(this HtmlHelper h)
+        public static IMarquite Marquite(this HtmlHelper h)
         {
             var im = MarquiteInstanceManager.GetInstanceManager(h);
             return im.GetInstance(h);
         }
 
-        public static Marquite Marquite<TModel>(this HtmlHelper<TModel> h)
+        public static IMarquite Marquite<TModel>(this HtmlHelper<TModel> h)
         {
             return Marquite((HtmlHelper)h);
         }
 
-        public static SimpleHtmlBuilder ToBuilder(this Marquite m, string tagName)
+        public static SimpleHtmlBuilder ToBuilder(this IMarquite m, string tagName)
         {
             return new SimpleHtmlBuilder(m, tagName);
         }

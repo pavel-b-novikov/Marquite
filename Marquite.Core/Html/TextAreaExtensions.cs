@@ -136,7 +136,7 @@ namespace Marquite.Core.Html
             ModelState modelState;
             if (htmlHelper.ViewData.ModelState.TryGetValue(fullName, out modelState) && modelState.Errors.Count > 0)
             {
-                tagBuilder.AddClass(marq.ValidationInputCssClassName);
+                tagBuilder.AddClass(CssNames.ValidationInputCssClassName);
             }
 
             tagBuilder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, modelMetadata));

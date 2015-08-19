@@ -4,14 +4,14 @@ namespace Marquite.Core.ElementBuilders
 {
     public class LinkBuilder : LinkBuilderBase<LinkBuilder>
     {
-        public LinkBuilder(Marquite marquite) : base(marquite)
+        public LinkBuilder(IMarquite marquite) : base(marquite)
         {
         }
     }
 
     public class LinkBuilderBase<T> : ElementHtmlBuilder<T> where T : LinkBuilderBase<T>
     {
-        public LinkBuilderBase(Marquite marquite) : base(marquite, "a")
+        public LinkBuilderBase(IMarquite marquite) : base(marquite, "a")
         {
         }
 

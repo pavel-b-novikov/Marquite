@@ -9,7 +9,7 @@ namespace Marquite.Core.ElementBuilders
 {
     public class BaseInputField<T> : ElementHtmlBuilder<T> where T : BaseInputField<T> 
     {
-        public BaseInputField(Marquite marquite, string tagName) : base(marquite, tagName)
+        public BaseInputField(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
         }
 

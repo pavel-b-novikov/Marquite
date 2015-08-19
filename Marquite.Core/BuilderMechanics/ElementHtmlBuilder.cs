@@ -2,7 +2,7 @@
 {
     public abstract class ElementHtmlBuilder<T> : BasicHtmlBuilder<T> where T : BasicHtmlBuilder<T>
     {
-        protected ElementHtmlBuilder(Marquite marquite, string tagName) : base(marquite, tagName)
+        protected ElementHtmlBuilder(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
         }
         public virtual T Tabindex(int idx)

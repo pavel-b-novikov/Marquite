@@ -14,7 +14,7 @@ namespace Marquite.Bootstrap.Forms
 {
     public class InputGroupBuilder : ElementHtmlBuilder<InputGroupBuilder>
     {
-        public InputGroupBuilder(Core.Marquite marquite)
+        public InputGroupBuilder(Core.IMarquite marquite)
             : base(marquite, "div ")
         {
             AddClass("input-group");
@@ -86,13 +86,13 @@ namespace Marquite.Bootstrap.Forms
 
         protected override void PrepareForRender()
         {
-            if (_leftText != null) Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_leftContent != null) Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_leftButton != null) Trail(_leftButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
-            Trail(_inputElement);
-            if (_rightText != null) Trail(_rightText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_rightContent != null) Trail(_rightContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_rightButton != null) Trail(_rightButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
+            if (_leftText != null) RenderingQueue.Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_leftContent != null) RenderingQueue.Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_leftButton != null) RenderingQueue.Trail(_leftButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
+            RenderingQueue.Trail(_inputElement);
+            if (_rightText != null) RenderingQueue.Trail(_rightText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_rightContent != null) RenderingQueue.Trail(_rightContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
+            if (_rightButton != null) RenderingQueue.Trail(_rightButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
 
             base.PrepareForRender();
         }

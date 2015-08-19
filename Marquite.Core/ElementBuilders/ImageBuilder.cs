@@ -7,13 +7,13 @@ namespace Marquite.Core.ElementBuilders
 {
     public class ImageBuilder : ImageBuilderBase<ImageBuilder>
     {
-        public ImageBuilder(Marquite marquite, string src = null, string alt = null) : base(marquite, src, alt)
+        public ImageBuilder(IMarquite marquite, string src = null, string alt = null) : base(marquite, src, alt)
         {
         }
     }
     public class ImageBuilderBase<T> : ElementHtmlBuilder<T> where T : ImageBuilderBase<T>
     {
-        public ImageBuilderBase(Core.Marquite marquite, string src = null, string alt = null)
+        public ImageBuilderBase(Core.IMarquite marquite, string src = null, string alt = null)
             : base(marquite, "img")
         {
             if (!string.IsNullOrEmpty(src)) Source(src);

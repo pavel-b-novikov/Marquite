@@ -11,7 +11,7 @@ namespace Marquite.Bootstrap
     public class BlockQuoteBuilder : ElementHtmlBuilder<BlockQuoteBuilder>
     {
 
-        public BlockQuoteBuilder(Core.Marquite m)
+        public BlockQuoteBuilder(Core.IMarquite m)
             : base(m,"blockquote")
         {
 
@@ -19,7 +19,7 @@ namespace Marquite.Bootstrap
 
         private string _blockQuoteText;
 
-        public BlockQuoteBuilder(Core.Marquite m,string blockQuoteText)
+        public BlockQuoteBuilder(Core.IMarquite m,string blockQuoteText)
             : base(m,"blockquote")
         {
             _blockQuoteText = blockQuoteText;

@@ -8,7 +8,7 @@ namespace Marquite.Bootstrap.Grid
 {
     public class RowGridBuilder : ElementHtmlBuilder<RowGridBuilder>
     {
-        public RowGridBuilder(Core.Marquite m) : base(m,"div")
+        public RowGridBuilder(Core.IMarquite m) : base(m,"div")
         {
             AddClass("row");
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Marquite.Bootstrap.Extensions;
-using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 
 namespace Marquite.Bootstrap.Elements
@@ -8,7 +7,7 @@ namespace Marquite.Bootstrap.Elements
     public class BootstrapButtonBuilder : ButtonBuilderBase<BootstrapButtonBuilder>
     {
         private readonly BootstrapPlugin _bootstrap;
-        public BootstrapButtonBuilder(Core.Marquite marquite, string tagName)
+        public BootstrapButtonBuilder(Core.IMarquite marquite, string tagName)
             : base(marquite, tagName)
         {
             AddClass("btn");
@@ -97,7 +96,7 @@ namespace Marquite.Bootstrap.Elements
             }
             else
             {
-                Trail(_bootstrap.CompiledGlyphIcon(icon));
+                RenderingQueue.Trail(_bootstrap.CompiledGlyphIcon(icon));
             }
             return This;
         }
@@ -110,7 +109,7 @@ namespace Marquite.Bootstrap.Elements
             }
             else
             {
-                Lead(_bootstrap.CompiledGlyphIcon(icon));
+                RenderingQueue.Lead(_bootstrap.CompiledGlyphIcon(icon));
             }
             return This;
         }

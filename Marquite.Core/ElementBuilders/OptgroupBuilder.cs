@@ -9,7 +9,7 @@ namespace Marquite.Core.ElementBuilders
 {
     public class OptgroupBuilder : ElementHtmlBuilder<OptgroupBuilder>
     {
-        public OptgroupBuilder(Marquite marquite) : base(marquite, "optgroup")
+        public OptgroupBuilder(IMarquite marquite) : base(marquite, "optgroup")
         {
         }
 
@@ -20,7 +20,7 @@ namespace Marquite.Core.ElementBuilders
 
         public OptgroupBuilder AddItem(OptionBuilder option)
         {
-            Trail(option);
+            RenderingQueue.Trail(option);
             return this;
         }
 
@@ -28,7 +28,7 @@ namespace Marquite.Core.ElementBuilders
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
             ob.Text(option).Value(value).When(selected,c=>c.Selected());
-            Trail(ob);
+            RenderingQueue.Trail(ob);
             return this;
         }
 
@@ -36,7 +36,7 @@ namespace Marquite.Core.ElementBuilders
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
             ob.Text(option).Value(value);
-            Trail(ob);
+            RenderingQueue.Trail(ob);
             return this;
         }
 

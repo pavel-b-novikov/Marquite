@@ -6,7 +6,7 @@ namespace Marquite.Bootstrap.Grid
     public class ColumnGridBuilder : ElementHtmlBuilder<ColumnGridBuilder>
     {
         
-        public ColumnGridBuilder(Core.Marquite m,int mdWidth = 0, int xsWidth = 0, int smWidth = 0,int lgWidth = 0)
+        public ColumnGridBuilder(Core.IMarquite m,int mdWidth = 0, int xsWidth = 0, int smWidth = 0,int lgWidth = 0)
             : base(m,"div")
         {
             if (mdWidth != 0) MdWidth(mdWidth);

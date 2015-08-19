@@ -11,7 +11,7 @@ namespace Marquite.Bootstrap
 {
     public class BootstrapPlugin : IMarquitePlugin
     {
-        public Core.Marquite Marquite { get; set; }
+        public Core.IMarquite Marquite { get; set; }
 
         public void SubscribeEvents(MarquiteEventsManager eventsManager)
         {

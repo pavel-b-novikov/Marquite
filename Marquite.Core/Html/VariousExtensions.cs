@@ -9,7 +9,7 @@ namespace Marquite.Core.Html
 {
     public static class VariousExtensions
     {
-        public static ImageBuilder Image(this Core.Marquite b, string src = null, string alternativeText = null)
+        public static ImageBuilder Image(this Core.IMarquite b, string src = null, string alternativeText = null)
         {
             return new ImageBuilder(b, src, alternativeText);
         }

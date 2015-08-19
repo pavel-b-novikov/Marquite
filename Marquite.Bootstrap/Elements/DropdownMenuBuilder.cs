@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Marquite.Bootstrap.Extensions;
 using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
@@ -13,7 +9,7 @@ namespace Marquite.Bootstrap.Elements
 {
     public class DropdownMenuBuilder : ElementHtmlBuilder<DropdownMenuBuilder>
     {
-        public DropdownMenuBuilder(Core.Marquite marquite, string labell = null)
+        public DropdownMenuBuilder(Core.IMarquite marquite, string labell = null)
             : base(marquite, "ul")
         {
             AddClass("dropdown-menu");
@@ -40,7 +36,7 @@ namespace Marquite.Bootstrap.Elements
         }
         public DropdownMenuBuilder Item(string text, string id = null, bool active = false, bool enabled = true, string additionalClasses = null)
         {
-            Trail(text, "li",
+            RenderingQueue.Trail(text, "li",
                 wrappingTagAttrs: GetWrappingTagAttrs(id, active, enabled, additionalClasses)
                 );
 
@@ -49,7 +45,7 @@ namespace Marquite.Bootstrap.Elements
 
         public DropdownMenuBuilder Item(IRenderingClient item, string id = null, bool active = false, bool enabled = true, string additionalClasses = null)
         {
-            Trail(item, "li",
+            RenderingQueue.Trail(item, "li",
                     wrappingTagAttrs: GetWrappingTagAttrs(id,active, enabled, additionalClasses)
                 );
 
@@ -62,6 +58,13 @@ namespace Marquite.Bootstrap.Elements
             lb.TrailingText(text).Href(href).Tabindex(-1);
 
             return Item(lb, id, active, enabled, additionalClasses);
+        }
+
+        public DropdownMenuBuilder RawItem(IRenderingClient item)
+        {
+            RenderingQueue.Trail(item);
+
+            return this;
         }
 
         public DropdownMenuBuilder Header(string header)

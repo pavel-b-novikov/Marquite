@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.Rendering;
 
@@ -6,7 +7,8 @@ namespace Marquite.Core.ElementBuilders
 {
     public class TableBuilder : TableBuilderBase<TableBuilder>
     {
-        public TableBuilder(Marquite m) : base(m)
+        public TableBuilder(IMarquite m)
+            : base(m)
         {
         }
     }
@@ -14,36 +16,79 @@ namespace Marquite.Core.ElementBuilders
     {
         private bool _renderTbody = true;
 
-        public TableBuilderBase(Marquite m)
+        public TableBuilderBase(IMarquite m)
             : base(m, "table")
         {
             AddClass("table");
         }
 
+        #region Heading 0
         public T AddHeadings(params string[] columnNames)
         {
-            columnNames.ForEach(c => Trail(c, "td"));
+            AddHeadings(0, columnNames);
             return This;
         }
 
         public T AddHeading(string columnName)
         {
-            Trail(columnName, "td");
+            AddHeading(0, columnName);
             return This;
         }
 
         public T AddHeadings(params IRenderingClient[] columnHeaderContents)
         {
-            columnHeaderContents.ForEach(c => Trail(c,"td"));
+            AddHeadings(0, columnHeaderContents);
             return This;
         }
 
         public T AddHeading(IRenderingClient columnHeaderContent)
         {
-            Trail(columnHeaderContent, "td");
+            AddHeading(0, columnHeaderContent);
+            return This;
+        }
+        #endregion
+
+        private readonly List<RenderingQueue> _headRows = new List<RenderingQueue>();
+
+        private RenderingQueue GetHeadRow(int row)
+        {
+            if (row > _headRows.Count - 1)
+            {
+                RenderingQueue rq = new RenderingQueue();
+                _headRows.Add(rq);
+                return rq;
+            }
+            return _headRows[row];
+        }
+
+        public T AddHeadings(int row, params string[] columnNames)
+        {
+            var tr = GetHeadRow(row);
+            columnNames.ForEach(c => tr.Trail(c, "td"));
             return This;
         }
 
+        public T AddHeading(int row, string columnName)
+        {
+            var tr = GetHeadRow(row);
+            tr.Trail(columnName, "td");
+            return This;
+        }
+
+        public T AddHeadings(int row, params IRenderingClient[] columnHeaderContents)
+        {
+            var tr = GetHeadRow(row);
+            columnHeaderContents.ForEach(c => tr.Trail(c, "td"));
+            return This;
+        }
+
+        public T AddHeading(int row, IRenderingClient columnHeaderContent)
+        {
+            var tr = GetHeadRow(row);
+            tr.Trail(columnHeaderContent, "td");
+            return This;
+        }
+        
         public T DontRenderTbody()
         {
             _renderTbody = false;
@@ -52,11 +97,17 @@ namespace Marquite.Core.ElementBuilders
 
         protected override void RenderAfterOpeningTag(TextWriter tw)
         {
-            if (HasPendingItems)
+            if (_headRows.Count > 0)
             {
-                tw.Write("<thead>{0}<tr>", tw.NewLine);
-                RenderQueue(tw);
-                tw.Write("</thead>{0}</tr>", tw.NewLine);
+                tw.Write("<thead>{0}", tw.NewLine);
+                foreach (var renderingQueue in _headRows)
+                {
+                    tw.Write("<tr>");
+                    renderingQueue.RenderQueue(tw);
+                    tw.Write("</tr>");
+                }
+                
+                tw.Write("</thead>{0}", tw.NewLine);
             }
             if (_renderTbody)
             {

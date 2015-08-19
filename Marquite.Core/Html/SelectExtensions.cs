@@ -301,7 +301,7 @@ namespace Marquite.Core.Html
             return selectList;
         }
 
-        internal static OptionBuilder ListItemToOption(Marquite m, SelectListItem item)
+        internal static OptionBuilder ListItemToOption(IMarquite m, SelectListItem item)
         {
             OptionBuilder builder = new OptionBuilder(m).Text(item.Text);
             if (item.Value != null)
@@ -428,7 +428,7 @@ namespace Marquite.Core.Html
             return tagBuilder;
         }
 
-        private static IRenderingClient[] BuildItems(Marquite marq,string optionLabel, IEnumerable<SelectListItem> selectList)
+        private static IRenderingClient[] BuildItems(IMarquite marq,string optionLabel, IEnumerable<SelectListItem> selectList)
         {
             List<IRenderingClient> result = new List<IRenderingClient>();
 

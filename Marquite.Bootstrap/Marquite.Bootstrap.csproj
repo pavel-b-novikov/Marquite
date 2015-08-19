@@ -77,6 +77,7 @@
     <Compile Include="Elements\DropdownMenuBuilder.cs" />
     <Compile Include="Elements\NavbarBuilder.cs" />
     <Compile Include="Elements\NavBuilder.cs" />
+    <Compile Include="Elements\PanelBuilder.cs" />
     <Compile Include="Elements\TabBuilder.cs" />
     <Compile Include="Extensions\ButtonExtensions.cs" />
     <Compile Include="Extensions\DropdownExtensions.cs" />

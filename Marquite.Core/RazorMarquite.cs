@@ -8,15 +8,14 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Core
 {
-    public class Marquite
+    public class RazorMarquite : IMarquite
     {
-        public Marquite(HtmlHelper h)
+        public RazorMarquite(HtmlHelper h)
         {
             var vp = (WebViewPage)h.ViewDataContainer;
             ViewContext = h.ViewContext;
             ViewData = h.ViewData;
             OutputStack = vp.OutputStack;
-            InitDefaultCssStyles();
             EventsManager = new MarquiteEventsManager();
         }
 
@@ -25,30 +24,6 @@ namespace Marquite.Core
         public ViewDataDictionary ViewData { get; internal set; }
 
         internal Stack<TextWriter> OutputStack;
-
-        #region CSS
-        public string ValidationInputCssClassName { get; private set; }
-
-        public string ValidationInputValidCssClassName { get; private set; }
-
-        public string ValidationMessageCssClassName { get; private set; }
-
-        public string ValidationMessageValidCssClassName { get; private set; }
-
-        public string ValidationSummaryCssClassName { get; private set; }
-
-        public string ValidationSummaryValidCssClassName { get; private set; }
-
-        private void InitDefaultCssStyles()
-        {
-            ValidationInputCssClassName = "input-validation-error";
-            ValidationInputValidCssClassName = "input-validation-valid";
-            ValidationMessageCssClassName = "field-validation-error";
-            ValidationMessageValidCssClassName = "field-validation-valid";
-            ValidationSummaryCssClassName = "validation-summary-errors";
-            ValidationSummaryValidCssClassName = "validation-summary-valid";
-        }
-        #endregion
 
         private int _formsCount = 0;
         private int _marquiteElements = 0;
@@ -72,7 +47,7 @@ namespace Marquite.Core
             return OutputStack.Peek();
         }
 
-        public Marquite Global { get; internal set; }
+        public IMarquite Global { get; internal set; }
 
         public bool IsGlobal
         {
@@ -82,7 +57,7 @@ namespace Marquite.Core
                 _isGlobal = value;
                 if (value)
                 {
-                    _scaffoldedCache = new SortedDictionary<string, List<IRenderingClient>>(StringComparer.OrdinalIgnoreCase);
+                    //_scaffoldedCache = new SortedDictionary<string, List<IRenderingClient>>(StringComparer.OrdinalIgnoreCase);
                     _pluginsCache = new Dictionary<Type, IMarquitePlugin>();
                     Global = this;
                 }
@@ -94,30 +69,30 @@ namespace Marquite.Core
         #endregion
 
         #region Scaffoder Queue
-        private SortedDictionary<string, List<IRenderingClient>> _scaffoldedCache;
+        //private SortedDictionary<string, List<IRenderingClient>> _scaffoldedCache;
 
-        public void Scaffold(string key, IRenderingClient client)
-        {
-            if (!_isGlobal) Global.Scaffold(key, client);
-            List<IRenderingClient> rcList;
-            bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
-            if (!exists)
-            {
-                rcList = new List<IRenderingClient>(50);
-                _scaffoldedCache[key] = rcList;
-            }
-            rcList.Add(client);
-        }
+        //public void Scaffold(string key, IRenderingClient client)
+        //{
+        //    if (!_isGlobal) Global.Scaffold(key, client);
+        //    List<IRenderingClient> rcList;
+        //    bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
+        //    if (!exists)
+        //    {
+        //        rcList = new List<IRenderingClient>(50);
+        //        _scaffoldedCache[key] = rcList;
+        //    }
+        //    rcList.Add(client);
+        //}
 
-        public void RenderScaffoldedQueue(string key, TextWriter tw)
-        {
-            if (!_isGlobal) Global.RenderScaffoldedQueue(key, tw);
-            List<IRenderingClient> rcList;
-            bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
-            if (!exists) return;
-            var a = rcList.ToArray();
-            a.ForEach(tw.RenderClient);
-        }
+        //public void RenderScaffoldedQueue(string key, TextWriter tw)
+        //{
+        //    if (!_isGlobal) Global.RenderScaffoldedQueue(key, tw);
+        //    List<IRenderingClient> rcList;
+        //    bool exists = _scaffoldedCache.TryGetValue(key, out rcList);
+        //    if (!exists) return;
+        //    var a = rcList.ToArray();
+        //    a.ForEach(tw.RenderClient);
+        //}
         #endregion
 
         #region Plugins
@@ -136,7 +111,7 @@ namespace Marquite.Core
 
         #endregion
 
-        internal MarquiteEventsManager EventsManager;
+        public MarquiteEventsManager EventsManager { get; private set; }
 
         public string GenerateId(string name)
         {

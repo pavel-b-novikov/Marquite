@@ -6,8 +6,8 @@ namespace Marquite.Bootstrap.Forms
 {
     public class FormGroupBuilder : ElementHtmlBuilder<FormGroupBuilder>
     {
-        private BootstrapPlugin _bs;
-        public FormGroupBuilder(Core.Marquite marquite)
+        private readonly BootstrapPlugin _bs;
+        public FormGroupBuilder(Core.IMarquite marquite)
             : base(marquite, "div")
         {
             AddClass("form-group");
@@ -128,7 +128,7 @@ namespace Marquite.Bootstrap.Forms
                             .MdWidth(_labelWidth);
                     }
                 }
-                Trail(_label);
+                RenderingQueue.Trail(_label);
             }
 
             SimpleHtmlBuilder divElement = new SimpleHtmlBuilder(Marquite, "div");
@@ -177,7 +177,7 @@ namespace Marquite.Bootstrap.Forms
             var help = ProduceHelpBlock();
             if (help != null) divElement.TrailingHtml(help);
 
-            Trail(divElement);
+            RenderingQueue.Trail(divElement);
         }
 
         private SimpleHtmlBuilder ProduceHelpBlock()

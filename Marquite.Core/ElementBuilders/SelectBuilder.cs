@@ -9,13 +9,13 @@ namespace Marquite.Core.ElementBuilders
 {
     public class SelectBuilder : BaseInputField<SelectBuilder>, IInputField
     {
-        public SelectBuilder(Marquite marquite) : base(marquite, "select")
+        public SelectBuilder(IMarquite marquite) : base(marquite, "select")
         {
         }
 
         public SelectBuilder AddItem(OptionBuilder option)
         {
-            Trail(option);
+            RenderingQueue.Trail(option);
             return this;
         }
 
@@ -23,7 +23,7 @@ namespace Marquite.Core.ElementBuilders
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
             ob.Text(option).Value(value).When(selected, c => c.Selected());
-            Trail(ob);
+            RenderingQueue.Trail(ob);
             return this;
         }
 
@@ -31,7 +31,7 @@ namespace Marquite.Core.ElementBuilders
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
             ob.Text(option).Value(value);
-            Trail(ob);
+            RenderingQueue.Trail(ob);
             return this;
         }
 

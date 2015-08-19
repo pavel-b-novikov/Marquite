@@ -9,14 +9,14 @@ namespace Marquite.Core.ElementBuilders
 {
     public class ButtonBuilder : ButtonBuilderBase<ButtonBuilder>
     {
-        public ButtonBuilder(Marquite marquite, string tagName) : base(marquite, tagName)
+        public ButtonBuilder(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
         }
     }
 
     public class ButtonBuilderBase<T> : ElementHtmlBuilder<T> where T : ButtonBuilderBase<T>
     {
-        public ButtonBuilderBase(Marquite marquite, string tagName)
+        public ButtonBuilderBase(IMarquite marquite, string tagName)
             : base(marquite, tagName)
         {
 
@@ -31,8 +31,8 @@ namespace Marquite.Core.ElementBuilders
             }
             else
             {
-                ClearQueue();
-                Trail(text);
+                RenderingQueue.ClearQueue();
+                RenderingQueue.Trail(text);
             }
             return This;
         }
@@ -47,7 +47,7 @@ namespace Marquite.Core.ElementBuilders
             }
             else
             {
-                Trail(text);
+                RenderingQueue.Trail(text);
             }
             return This;
         }

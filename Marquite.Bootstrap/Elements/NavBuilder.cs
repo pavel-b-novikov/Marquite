@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
@@ -12,7 +8,7 @@ namespace Marquite.Bootstrap.Elements
 {
     public class NavBuilder : ElementHtmlBuilder<NavBuilder>
     {
-        public NavBuilder(Core.Marquite marquite) : base(marquite, "ul")
+        public NavBuilder(Core.IMarquite marquite) : base(marquite, "ul")
         {
             AddClass("nav");
             AddClass("nav-tabs");
@@ -50,7 +46,7 @@ namespace Marquite.Bootstrap.Elements
         }
         public NavBuilder Item(string text, string id = null, bool enabled = true, string additionalClasses = null)
         {
-            Trail(text, "li",
+            RenderingQueue.Trail(text, "li",
                 wrappingTagAttrs: GetWrappingTagAttrs(id, enabled, additionalClasses)
                 );
 
@@ -59,9 +55,16 @@ namespace Marquite.Bootstrap.Elements
 
         public NavBuilder Item(IRenderingClient item, string id = null, bool enabled = true, string additionalClasses = null)
         {
-            Trail(item, "li",
+            RenderingQueue.Trail(item, "li",
                     wrappingTagAttrs: GetWrappingTagAttrs(id, enabled, additionalClasses)
                 );
+
+            return this;
+        }
+
+        public NavBuilder RawItem(IRenderingClient item)
+        {
+            RenderingQueue.Trail(item);
 
             return this;
         }
