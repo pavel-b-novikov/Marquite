@@ -15,6 +15,12 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class FormsExtensions
     {
+        /// <summary>
+        /// Makes regular form inline (adding bootstrap form-inline)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static T Inline<T>(this T t) where T : FormBuilderBase<T>
         {
             var plg = t.Marquite.ResolvePlugin<BootstrapPlugin>();
@@ -70,14 +76,14 @@ namespace Marquite.Bootstrap.Extensions
         {
             var inputElement = htmlHelper.TextBoxFor(expression);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
 
         public static FormGroupBuilder FormGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format)
         {
             var inputElement = htmlHelper.TextBoxFor(expression, format);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
 
 
@@ -85,14 +91,14 @@ namespace Marquite.Bootstrap.Extensions
         {
             var inputElement = htmlHelper.TextBoxFor(expression, htmlAttributes);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
 
         public static FormGroupBuilder FormGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, object htmlAttributes)
         {
             var inputElement = htmlHelper.TextBoxFor(expression, format, htmlAttributes);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
 
 
@@ -100,14 +106,14 @@ namespace Marquite.Bootstrap.Extensions
         {
             var inputElement = htmlHelper.TextBoxFor(expression, htmlAttributes);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
 
         public static FormGroupBuilder FormGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, IDictionary<string, object> htmlAttributes)
         {
             var inputElement = htmlHelper.TextBoxFor(expression, format, htmlAttributes);
             var labelElement = htmlHelper.LabelFor(expression);
-            return htmlHelper.Bootstrap().FormGroup(inputElement, labelElement);
+            return htmlHelper.Bs().FormGroup(inputElement, labelElement);
         }
     }
 }

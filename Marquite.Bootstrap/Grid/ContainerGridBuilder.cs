@@ -6,9 +6,7 @@ namespace Marquite.Bootstrap.Grid
     {
         public ContainerGridBuilder(Core.IMarquite m,bool fluid) : base(m,"div")
         {
-            AddClass("container");
-            if (fluid) AddClass("container-fluid");
+            AddClass(!fluid ? "container" : "container-fluid");
         }
-
     }
 }

@@ -46,9 +46,17 @@ namespace Marquite.Core.Rendering
         {
             foreach (var renderingItem in _renderingQueue)
             {
-                tw.RenderItem(renderingItem);
+                Renderer.Render(tw, renderingItem);
             }
             _renderingQueue.Clear();
+        }
+
+        public virtual void CopyTo(RenderingQueue target)
+        {
+            foreach (var renderingItem in _renderingQueue)
+            {
+                target._renderingQueue.AddLast(renderingItem);
+            }
         }
 
         public virtual void LeadingHtml(string html)

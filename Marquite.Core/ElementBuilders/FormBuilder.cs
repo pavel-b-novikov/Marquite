@@ -73,14 +73,13 @@ namespace Marquite.Core.ElementBuilders
             return Attr("enctype", Lookups.Lookup(enctype));
         }
 
-        public override InnerTagScope Open()
+        public override ITagScope Open(bool pullExistingContentAtTop = false)
         {
-            Marquite.ViewContext.FormContext = new FormContext();
-            Marquite.ViewContext.FormContext.FormId = GetAttr("id");
+            Marquite.ViewContext.FormContext = new FormContext {FormId = GetAttr("id")};
             return base.Open();
         }
 
-        protected override void RenderAfterClosingTag(TextWriter tw)
+        public override void RenderAfterClosingTag(TextWriter tw)
         {
             var persist = Marquite.ViewContext.Writer;
             Marquite.ViewContext.Writer = tw;

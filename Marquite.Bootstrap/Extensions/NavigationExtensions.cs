@@ -10,6 +10,9 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Extensions
 {
+    /// <summary>
+    /// Extensions for Bootstrap navigation elements
+    /// </summary>
     public static class NavigationExtensions
     {
         public static NavBuilder Navigation(this BootstrapPlugin bs)
@@ -37,11 +40,25 @@ namespace Marquite.Bootstrap.Extensions
             return b;
         }
 
+        /// <summary>
+        /// Constructs an empty Bootstrap navbar
+        /// <seealso cref="http://getbootstrap.com/components/#navbar"/>
+        /// </summary>
+        /// <param name="bs">Bootstrap plugin</param>
+        /// <returns>Navbar builder</returns>
         public static NavbarBuilder Navbar(this BootstrapPlugin bs)
         {
             return new NavbarBuilder(bs.Marquite);
         }
 
+        /// <summary>
+        /// Constructs an empty Bootstrap navbar
+        /// <seealso cref="http://getbootstrap.com/components/#navbar"/>
+        /// </summary>
+        /// <param name="bs">Bootstrap plugin</param>
+        /// <param name="brandName">Brand name (big label that will be shown at the left) (nav-brand)</param>
+        /// <param name="homeUrl">Url of brand link</param>
+        /// <returns>Navbar builder</returns>
         public static NavbarBuilder Navbar(this BootstrapPlugin bs, string brandName, string homeUrl)
         {
             return new NavbarBuilder(bs.Marquite).Brand(brandName, homeUrl);

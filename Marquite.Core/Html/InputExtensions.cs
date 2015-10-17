@@ -493,7 +493,7 @@ namespace Marquite.Core.Html
             {
                 throw new ArgumentException("Name cannot be empty", "name");
             }
-            var marq = htmlHelper.Marquite();
+            var marq = htmlHelper.Marq();
             InputElementBuilder tagBuilder = new InputElementBuilder(marq);
             tagBuilder.MergeAttributes(htmlAttributes);
             tagBuilder.Type(inputType).Name(fullName);

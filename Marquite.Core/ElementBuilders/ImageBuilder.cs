@@ -30,7 +30,7 @@ namespace Marquite.Core.ElementBuilders
             return Attr("alt", text);
         }
 
-        public override InnerTagScope Open()
+        public override ITagScope Open(bool pullExistingContentAtTop = false)
         {
             throw new Exception(Messages.Error_InvalidImage);
         }
@@ -45,8 +45,8 @@ namespace Marquite.Core.ElementBuilders
             throw new Exception(Messages.Error_InvalidImage);
         }
 
-        protected override void RenderContent(TextWriter tw) { }
+        public override void RenderContent(TextWriter tw) { }
 
-        protected override void RenderClosingTag(TextWriter tw) { }
+        public override void RenderClosingTag(TextWriter tw) { }
     }
 }

@@ -15,12 +15,13 @@ namespace Marquite.Bootstrap.Elements
 
         }
 
-        public NavbarToggleButton Default(string text = "Toggle navigation")
+        public NavbarToggleButton Default(string navId, string text = "Toggle navigation")
         {
             RenderingQueue.Trail(text, "span", wrappingTagAttrs: HtmlText.Class("sr-only"));
             RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
             RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
             RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
+            SetToggleButtonAttributes(this, navId);
             return this;
         }
 
@@ -29,14 +30,15 @@ namespace Marquite.Bootstrap.Elements
             toggleButton.NonGeneric_AddClass("navbar-toggle");
             toggleButton.NonGeneric_AddClass("collapsed");
             toggleButton.NonGeneric_Data("toggle", "collapse");
+            if (string.IsNullOrEmpty(navId)) return;
             toggleButton.NonGeneric_Data("target", "#" + navId);
         }
     }
     public class NavbarBuilder : ElementHtmlBuilder<NavbarBuilder>
     {
 
-        private IRenderingClient _toggleButton;
-        private string _navId;
+        private IHtmlBuilder _toggleButton;
+        private string _collapseId;
         private LinkBuilder _brandLink;
 
         public NavbarBuilder(Core.IMarquite marquite)
@@ -44,8 +46,9 @@ namespace Marquite.Bootstrap.Elements
         {
             AddClass("navbar");
             AddClass("navbar-default");
-            _navId = marquite.GenerateNewId();
-            _toggleButton = new NavbarToggleButton(marquite);
+            _collapseId = marquite.GenerateNewId();
+            _toggleButton = new NavbarToggleButton(marquite).Default(_collapseId);
+
             _brandLink = null;
         }
 
@@ -58,7 +61,7 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarBuilder Fix(NavbarFix fix)
         {
-            TagsCategory.CleanupAndAdd("navbar_fix", Lookups.Lookup(fix));
+            CategorizedCssClasses.CleanupAndAdd("navbar_fix", Lookups.Lookup(fix));
             return this;
         }
 
@@ -100,9 +103,14 @@ namespace Marquite.Bootstrap.Elements
             return AddItem(pElement, placement);
         }
 
+        private LinkBuilder BrandLink()
+        {
+            return new LinkBuilder(Marquite).AddClass("navbar-brand");
+        }
+
         public NavbarBuilder Brand(string brandName, string navUrl)
         {
-            if (_brandLink == null) _brandLink = new LinkBuilder(Marquite);
+            if (_brandLink == null) _brandLink = BrandLink();
             _brandLink.Href(navUrl);
             _brandLink.TrailingText(brandName);
 
@@ -111,7 +119,7 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarBuilder Brand(IRenderingClient brandElement, string navUrl)
         {
-            if (_brandLink == null) _brandLink = new LinkBuilder(Marquite);
+            if (_brandLink == null) _brandLink = BrandLink();
             _brandLink.Href(navUrl);
             _brandLink.TrailingHtml(brandElement);
             return this;
@@ -119,30 +127,30 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarBuilder ToggleButton(NavbarToggleButton toggleButton)
         {
-            NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _navId);
+            NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _collapseId);
             _toggleButton = toggleButton;
             return this;
         }
 
         public NavbarBuilder ToggleButton(ButtonBuilder toggleButton)
         {
-            NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _navId);
+            NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _collapseId);
             _toggleButton = toggleButton;
             return this;
         }
 
-        protected override void RenderAfterOpeningTag(TextWriter tw)
+        public override void RenderAfterOpeningTag(TextWriter tw)
         {
             tw.Write(HtmlText.OpenTag("div", HtmlText.Class("container-fluid")));
             tw.Write(HtmlText.OpenTag("div", HtmlText.Class("navbar-header")));
-            tw.RenderClient(_toggleButton);
-            if (_brandLink != null) tw.RenderClient(_brandLink);
+            Renderer.Render(tw, _toggleButton);
+            if (_brandLink != null) Renderer.Render(tw, _brandLink);
             tw.Write(HtmlText.ClosingTag("div")); // /.navbar-header
-            tw.Write(HtmlText.OpenTag("div", HtmlText.Classes("collapse", "navbar-collapse"), HtmlText.Id(_navId)));
+            tw.Write(HtmlText.OpenTag("div", HtmlText.Classes("collapse", "navbar-collapse"), HtmlText.Id(_collapseId)));
             base.RenderAfterOpeningTag(tw);
         }
 
-        protected override void RenderBeforeClosingTag(TextWriter tw)
+        public override void RenderBeforeClosingTag(TextWriter tw)
         {
             tw.Write(HtmlText.ClosingTag("div")); // /.navbar-collapse
             tw.Write(HtmlText.ClosingTag("div")); // /.container-fluid

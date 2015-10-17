@@ -173,7 +173,7 @@ namespace Marquite.Core.Html
         {
             var url = UrlHelper.GenerateUrl(routeName, actionName, controllerName, protocol, hostName, fragment,
                 routeValues, routeCollection, requestContext, includeImplicitMvcValues);
-            var lb = new LinkBuilder(htmlHelper.Marquite());
+            var lb = new LinkBuilder(htmlHelper.Marq());
             lb.MergeAttributes(htmlAttributes);
             lb.Href(url).TrailingText(linkText);
             return lb;

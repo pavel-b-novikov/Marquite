@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Marquite.Angular;
 using Marquite.CssHoneypot;
 
 namespace Marquite.Test.Controllers
 {
     public class HomeController : Controller
     {
+        private interface ISomeViewModel
+        {
+            void Click(IEvent evt);
+        }
         public ActionResult Index()
         {
             ISelectorBuilder selector = new StringSelectorBuilder();
@@ -22,6 +27,7 @@ namespace Marquite.Test.Controllers
                                .WhereAttrContainsPrefix("id","ourbuttons-")
                                .Child()
                                ;
+
             
             var button = selector.Child().Tag("button");
             
@@ -29,17 +35,8 @@ namespace Marquite.Test.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Grids()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

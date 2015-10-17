@@ -416,7 +416,7 @@ namespace Marquite.Core.Html
         private static SimpleHtmlBuilder ValidationMessageHelper(this HtmlHelper htmlHelper, ModelMetadata modelMetadata,
             string expression, string validationMessage, IDictionary<string, object> htmlAttributes, string tag)
         {
-            IMarquite marq = htmlHelper.Marquite();
+            IMarquite marq = htmlHelper.Marq();
             string modelName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(expression);
             FormContext formContext = htmlHelper.ViewContext.ClientValidationEnabled? htmlHelper.ViewContext.FormContext : null;
 
@@ -576,7 +576,7 @@ namespace Marquite.Core.Html
         public static SimpleHtmlBuilder ValidationSummary(this HtmlHelper htmlHelper, bool excludePropertyErrors,
             string message, IDictionary<string, object> htmlAttributes, string headingTag)
         {
-            var marq = htmlHelper.Marquite();
+            var marq = htmlHelper.Marq();
             if (htmlHelper == null)
             {
                 throw new ArgumentNullException("htmlHelper");
@@ -633,7 +633,7 @@ namespace Marquite.Core.Html
                 }
             }
 
-            if (unorderedList.RenderingQueueCount==0)
+            if (unorderedList.RenderingQueue.Count==0)
             {
                 unorderedList.AddItem((new ListItemBuilder(marq)).Css(Css.Display, "none"));
             }

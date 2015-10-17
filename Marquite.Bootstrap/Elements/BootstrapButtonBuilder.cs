@@ -12,9 +12,22 @@ namespace Marquite.Bootstrap.Elements
         {
             AddClass("btn");
             AddClass(Lookups.Lookup(ButtonColor.Default));
+            /*
+             * If the <a> elements are used to act as buttons – triggering in-page functionality, 
+             * rather than navigating to another document or section within the current page – 
+             * they should also be given an appropriate role="button".
+             */
+            if (tagName == "a")
+            {
+                Attr("role", "button");
+            }
             _bootstrap = marquite.ResolvePlugin<BootstrapPlugin>();
         }
 
+        /// <summary>
+        /// Create block level buttons—those that span the full width of a parent
+        /// </summary>
+        /// <returns>Chain</returns>
         public BootstrapButtonBuilder Block()
         {
             AddClass("btn-block");
@@ -36,7 +49,7 @@ namespace Marquite.Bootstrap.Elements
         #region Color
         public BootstrapButtonBuilder Color(ButtonColor color)
         {
-            TagsCategory.CleanupAndAdd("color", Lookups.Lookup(color));
+            CategorizedCssClasses.CleanupAndAdd("color", Lookups.Lookup(color));
             return This;
         }
 
@@ -68,12 +81,22 @@ namespace Marquite.Bootstrap.Elements
         #endregion
 
         #region Size
+
+        /// <summary>
+        /// Fancy larger or smaller buttons? Use ButtonSize enum
+        /// </summary>
+        /// <param name="size">Button size</param>
+        /// <returns>Chain</returns>
         public BootstrapButtonBuilder Size(ButtonSize size)
         {
-            TagsCategory.CleanupAndAdd("btnsize", Lookups.Lookup(size));
+            CategorizedCssClasses.CleanupAndAdd("btnsize", Lookups.Lookup(size));
             return This;
         }
 
+        /// <summary>
+        /// Extra-small button
+        /// </summary>
+        /// <returns></returns>
         public BootstrapButtonBuilder XtraSmall()
         {
             return Size(ButtonSize.XtraSmall);

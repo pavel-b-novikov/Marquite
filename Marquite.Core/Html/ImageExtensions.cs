@@ -12,7 +12,7 @@ namespace Marquite.Core.Html
     {
         public static ImageBuilder Image(this HtmlHelper h, string src = null, string alt = null)
         {
-            return new ImageBuilder(h.Marquite(),src,alt);
+            return new ImageBuilder(h.Marq(),src,alt);
         }
         
     }

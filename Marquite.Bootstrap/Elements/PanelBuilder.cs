@@ -14,7 +14,7 @@ namespace Marquite.Bootstrap.Elements
 
         public PanelBuilder Color(PanelColor color)
         {
-            TagsCategory.CleanupAndAdd("panelColor",Lookups.Lookup(color));
+            CategorizedCssClasses.CleanupAndAdd("panelColor",Lookups.Lookup(color));
             return this;
         }
         private readonly RenderingQueue _panelHeading = new RenderingQueue();
@@ -31,7 +31,7 @@ namespace Marquite.Bootstrap.Elements
             return this;
         }
 
-        protected override void RenderAfterOpeningTag(TextWriter tw)
+        public override void RenderAfterOpeningTag(TextWriter tw)
         {
             base.RenderAfterOpeningTag(tw);
             if (_panelHeading.Count > 0)
@@ -43,7 +43,7 @@ namespace Marquite.Bootstrap.Elements
             tw.Write(HtmlText.OpenTag("div", HtmlText.Class("panel-body")));
         }
 
-        protected override void RenderBeforeClosingTag(TextWriter tw)
+        public override void RenderBeforeClosingTag(TextWriter tw)
         {
             tw.Write(HtmlText.ClosingTag("div"));
             _afterBodyQueue.RenderQueue(tw);

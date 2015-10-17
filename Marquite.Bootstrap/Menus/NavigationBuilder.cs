@@ -12,7 +12,7 @@ namespace Marquite.Bootstrap.Menus
     {
         public NavigationBuilder(Core.IMarquite marquite) : base(marquite, "nav")
         {
-            TagsCategory.Add("navtype","nav-tabs");
+            CategorizedCssClasses.Add("navtype","nav-tabs");
         }
 
         public NavigationBuilder Stacked()
@@ -22,13 +22,13 @@ namespace Marquite.Bootstrap.Menus
 
         public NavigationBuilder Pills()
         {
-            TagsCategory.CleanupAndAdd("navtype", "nav-pills");
+            CategorizedCssClasses.CleanupAndAdd("navtype", "nav-pills");
             return This;
         }
 
         public NavigationBuilder Tabs()
         {
-            TagsCategory.CleanupAndAdd("navtype", "nav-tabs");
+            CategorizedCssClasses.CleanupAndAdd("navtype", "nav-tabs");
             return This;
         }
 

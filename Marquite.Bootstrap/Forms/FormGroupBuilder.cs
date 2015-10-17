@@ -90,7 +90,7 @@ namespace Marquite.Bootstrap.Forms
         #region States
         public FormGroupBuilder State(FormgroupState state)
         {
-            TagsCategory.CleanupAndAdd("frmgrp-state", Lookups.Lookup(state));
+            CategorizedCssClasses.CleanupAndAdd("frmgrp-state", Lookups.Lookup(state));
             return this;
         }
 
@@ -110,7 +110,7 @@ namespace Marquite.Bootstrap.Forms
         }
         #endregion
 
-        protected override void PrepareForRender()
+        public override void PrepareForRender()
         {
             base.PrepareForRender();
             if (_contentWidth == 0 && _labelWidth != 0) _contentWidth = 12 - _labelWidth;

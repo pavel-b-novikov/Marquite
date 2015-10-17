@@ -13,29 +13,41 @@ namespace Marquite.Core.BuilderMechanics
     /// Warning! This class is mutable! Dont re-use its static instances!
     /// </summary>
     /// <typeparam name="TReturn"></typeparam>
-    public class BasicHtmlBuilder<TReturn> : IHtmlString, IHtmlBuilder 
+    public class BasicHtmlBuilder<TReturn> : RenderingClientBase, IHtmlBuilder
         where TReturn : BasicHtmlBuilder<TReturn>
     {
         #region Private fields
-        private readonly RenderingQueue _renderingQueue = new RenderingQueue();
+        private RenderingQueue _renderingQueue = new RenderingQueue();
         private readonly IMarquite _marquite;
         private readonly TReturn _this;
         private readonly HashSet<string> _cssClasses = new HashSet<string>();
         private readonly SortedDictionary<Css, string> _style = new SortedDictionary<Css, string>();
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         private string _id;
+        private readonly bool _isScoped;
         #endregion
 
         public BasicHtmlBuilder(IMarquite marquite, string tagName)
         {
             _marquite = marquite;
             _this = (TReturn)(this);
-            TagsCategory = new StringCategory(_cssClasses);
+            CategorizedCssClasses = new StringCategory(_cssClasses);
             TagName = tagName;
             Marquite.EventsManager.OnCreated(This);
+            if (marquite.ScopeManager.HasActiveScope)
+            {
+                marquite.ScopeManager.CurrentScope.Append(this);
+                _isScoped = true;
+            }
         }
 
         #region Fluent Methods
+
+        public virtual TReturn ChangeTag(string tag)
+        {
+            TagName = tag;
+            return _this;
+        }
 
         public virtual TReturn Id(string id)
         {
@@ -156,13 +168,6 @@ namespace Marquite.Core.BuilderMechanics
             return _this;
         }
 
-        private bool _renderContentAtTop;
-        public virtual TReturn PullInnerContentUp()
-        {
-            _renderContentAtTop = true;
-            return _this;
-        }
-
         public TReturn When(bool condition, Func<TReturn, TReturn> properties)
         {
             if (condition)
@@ -187,7 +192,7 @@ namespace Marquite.Core.BuilderMechanics
 
         #region Protected shortcuts
 
-        protected RenderingQueue RenderingQueue { get { return _renderingQueue; } }
+        public RenderingQueue RenderingQueue { get { return _renderingQueue; } }
 
         protected void ReplaceClass(string classStartsWith, string anotherClass)
         {
@@ -197,16 +202,12 @@ namespace Marquite.Core.BuilderMechanics
         }
 
         protected bool IsSelfClosing { get; set; }
-
-        
-        protected bool HasPendingItems { get { return _renderingQueue.Count > 0; } }
-
         protected string TagName { get; set; }
-        public StringCategory TagsCategory { get; private set; }
+        public StringCategory CategorizedCssClasses { get; private set; }
         protected IDictionary<string, string> Attributes { get { return _attributes; } }
         protected TReturn This { get { return _this; } }
 
-        public IMarquite Marquite
+        public override IMarquite Marquite
         {
             get { return _marquite; }
         }
@@ -252,15 +253,9 @@ namespace Marquite.Core.BuilderMechanics
 
         #region Rendering
 
-        protected virtual void PrepareForRender()
-        {
-
-        }
-
         public virtual MvcHtmlString Render()
         {
-            PrepareForRender();
-            Marquite.GetTopmostWriter().RenderClient(this);
+            Renderer.Render(Marquite.GetTopmostWriter(), this);
             return MvcHtmlString.Empty;
         }
 
@@ -275,59 +270,54 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual string Compile()
         {
-            PrepareForRender();
-            return ContinousRenderer.Render(this);
+            return Renderer.Render(this);
         }
 
         public virtual string Compile(bool condition)
         {
             if (condition)
             {
-                PrepareForRender();
-                return ContinousRenderer.Render(this);
+                return Compile();
             }
             return String.Empty;
         }
 
-        public virtual InnerTagScope Open()
+        public virtual ITagScope Open(bool pullExistingContentAtTop = false)
         {
+            if (_isScoped)
+            {
+                var ts = new TagScope(_marquite);
+                _renderingQueue.CopyTo(ts.Scope.RenderingQueue);
+                _renderingQueue = ts.Scope.RenderingQueue;
+                return ts;
+            }
             PrepareForRender();
-            InnerTagScope its = new InnerTagScope(_renderContentAtTop);
-            its.Render(this);
+            RenderingTagScope its = new RenderingTagScope(this, pullExistingContentAtTop);
+            its.Render();
             return its;
         }
 
         #endregion
 
         #region Rendering pipeline
-
-        protected virtual void RenderBeforeOpeningTag(TextWriter tw) { }
-
-        protected virtual void RenderOpeningTag(TextWriter tw)
+        public override void RenderOpeningTag(TextWriter tw)
         {
             if (string.IsNullOrEmpty(TagName)) return;
-            
+
             var css = _cssClasses.ToArray();
 
             tw.ChainWrite('<').ChainWrite(TagName).ChainWrite(' ');
             if (_cssClasses.Count > 0)
             {
-                tw.Write("class=\"");
-                css.RevForEach(c => tw.ChainWrite(c).ChainWrite(' '));
-                tw.Write("\" ");
+                var classes = string.Join(" ", css);
+                tw.ChainWrite("class=\"").ChainWrite(classes).Write("\" ");
             }
             if (_attributes.Count > 0)
             {
                 foreach (var attribute in _attributes)
                 {
-                    if (attribute.Value == null)
-                    {
-                        tw.ChainWrite(attribute.Key).ChainWrite(' ');
-                    }
-                    else
-                    {
-                        tw.ChainWrite(attribute.Key).ChainWrite("=\"").ChainWrite(attribute.Value).ChainWrite("\" ");
-                    }
+                    if (attribute.Value == null) tw.ChainWrite(attribute.Key).ChainWrite(' ');
+                    else tw.ChainWrite(attribute.Key).ChainWrite("=\"").ChainWrite(attribute.Value).ChainWrite("\" ");
                 }
             }
 
@@ -346,60 +336,25 @@ namespace Marquite.Core.BuilderMechanics
             tw.Write('>');
         }
 
-        protected virtual void RenderAfterOpeningTag(TextWriter tw) { }
-
-        protected virtual void RenderContent(TextWriter tw)
+        public override void RenderContent(TextWriter tw)
         {
             RenderingQueue.RenderQueue(tw);
         }
 
-        protected virtual void RenderBeforeClosingTag(TextWriter tw) { }
-        protected virtual void RenderClosingTag(TextWriter tw)
+        public override void RenderClosingTag(TextWriter tw)
         {
             if (string.IsNullOrEmpty(TagName)) return;
+            if (IsSelfClosing) return;
             tw.ChainWrite("</").ChainWrite(TagName).ChainWrite('>');
         }
 
-        protected virtual void RenderAfterClosingTag(TextWriter tw) { }
-
-
-        void IRenderingClient.RenderBeforeOpenTag(TextWriter tw)
+        public override void RenderBeforeOpenTag(TextWriter tw)
         {
             Marquite.EventsManager.OnRenderBegin(This);
-            RenderBeforeOpeningTag(tw);
         }
 
-        void IRenderingClient.RenderOpeningTag(TextWriter tw)
+        public override void RenderAfterClosingTag(TextWriter tw)
         {
-            RenderOpeningTag(tw);
-        }
-
-        void IRenderingClient.RenderAfterOpeningTag(TextWriter tw)
-        {
-            RenderAfterOpeningTag(tw);
-        }
-
-        void IRenderingClient.RenderContent(TextWriter tw)
-        {
-            RenderContent(tw);
-        }
-
-        void IRenderingClient.RenderBeforeClosingTag(TextWriter tw)
-        {
-            if (IsSelfClosing) return;
-            RenderBeforeClosingTag(tw);
-        }
-
-        void IRenderingClient.RenderClosingTag(TextWriter tw)
-        {
-            if (IsSelfClosing) return;
-            RenderClosingTag(tw);
-        }
-
-        void IRenderingClient.RenderAfterClosingTag(TextWriter tw)
-        {
-            if (IsSelfClosing) return;
-            RenderAfterClosingTag(tw);
             Marquite.EventsManager.OnRenderEnd(This);
         }
 
@@ -407,17 +362,14 @@ namespace Marquite.Core.BuilderMechanics
 
         public string IdVal { get { return _id; } }
 
-        public int RenderingQueueCount { get { return _renderingQueue.Count; } }
-
         public override string ToString()
         {
             return TagName;
         }
 
-        public virtual string ToHtmlString()
+        public override string ToHtmlString()
         {
-
-            return Render().ToString();
+            return Compile();
         }
 
         public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes, bool replaceExisting)
@@ -553,10 +505,6 @@ namespace Marquite.Core.BuilderMechanics
             return TrailingHtml(content);
         }
 
-        IHtmlBuilder IHtmlBuilder.NonGeneric_PullInnerContentUp()
-        {
-            return PullInnerContentUp();
-        }
         #endregion
     }
 }

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.Test", "Marquite.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.Scaffolder", "Marquite.Scaffolder\Marquite.Scaffolder.csproj", "{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marquite.Angular", "Marquite.Angular\Marquite.Angular.csproj", "{797255B6-89BE-47C0-B61D-37A072A0904A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F522A034-6DEF-4AF5-A3DE-3932AE1E05E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797255B6-89BE-47C0-B61D-37A072A0904A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797255B6-89BE-47C0-B61D-37A072A0904A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797255B6-89BE-47C0-B61D-37A072A0904A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797255B6-89BE-47C0-B61D-37A072A0904A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

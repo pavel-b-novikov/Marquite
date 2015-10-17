@@ -14,5 +14,6 @@ namespace Marquite.Core
         T ResolvePlugin<T>() where T : IMarquitePlugin, new();
         ViewContext ViewContext { get; }
         MarquiteEventsManager EventsManager { get; }
+        ScopeManager ScopeManager { get; }
     }
 }

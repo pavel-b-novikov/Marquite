@@ -84,7 +84,7 @@ namespace Marquite.Bootstrap.Forms
             return this;
         }
 
-        protected override void PrepareForRender()
+        public override void PrepareForRender()
         {
             if (_leftText != null) RenderingQueue.Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
             if (_leftContent != null) RenderingQueue.Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));

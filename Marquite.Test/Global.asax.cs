@@ -25,6 +25,7 @@ namespace Marquite.Test
             ClassLookup.Init();
             ClassLookup.LoadFromAssembly(typeof(Bootstrap.Lookups).Assembly);
             ClassLookup.LoadFromAssembly(typeof(CssHoneypot.Lookups).Assembly);
+            ClassLookup.LoadFromAssembly(typeof(Angular.NgLookups).Assembly);
             
             
         }

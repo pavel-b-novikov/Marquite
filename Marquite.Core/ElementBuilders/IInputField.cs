@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Core.ElementBuilders
 {
-    public interface IInputField
+    public interface IInputField : IHtmlBuilder
     {
         string FieldId { get; }
         string FieldName { get; }

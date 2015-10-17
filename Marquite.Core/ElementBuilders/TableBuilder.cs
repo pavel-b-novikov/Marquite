@@ -95,7 +95,7 @@ namespace Marquite.Core.ElementBuilders
             return This;
         }
 
-        protected override void RenderAfterOpeningTag(TextWriter tw)
+        public override void RenderAfterOpeningTag(TextWriter tw)
         {
             if (_headRows.Count > 0)
             {
@@ -115,7 +115,7 @@ namespace Marquite.Core.ElementBuilders
             }
         }
 
-        protected override void RenderBeforeClosingTag(TextWriter tw)
+        public override void RenderBeforeClosingTag(TextWriter tw)
         {
             if (_renderTbody)
             {

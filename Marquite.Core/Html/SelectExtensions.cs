@@ -368,7 +368,7 @@ namespace Marquite.Core.Html
             {
                 throw new ArgumentException("Name should not be empty", "name");
             }
-            var marq = htmlHelper.Marquite();
+            var marq = htmlHelper.Marq();
             bool usedViewData = false;
 
             // If we got a null selectList, try to use ViewData to get the list of items.
@@ -402,7 +402,7 @@ namespace Marquite.Core.Html
             // Convert each ListItem to an <option> tag and wrap them with <optgroup> if requested.
             var listItemBuilder = BuildItems(marq,optionLabel, selectList);
 
-            SelectBuilder tagBuilder = new SelectBuilder(htmlHelper.Marquite());
+            SelectBuilder tagBuilder = new SelectBuilder(htmlHelper.Marq());
             listItemBuilder.ForEach(a=>tagBuilder.TrailingHtml(a));
 
             tagBuilder.MergeAttributes(htmlAttributes);

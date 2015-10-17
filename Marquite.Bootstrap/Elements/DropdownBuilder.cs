@@ -39,7 +39,7 @@ namespace Marquite.Bootstrap.Elements
             return this;
         }
 
-        protected override void PrepareForRender()
+        public override void PrepareForRender()
         {
             RenderingQueue.Trail(_triggeringElement);
             RenderingQueue.Trail(_menu);

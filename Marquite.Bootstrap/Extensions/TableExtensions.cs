@@ -5,49 +5,42 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class TableExtensions
     {
-        public static TableBuilder Stripped(this TableBuilder table,bool set = true)
+        private static void EnsureTableClass(TableBuilder table)
         {
+            var tbl = Lookups.Lookup(TableClasses.Table);
+            table.AddClass(tbl);
+        }
+        public static TableBuilder Stripped(this TableBuilder table)
+        {
+            EnsureTableClass(table);
             var str = Lookups.Lookup(TableClasses.Striped);
-            if (!set)
-            {
-                return table.RemoveClass(str);
-            }
             return table.AddClass(str);
         }
 
-        public static TableBuilder Condensed(this TableBuilder table, bool set = true)
+        public static TableBuilder Condensed(this TableBuilder table)
         {
+            EnsureTableClass(table);
             var str = Lookups.Lookup(TableClasses.Condensed);
-            if (!set)
-            {
-                return table.RemoveClass(str);
-            }
             return table.AddClass(str);
         }
 
-        public static TableBuilder Bordered(this TableBuilder table, bool set = true)
+        public static TableBuilder Bordered(this TableBuilder table)
         {
+            EnsureTableClass(table);
             var str = Lookups.Lookup(TableClasses.Bordered);
-            if (!set)
-            {
-                return table.RemoveClass(str);
-            }
             return table.AddClass(str);
         }
 
-        public static TableBuilder Hover(this TableBuilder table, bool set = true)
+        public static TableBuilder Hover(this TableBuilder table)
         {
+            EnsureTableClass(table);
             var str = Lookups.Lookup(TableClasses.HoverRows);
-            if (!set)
-            {
-                return table.RemoveClass(str);
-            }
             return table.AddClass(str);
         }
 
         public static TableRowBuilder Active(this TableRowBuilder rb)
         {
-            rb.TagsCategory.CleanupAndAdd("el-color", Lookups.Lookup(Bootstrap.Color.Active));
+            rb.CategorizedCssClasses.CleanupAndAdd("el-color", Lookups.Lookup(Bootstrap.Color.Active));
             return rb;
         }
     }

@@ -10,7 +10,7 @@ namespace Marquite.Test
         public static MvcHtmlString MyCoolButton(this HtmlHelper h,bool condition)
         {
             return
-                h.Bootstrap()
+                h.Bs()
                     .Button()
                     .When(condition, c => c.AppendText("Больше двух"))
                     .When(!condition, c => c.AppendText("Меньше двух"))

@@ -84,6 +84,7 @@ namespace Marquite.Bootstrap
     [LookupEnum]
     public enum TableClasses
     {
+        [LookupString("table")]Table,
         [LookupString("table-striped")] Striped,
         [LookupString("table-bordered")] Bordered,
         [LookupString("table-hover")] HoverRows,

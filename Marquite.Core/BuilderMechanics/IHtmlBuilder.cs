@@ -1,3 +1,4 @@
+using System.Web;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Core.BuilderMechanics
@@ -24,6 +25,5 @@ namespace Marquite.Core.BuilderMechanics
         IHtmlBuilder NonGeneric_TrailingHtml(string html);
         IHtmlBuilder NonGeneric_TrailingText(string text);
         IHtmlBuilder NonGeneric_TrailingHtml(IRenderingClient content);
-        IHtmlBuilder NonGeneric_PullInnerContentUp();
     }
 }

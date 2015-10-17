@@ -1,50 +1,42 @@
-﻿@using Marquite.Bootstrap
+﻿@using Marquite.Angular
+@using Marquite.Bootstrap
 @using Marquite.Bootstrap.Extensions
 @using Marquite.Core
+@using Marquite.Test.MarqForms
+@using Marquite.Test.Models
 @{
     ViewBag.Title = "Home Page";
     Random r = new Random();
     bool condition = r.Next(5) > 2;
     var t = base.GetType();
+    var ctx = new NgContext<ISampleAngularModel>();
 }
 
 
-@using (Html.Bootstrap().Container(true).Open())
+@using (Html.Bs().Container(true).Open())
 {
-    using (Html.Bootstrap().Row().Open())
+    using (Html.Bs().Row().NgController("UserController").Open())
     {
-        using (Html.Bootstrap().Column(3).Open())
+        <text>
+            @this.FirstColumn()
+        </text>
+    
+        using (Html.Bs().Column(6).Open())
         {
-            <h1>Column 1</h1>
+            <h1>Column 1 @ctx.Bind(c=>c.Age)</h1>
         }
-        using (Html.Bootstrap().Column(6).When(condition, a => a.Danger()).Open())
+
+        using (Html.Bs().Column(3).Open())
         {
-            <h1>Hello! This is Marquitte</h1>
-            <p>Lorem ipsum, guys!</p>
-            @Html.Bootstrap().Button(" Hello bootstrap!").LeadIcon(GlyphIcon.AlignRight).Large().Danger().Tooltip(TooltipPlacement.Top, "button tooltip")
-
-            @Html.Bootstrap().Button(" Hello bootstrap! ").Mixin(Html.BigRedButton).TrailingHtml(Html.Bootstrap().Badge("42")).HiddenOn(Device.Print).Popover(TooltipPlacement.Bottom, "Popover", "This is popover test")
-
-            using (Html.Marquite().Table("#","User Name","Email","Password").Stripped().Condensed().Hover().Open())
-            {<text>
-                @Html.Marquite().Tr("1","Pavel Novikov","pavel.b.novikov@gmail.com","*****")
-
-                 @Html.Marquite().Tr("3", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Info().Tooltip(TooltipPlacement.Left, "Table cell tooltip")
-                 @Html.Marquite().Tr("4", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").Warning()
-                 @Html.Marquite().Tr("5", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****").HiddenOn(Device.Print)
-                 @Html.Marquite().Tr("6", "Pavel Novikov", "pavel.b.novikov@gmail.com", "*****")
-             </text>
-            }
             <p>
-                @Html.ActionLink("Hello World!","Index","Home").AddCaret()
-                Aliquam pe
-                llentesque urna erat, nec convallis lacus pellentesque vitae. Donec ut risus id arcu tempor egestas vitae id diam. Vestibulum eu rutrum libero. Aenean vel tincidunt eros. Etiam nunc tortor, auctor ac lorem sed, gravida auctor elit. Nullam lacinia eleifend bibendum. Ut rhoncus interdum tellus, eget suscipit lacus egestas fermentum. Morbi consectetur sem ex, vel pretium neque sodales sed. Praesent dapibus varius molestie. Mauris ex justo, luctus vel orci vel, elementum laoreet magna. Phasellus imperdiet justo ligula, a pulvinar eros molestie sit amet. Vestibulum nisi diam, sodales at ipsum a, dignissim cursus urna. Duis dolor ante, lobortis eu enim eget, ullamcorper mattis sem. Mauris in ornare nisi, in finibus justo.
-            </p>
-        }
-        using (Html.Bootstrap().Column(3).Open())
-        {
-            <h1>Hello! This is Marquitte</h1>
+                <br/>
+                Hi! It is marquite Bootstrap demo.
+                Please find out bootstrap demo elements on other pages<br/>
+                @Html.Bs().Button("Save").NgEvent(NgEvent.Click,ctx.Command(c=>c.Model.SaveResults()))
+                @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove,ctx.Command(c=>c.Model.HandleMove(c.Event)))
 
+                @ctx.Bind(c=>1+3)
+            </p>
         }
     }
 }

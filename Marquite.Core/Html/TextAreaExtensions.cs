@@ -124,7 +124,7 @@ namespace Marquite.Core.Html
                 throw new ArgumentException("Name should not be null", "name");
             }
 
-            var marq = htmlHelper.Marquite();
+            var marq = htmlHelper.Marq();
 
             TextareaBuilder tagBuilder = new TextareaBuilder(marq);
             tagBuilder.Id(fullName);

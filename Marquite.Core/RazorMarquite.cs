@@ -17,6 +17,7 @@ namespace Marquite.Core
             ViewData = h.ViewData;
             OutputStack = vp.OutputStack;
             EventsManager = new MarquiteEventsManager();
+            ScopeManager = new ScopeManager(this);
         }
 
         public ViewContext ViewContext { get; internal set; }
@@ -112,6 +113,7 @@ namespace Marquite.Core
         #endregion
 
         public MarquiteEventsManager EventsManager { get; private set; }
+        public ScopeManager ScopeManager { get; private set; }
 
         public string GenerateId(string name)
         {

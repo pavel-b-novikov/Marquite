@@ -148,7 +148,7 @@ namespace Marquite.Core.Html
         internal static LabelBuilder LabelHelper(HtmlHelper html, ModelMetadata metadata, string htmlFieldName, string labelText = null, IDictionary<string, object> htmlAttributes = null)
         {
             string resolvedLabelText = labelText ?? metadata.DisplayName ?? metadata.PropertyName ?? htmlFieldName.Split('.').Last();
-            LabelBuilder lb = new LabelBuilder(html.Marquite());
+            LabelBuilder lb = new LabelBuilder(html.Marq());
             if (String.IsNullOrEmpty(resolvedLabelText))
             {
                 return lb;
