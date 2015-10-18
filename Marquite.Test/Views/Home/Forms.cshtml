@@ -10,12 +10,13 @@
     {
         using (Html.Bs().Column(3).Open())
         {
-            using (Html.Form("Forms").Horizontal(4, 8).Open())
+            using (Html.Form("Forms").Horizontal(4,8).Open())
             {
                 @Html.FormGroupFor(c => c.UserName)
                 @Html.FormGroupFor(c => c.Age).WithControl(Html.InputGroupFor(c=>c.Age).WithRightAddon(Html.Bs().GlyphIcon(GlyphIcon.Alert)))
-                @Html.FormGroupFor(c => c.Gender).WithControl(Html.GenderGropdown()).LabelWidth(5).ContentWidth(7)
+                @Html.FormGroupFor(c => c.Gender).WithControl(Html.GenderGropdown())
                 @Html.FormGroupFor(c => c.UserId)
+                @Html.FormGroupFor(c=>c.IsActive).WithControl(Html.CheckBoxFor(c=>c.IsActive))
 
                 @Html.Bs().Button("Сохранить").Large().Danger().Pull(BootstrapPull.Right)
                 @Html.Bs().Button("Отменить").Large().Pull(BootstrapPull.Right).Css(Css.MarginRight, "10px")
@@ -24,7 +25,7 @@
 
         using (Html.Bs().Column(6).Open())
         {
-            using (Html.Form("Forms").Horizontal(4, 8).Open())
+            using (Html.Form("Forms").Horizontal(5, 7).Open())
             {
                 @Html.FormGroupFor(c => c.UserName)
                 @Html.FormGroupFor(c => c.Age)

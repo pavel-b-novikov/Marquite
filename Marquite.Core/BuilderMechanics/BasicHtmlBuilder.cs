@@ -82,7 +82,7 @@ namespace Marquite.Core.BuilderMechanics
 
         public virtual TReturn Attr(string attrName, string value)
         {
-            return Attr(attrName, value, false);
+            return Attr(attrName, value, true);
         }
 
         public virtual TReturn SelfCloseAttr(string attrName)

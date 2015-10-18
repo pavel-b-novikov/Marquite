@@ -38,7 +38,7 @@ namespace Marquite.Bootstrap.Extensions
 
         public static T Role<T>(this T t, string role) where T : ElementHtmlBuilder<T>
         {
-            return t.Attr("role",role);
+            return t.Attr("role", role);
         }
 
         public static T TextCenter<T>(this T t) where T : ElementHtmlBuilder<T>
@@ -48,7 +48,7 @@ namespace Marquite.Bootstrap.Extensions
 
         public static T BootstrapTextAlign<T>(this T t, TextAlign align) where T : ElementHtmlBuilder<T>
         {
-            t.CategorizedCssClasses.CleanupAndAdd("bs-text-a",Lookups.Lookup(align));
+            t.CategorizedCssClasses.CleanupAndAdd("bs-text-a", Lookups.Lookup(align));
             return t;
         }
 
@@ -180,60 +180,76 @@ namespace Marquite.Bootstrap.Extensions
         }
 
         #region Internal
-        internal static IHtmlBuilder MdWidth(this IHtmlBuilder elem, int width) 
+        internal static T MdWidth<T>(this T elem, int width) where T : IHtmlBuilder
         {
             if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
             elem.NonGeneric_AddClass("col-md-" + width);
             return elem;
         }
 
-        internal static IHtmlBuilder XsWidth(this IHtmlBuilder elem, int width) 
+        internal static T XsWidth<T>(this T elem, int width) where T : IHtmlBuilder
         {
             if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
             elem.NonGeneric_AddClass("col-xs-" + width);
             return elem;
         }
 
-        internal static IHtmlBuilder SmWidth(this IHtmlBuilder elem, int width) 
+        internal static T SmWidth<T>(this T elem, int width) where T : IHtmlBuilder
         {
             if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
             elem.NonGeneric_AddClass("col-sm-" + width);
             return elem;
         }
 
-        internal static IHtmlBuilder LgWidth(this IHtmlBuilder elem, int width) 
+        internal static T LgWidth<T>(this T elem, int width) where T : IHtmlBuilder
         {
             if (width <= 0 || width > 12) throw new ArgumentException(Messages.Error_InvalidWidth, "width");
             elem.NonGeneric_AddClass("col-lg-" + width);
             return elem;
         }
 
-        internal static IHtmlBuilder MdOffset(this IHtmlBuilder elem, int offset) 
+        internal static T AllWidth<T>(this T elem, int width) where T : IHtmlBuilder
+        {
+            return elem.LgWidth(width)
+                            .SmWidth(width)
+                            .XsWidth(width)
+                            .MdWidth(width);
+        }
+
+        internal static T MdOffset<T>(this T elem, int offset) where T : IHtmlBuilder
         {
             if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
-            elem.NonGeneric_AddClass("col-md-" + offset);
+            elem.NonGeneric_AddClass("col-md-offset-" + offset);
             return elem;
         }
 
-        internal static IHtmlBuilder XsOffset(this IHtmlBuilder elem, int offset) 
+        internal static T XsOffset<T>(this T elem, int offset) where T : IHtmlBuilder
         {
             if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
-            elem.NonGeneric_AddClass("col-xs-" + offset);
+            elem.NonGeneric_AddClass("col-xs-offset-" + offset);
             return elem;
         }
 
-        internal static IHtmlBuilder SmOffset(this IHtmlBuilder elem, int offset) 
+        internal static T SmOffset<T>(this T elem, int offset) where T : IHtmlBuilder
         {
             if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
-            elem.NonGeneric_AddClass( "col-sm-" + offset);
+            elem.NonGeneric_AddClass("col-sm-offset-" + offset);
             return elem;
         }
 
-        internal static IHtmlBuilder LgOffset(this IHtmlBuilder elem, int offset) 
+        internal static T LgOffset<T>(this T elem, int offset) where T : IHtmlBuilder
         {
             if (offset <= 0 || offset > 12) throw new ArgumentException(Messages.Error_InvalidOffset, "offset");
-            elem.NonGeneric_AddClass("col-lg-" + offset);
+            elem.NonGeneric_AddClass("col-lg-offset-" + offset);
             return elem;
+        }
+
+        internal static T AllOffset<T>(this T elem, int offset) where T : IHtmlBuilder
+        {
+            return elem.LgOffset(offset)
+                                .SmOffset(offset)
+                                .XsOffset(offset)
+                                .MdOffset(offset);
         }
         #endregion
 

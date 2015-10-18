@@ -113,19 +113,18 @@ namespace Marquite.Bootstrap.Forms
         public override void PrepareForRender()
         {
             base.PrepareForRender();
+            var fld = _renderedControl as IInputField;
+            bool isCheckbox = fld != null && fld.FieldType == MarquiteInputType.CheckBox;
+
             if (_contentWidth == 0 && _labelWidth != 0) _contentWidth = 12 - _labelWidth;
-            if (_label != null)
+            if (_label != null && !isCheckbox)
             {
                 if (_bs.IsCurrentFormHorizontal)
                 {
                     _label.AddClass("control-label");
                     if (_labelWidth != 0)
                     {
-                        _label
-                            .LgWidth(_labelWidth)
-                            .SmWidth(_labelWidth)
-                            .XsWidth(_labelWidth)
-                            .MdWidth(_labelWidth);
+                        _label.AllWidth(_labelWidth);
                     }
                 }
                 RenderingQueue.Trail(_label);
@@ -140,34 +139,30 @@ namespace Marquite.Bootstrap.Forms
                     {
                         if (_labelWidth != 0)
                         {
-                            divElement
-                                .LgOffset(_labelWidth)
-                                .SmOffset(_labelWidth)
-                                .XsOffset(_labelWidth)
-                                .MdOffset(_labelWidth);
+                            divElement.AllOffset(_labelWidth);
                         }
                     }
 
                     if (_contentWidth != 0)
                     {
-                        divElement
-                            .LgWidth(_contentWidth)
-                            .SmWidth(_contentWidth)
-                            .XsWidth(_contentWidth)
-                            .MdWidth(_contentWidth);
+                        divElement.AllWidth(_contentWidth);
                     }
                 }
 
-                var fld = _renderedControl as IInputField;
-                if (fld != null && fld.FieldType == MarquiteInputType.CheckBox)
+
+                if (isCheckbox)
                 {
+                    if (_label == null)
+                    {
+                        _label = new LabelBuilder(Marquite);
+                    }
+                    _label.LeadingHtml(fld);
+
                     SimpleHtmlBuilder checkboxElement = new SimpleHtmlBuilder(Marquite, "div")
                         .AddClass("checkbox")
-                        .TrailingHtml(
-                            new LabelBuilder(Marquite)
-                                .TrailingHtml(_renderedControl)
-                        );
+                        .TrailingHtml(_label);
                     divElement.TrailingHtml(checkboxElement);
+                    if (_bs.IsCurrentFormHorizontal) divElement.AllOffset(_labelWidth);
                 }
                 else
                 {

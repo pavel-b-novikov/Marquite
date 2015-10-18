@@ -15,5 +15,7 @@ namespace Marquite.Test.Models
 
         public bool Gender { get; set; }
 
+        public bool IsActive { get; set; }
+
     }
 }
