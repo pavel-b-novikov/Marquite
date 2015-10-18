@@ -18,19 +18,14 @@ namespace Marquite.Core.Html
             return Marq((HtmlHelper)h);
         }
 
-        public static SimpleHtmlBuilder ToBuilder(this IMarquite m, string tagName)
+        public static SimpleHtmlBuilder Marq(this IMarquite m, string tagName)
         {
             return new SimpleHtmlBuilder(m, tagName);
         }
 
-        public static SimpleHtmlBuilder ToBuilder(this HtmlHelper h, string tagName)
+        public static SimpleHtmlBuilder Marq<TModel>(this HtmlHelper<TModel> h, string tagName)
         {
-            return new SimpleHtmlBuilder(Marq(h), tagName);
-        }
-
-        public static SimpleHtmlBuilder ToBuilder<TModel>(this HtmlHelper<TModel> h, string tagName)
-        {
-            return new SimpleHtmlBuilder(Marq(h), tagName);
+            return new SimpleHtmlBuilder(h.Marq(), tagName);
         }
     }
 }

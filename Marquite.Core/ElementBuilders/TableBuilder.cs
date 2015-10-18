@@ -78,14 +78,14 @@ namespace Marquite.Core.ElementBuilders
         public T AddHeadings(int row, params IRenderingClient[] columnHeaderContents)
         {
             var tr = GetHeadRow(row);
-            columnHeaderContents.ForEach(c => tr.Trail(c, "td"));
+            columnHeaderContents.ForEach(c => tr.Trail(c.Detached(), "td"));
             return This;
         }
 
         public T AddHeading(int row, IRenderingClient columnHeaderContent)
         {
             var tr = GetHeadRow(row);
-            tr.Trail(columnHeaderContent, "td");
+            tr.Trail(columnHeaderContent.Detached(), "td");
             return This;
         }
         

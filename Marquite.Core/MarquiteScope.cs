@@ -27,6 +27,11 @@ namespace Marquite.Core
             _renderingQueue.Trail(builder);
         }
 
+        public void Detach(IRenderingClient client)
+        {
+            _renderingQueue.Remove(client);
+        }
+
         public override string ToHtmlString()
         {
             return Renderer.Render(_renderingQueue);

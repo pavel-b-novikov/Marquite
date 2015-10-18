@@ -7,8 +7,6 @@ namespace Marquite.Core
     public static class RenderingClientExtensions
     {
         
-        
-
         public static TextWriter ChainWrite(this TextWriter tw, string str)
         {
             tw.Write(str);

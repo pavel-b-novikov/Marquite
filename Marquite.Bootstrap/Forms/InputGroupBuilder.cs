@@ -31,7 +31,7 @@ namespace Marquite.Bootstrap.Forms
         {
             if (!textField.FieldType.IsTextual())
                 throw new ArgumentException("Input group works only with textual inputs","textField");
-            _inputElement = textField;
+            _inputElement = textField.Detached().AddClass("form-control");
             return this;
         }
 
@@ -52,21 +52,21 @@ namespace Marquite.Bootstrap.Forms
         public InputGroupBuilder WithLeftAddon(IRenderingClient leftContent)
         {
             _leftText = null;
-            _leftContent = leftContent;
+            _leftContent = leftContent.Detached();
             return this;
         }
 
         public InputGroupBuilder WithLeftButton(BootstrapButtonBuilder button)
         {
             if (_leftContent != null || _leftText != null) throw new Exception("Addon left content already set and button cannot be added");
-            _leftButton = button;
+            _leftButton = button.Detached();
             return this;
         }
 
         public InputGroupBuilder WithRightButton(BootstrapButtonBuilder button)
         {
             if (_rightContent!=null||_rightText!=null) throw new Exception("Addon right content already set and button cannot be added");
-            _rightButton = button;
+            _rightButton = button.Detached();
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace Marquite.Bootstrap.Forms
         public InputGroupBuilder WithRightAddon(IRenderingClient rightContent)
         {
             _rightText = null;
-            _rightContent = rightContent;
+            _rightContent = rightContent.Detached();
             return this;
         }
 

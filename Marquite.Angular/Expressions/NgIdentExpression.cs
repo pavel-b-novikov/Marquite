@@ -10,7 +10,7 @@ namespace Marquite.Angular.Expressions
     {
         public string Literal { get; set; }
         public bool IsModelReference { get; set; }
-        public override string Build()
+        protected override string BuildCore()
         {
             return Literal;
         }

@@ -20,22 +20,22 @@
         <text>
             @this.FirstColumn()
         </text>
-    
+
         using (Html.Bs().Column(6).Open())
         {
-            <h1>Column 1 @ctx.Bind(c=>c.Age)</h1>
+            <h1>Column 1 @ctx.Bind(c => c.User.Age)</h1>
         }
 
         using (Html.Bs().Column(3).Open())
         {
             <p>
-                <br/>
+                <br />
                 Hi! It is marquite Bootstrap demo.
-                Please find out bootstrap demo elements on other pages<br/>
-                @Html.Bs().Button("Save").NgEvent(NgEvent.Click,ctx.Command(c=>c.Model.SaveResults()))
-                @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove,ctx.Command(c=>c.Model.HandleMove(c.Event)))
+                Please find out bootstrap demo elements on other pages<br />
+                @Html.Bs().Button("Save").NgEvent(NgEvent.Click, ctx.Command(c => c.Model.SaveResults()))
+                @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.HandleMove(c.Event)))
 
-                @ctx.Bind(c=>1+3)
+                @ctx.Bind(c => 1 + 3)
             </p>
         }
     }
@@ -44,10 +44,10 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        $(function() {
+        $(function () {
             $('[data-toggle="popover"]').popover();
         });
     </script>

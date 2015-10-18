@@ -24,19 +24,19 @@ namespace Marquite.Core.ElementBuilders
 
         public T AddItem(IRenderingClient item)
         {
-            RenderingQueue.Trail(item, "li");
+            RenderingQueue.Trail(item.Detached(), "li");
             return This;
         }
 
         public T AddItem(ListItemBuilder listItem)
         {
-            RenderingQueue.Trail(listItem);
+            RenderingQueue.Trail(listItem.Detached());
             return This;
         }
 
         public T AddItems(params IRenderingClient[] items)
         {
-            items.ForEach(c => RenderingQueue.Trail(c, "li"));
+            items.ForEach(c => RenderingQueue.Trail(c.Detached(), "li"));
             return This;
         }
     }

@@ -79,8 +79,7 @@ namespace Marquite.Core.Html
 
         public static ITagScope BeginForm(this HtmlHelper htmlHelper, string actionName, string controllerName, RouteValueDictionary routeValues, FormMethod method, IDictionary<string, object> htmlAttributes)
         {
-            string formAction = UrlHelper.GenerateUrl(null /* routeName */, actionName, controllerName, routeValues, htmlHelper.RouteCollection, htmlHelper.ViewContext.RequestContext, true /* includeImplicitMvcValues */);
-            return FormHelper(htmlHelper, formAction, method, htmlAttributes).Open();
+            return CreateForm(htmlHelper, actionName, controllerName, routeValues, method, htmlAttributes).Open();
         }
 
         public static ITagScope BeginRouteForm(this HtmlHelper htmlHelper, object routeValues)
@@ -140,8 +139,7 @@ namespace Marquite.Core.Html
 
         public static ITagScope BeginRouteForm(this HtmlHelper htmlHelper, string routeName, RouteValueDictionary routeValues, FormMethod method, IDictionary<string, object> htmlAttributes)
         {
-            string formAction = UrlHelper.GenerateUrl(routeName, null, null, routeValues, htmlHelper.RouteCollection, htmlHelper.ViewContext.RequestContext, false /* includeImplicitMvcValues */);
-            return FormHelper(htmlHelper, formAction, method, htmlAttributes).Open();
+            return CreateRouteForm(htmlHelper, routeName, routeValues, method, htmlAttributes).Open();
         }
 
         public static void EndForm(this HtmlHelper htmlHelper)
@@ -176,6 +174,18 @@ namespace Marquite.Core.Html
             }
             
             return tagBuilder;
+        }
+
+        internal static FormBuilder CreateForm(this HtmlHelper htmlHelper, string actionName, string controllerName, RouteValueDictionary routeValues, FormMethod method, IDictionary<string, object> htmlAttributes)
+        {
+            string formAction = UrlHelper.GenerateUrl(null /* routeName */, actionName, controllerName, routeValues, htmlHelper.RouteCollection, htmlHelper.ViewContext.RequestContext, true /* includeImplicitMvcValues */);
+            return FormHelper(htmlHelper, formAction, method, htmlAttributes);
+        }
+
+        internal static FormBuilder CreateRouteForm(this HtmlHelper htmlHelper, string routeName, RouteValueDictionary routeValues, FormMethod method, IDictionary<string, object> htmlAttributes)
+        {
+            string formAction = UrlHelper.GenerateUrl(routeName, null, null, routeValues, htmlHelper.RouteCollection, htmlHelper.ViewContext.RequestContext, false /* includeImplicitMvcValues */);
+            return FormHelper(htmlHelper, formAction, method, htmlAttributes);
         }
     }
 }

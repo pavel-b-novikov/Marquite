@@ -47,7 +47,7 @@ namespace Marquite.Bootstrap.Elements
             AddClass("navbar");
             AddClass("navbar-default");
             _collapseId = marquite.GenerateNewId();
-            _toggleButton = new NavbarToggleButton(marquite).Default(_collapseId);
+            _toggleButton = new NavbarToggleButton(marquite).Detached().Default(_collapseId);
 
             _brandLink = null;
         }
@@ -67,14 +67,14 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarBuilder AddItem(IHtmlBuilder builder, NavbarPlacement placement = NavbarPlacement.None)
         {
-            builder.NonGeneric_AddClass(Lookups.Lookup(placement));
+            builder.Detached().NonGeneric_AddClass(Lookups.Lookup(placement));
             RenderingQueue.Trail(builder);
             return this;
         }
 
         public NavbarBuilder AddNavigation(NavBuilder nav, NavbarPlacement placement = NavbarPlacement.None)
         {
-            nav
+            nav.Detached()
                 .RemoveClass("nav-justified")
                 .RemoveClass("nav-stacked")
                 .RemoveClass("nav-tabs")
@@ -85,13 +85,13 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarBuilder AddButton(BootstrapButtonBuilder button, NavbarPlacement placement = NavbarPlacement.None)
         {
-            button.AddClass("navbar-btn");
+            button.Detached().AddClass("navbar-btn");
             return AddItem(button, placement);
         }
 
         public NavbarBuilder AddForm(FormBuilder form, NavbarPlacement placement = NavbarPlacement.None)
         {
-            form.AddClass("navbar-form");
+            form.Detached().AddClass("navbar-form");
             return AddItem(form, placement);
         }
 
@@ -121,21 +121,21 @@ namespace Marquite.Bootstrap.Elements
         {
             if (_brandLink == null) _brandLink = BrandLink();
             _brandLink.Href(navUrl);
-            _brandLink.TrailingHtml(brandElement);
+            _brandLink.TrailingHtml(brandElement.Detached());
             return this;
         }
 
         public NavbarBuilder ToggleButton(NavbarToggleButton toggleButton)
         {
             NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _collapseId);
-            _toggleButton = toggleButton;
+            _toggleButton = toggleButton.Detached();
             return this;
         }
 
         public NavbarBuilder ToggleButton(ButtonBuilder toggleButton)
         {
             NavbarToggleButton.SetToggleButtonAttributes(toggleButton, _collapseId);
-            _toggleButton = toggleButton;
+            _toggleButton = toggleButton.Detached();
             return this;
         }
 

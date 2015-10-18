@@ -20,7 +20,7 @@ namespace Marquite.Core.ElementBuilders
 
         public OptgroupBuilder AddItem(OptionBuilder option)
         {
-            RenderingQueue.Trail(option);
+            RenderingQueue.Trail(option.Detached());
             return this;
         }
 

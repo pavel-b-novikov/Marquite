@@ -8,8 +8,11 @@ using Marquite.Bootstrap;
 using Marquite.Bootstrap.Elements;
 using Marquite.Bootstrap.Extensions;
 using Marquite.Core;
+using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 using Marquite.Core.Html;
+using Marquite.Core.Rendering;
+using Marquite.Test.Models;
 
 namespace Marquite.Test.MarqForms
 {
@@ -55,6 +58,15 @@ namespace Marquite.Test.MarqForms
                 }
                 return mScope.Scope;
             }
+        }
+
+        public static IHtmlBuilder GenderGropdown(this HtmlHelper<SampleFormModel> h)
+        {
+            return  h.DropDownListFor(c => c.Gender, new SelectListItem[]
+            {
+                new SelectListItem() {Text = "Male", Value = "0"},
+                new SelectListItem() {Text = "Female", Value = "1"},
+            });
         }
 
 

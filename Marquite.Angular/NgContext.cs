@@ -25,14 +25,14 @@ namespace Marquite.Angular
             Expression<Func<TModel, IEnumerable<TElement>>> collection, out NgCollectionContext<TElement, TModel> context)
         {
             context = new NgCollectionContext<TElement, TModel>(variableName);
-            return null;
+            return new NgInExpression<TElement, TModel>(Translate(collection),context,variableName);
         }
 
         public IAngularInExpression<TElement, TModel> In<TElement>(string variableName,
             string collectionExpression, out NgCollectionContext<TElement, TModel> context)
         {
             context = new NgCollectionContext<TElement, TModel>(variableName);
-            return null;
+            return new NgInExpression<TElement, TModel>(collectionExpression, context, variableName);
         }
 
         public IAngularExpression Bind<TData>(Expression<Func<TModel, TData>> property)
@@ -50,7 +50,7 @@ namespace Marquite.Angular
             return Translate(method);
         }
 
-        private IAngularExpression Translate(LambdaExpression property)
+        private NgExpression Translate(LambdaExpression property)
         {
             AngularLambdaExpressionVisitor visitor = new AngularLambdaExpressionVisitor(property);
             visitor.Visit(property.Body);

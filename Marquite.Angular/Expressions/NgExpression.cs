@@ -8,9 +8,19 @@ namespace Marquite.Angular.Expressions
 {
     internal abstract class NgExpression : IAngularExpression
     {
-        public abstract string Build();
+        protected abstract string BuildCore();
         private readonly List<string> _filters = new List<string>();
-        public List<string> Filters { get { return _filters; } }
+        public virtual string Build()
+        {
+            string result = BuildCore();
+            if (string.IsNullOrEmpty(result)) return result;
+            if (Filters.Count == 0) return result;
+            var filters = string.Join(" | ", Filters);
+            result = String.Concat(result, " | ", filters);
+            return result;
+        }
+
+        public virtual List<string> Filters { get { return _filters; } }
 
         public string ToHtmlString()
         {

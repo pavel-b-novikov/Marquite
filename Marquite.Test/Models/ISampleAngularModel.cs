@@ -8,13 +8,7 @@ namespace Marquite.Test.Models
 {
     public interface ISampleAngularModel
     {
-        string UserId { get; set; }
-
-        string UserName { get; set; }
-
-        int Age { get; set; }
-
-        bool Gender { get; set; }
+        SampleFormModel User { get; set; }
 
         void SaveResults();
 

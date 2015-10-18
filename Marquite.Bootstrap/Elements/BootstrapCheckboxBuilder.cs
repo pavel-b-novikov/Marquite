@@ -1,4 +1,5 @@
 ﻿using System;
+using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 using Marquite.Core.Rendering;
@@ -24,7 +25,7 @@ namespace Marquite.Bootstrap.Elements
         {
             if (checkboxInput.FieldType!=MarquiteInputType.CheckBox)
                 throw new ArgumentException("Only checkbox inputs are possible inside bootstrap checkbox","checkboxInput");
-            _checkboxInput = checkboxInput;
+            _checkboxInput = checkboxInput.Detached();
             if (checkboxInput.IsDisabled)
             {
                 Disabled();
@@ -39,7 +40,7 @@ namespace Marquite.Bootstrap.Elements
 
         public BootstrapCheckboxBuilder WithLabel(IRenderingClient label)
         {
-            return TrailingHtml(label);
+            return TrailingHtml(label.Detached());
         }
 
         public BootstrapCheckboxBuilder Disabled()

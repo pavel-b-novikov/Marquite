@@ -11,7 +11,7 @@ namespace Marquite.Angular.Expressions
         public NgExpression Accessed { get; set; }
 
         public string MemberName { get; set; }
-        public override string Build()
+        protected override string BuildCore()
         {
             var field = Accessed.Build();
             if (!string.IsNullOrEmpty(field)) field = field + ".";

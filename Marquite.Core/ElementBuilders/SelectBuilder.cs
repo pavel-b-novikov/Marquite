@@ -22,7 +22,7 @@ namespace Marquite.Core.ElementBuilders
         public SelectBuilder AddItem(string option, string value, bool selected)
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
-            ob.Text(option).Value(value).When(selected, c => c.Selected());
+            ob.Detached().Text(option).Value(value).When(selected, c => c.Selected());
             RenderingQueue.Trail(ob);
             return this;
         }
@@ -30,7 +30,7 @@ namespace Marquite.Core.ElementBuilders
         public SelectBuilder AddItem(string option, string value)
         {
             OptionBuilder ob = new OptionBuilder(Marquite);
-            ob.Text(option).Value(value);
+            ob.Detached().Text(option).Value(value);
             RenderingQueue.Trail(ob);
             return this;
         }

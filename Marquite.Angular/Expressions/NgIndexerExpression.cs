@@ -11,7 +11,7 @@ namespace Marquite.Angular.Expressions
         public NgExpression ExpressionToIndex { get; set; }
 
         public NgExpression Index { get; set; }
-        public override string Build()
+        protected override string BuildCore()
         {
             return string.Format("{0}[{1}]", ExpressionToIndex.Build(), Index.Build());
         }

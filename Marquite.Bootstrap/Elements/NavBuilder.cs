@@ -55,7 +55,7 @@ namespace Marquite.Bootstrap.Elements
 
         public NavBuilder Item(IRenderingClient item, string id = null, bool enabled = true, string additionalClasses = null)
         {
-            RenderingQueue.Trail(item, "li",
+            RenderingQueue.Trail(item.Detached(), "li",
                     wrappingTagAttrs: GetWrappingTagAttrs(id, enabled, additionalClasses)
                 );
 

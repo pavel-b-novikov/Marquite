@@ -23,13 +23,13 @@ namespace Marquite.Core.ElementBuilders
 
         public TableRowBuilder AddCell(IRenderingClient content)
         {
-            RenderingQueue.Trail(content, "td");
+            RenderingQueue.Trail(content.Detached(), "td");
             return this;
         }
 
         public TableRowBuilder AddCells(params IRenderingClient[] content)
         {
-            content.ForEach(c => RenderingQueue.Trail(c, "td"));
+            content.ForEach(c => RenderingQueue.Trail(c.Detached(), "td"));
             return this;
         }
     }

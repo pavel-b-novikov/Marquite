@@ -74,6 +74,8 @@
     <Compile Include="BuilderMechanics\IHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\SimpleHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\StringCategory.cs" />
+    <Compile Include="Html\RawFormExtensions.cs" />
+    <Compile Include="ScopeExtensions.cs" />
     <Compile Include="TagScope.cs" />
     <Compile Include="Css.cs" />
     <Compile Include="ElementBuilders\BaseInputField.cs" />

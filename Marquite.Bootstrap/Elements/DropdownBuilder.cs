@@ -1,4 +1,5 @@
-﻿using Marquite.Core.BuilderMechanics;
+﻿using Marquite.Core;
+using Marquite.Core.BuilderMechanics;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Elements
@@ -13,8 +14,8 @@ namespace Marquite.Bootstrap.Elements
         public DropdownBuilder(Core.IMarquite marquite, string tagName, IHtmlBuilder triggeringElement, DropdownMenuBuilder menu)
             : base(marquite, tagName)
         {
-            _triggeringElement = triggeringElement;
-            _menu = menu;
+            _triggeringElement = triggeringElement.Detached();
+            _menu = menu.Detached();
             AddClass("dropdown");
         }
 
@@ -29,13 +30,13 @@ namespace Marquite.Bootstrap.Elements
 
         public DropdownBuilder TriggeringElement(IRenderingClient element)
         {
-            _triggeringElement = element;
+            _triggeringElement = element.Detached();
             return this;
         }
 
         public DropdownBuilder Menu(DropdownMenuBuilder menu)
         {
-            _menu = menu;
+            _menu = menu.Detached();
             return this;
         }
 

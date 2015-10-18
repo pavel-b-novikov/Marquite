@@ -39,5 +39,10 @@ namespace Marquite.Test.Controllers
         {
             return View();
         }
+
+        public ActionResult Forms()
+        {
+            return View();
+        }
     }
 }

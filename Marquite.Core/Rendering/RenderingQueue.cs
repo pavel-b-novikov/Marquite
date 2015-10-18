@@ -16,7 +16,7 @@ namespace Marquite.Core.Rendering
         public int Count { get { return _renderingQueue.Count; } }
 
         private readonly LinkedList<RenderingItem> _renderingQueue = new LinkedList<RenderingItem>();
-
+        
         public void Trail(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
         {
             _renderingQueue.AddLast(new RenderingItem(wrapTag, null, content, encode, wrappingTagAttrs));
@@ -24,12 +24,12 @@ namespace Marquite.Core.Rendering
 
         public void Trail(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddLast(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
+            _renderingQueue.AddLast(new RenderingItem(wrapTag, client.Detached(), null, wrappingTagAttrs: wrappingTagAttrs));
         }
 
         public void Lead(IRenderingClient client, string wrapTag = null, string wrappingTagAttrs = null)
         {
-            _renderingQueue.AddFirst(new RenderingItem(wrapTag, client, null, wrappingTagAttrs: wrappingTagAttrs));
+            _renderingQueue.AddFirst(new RenderingItem(wrapTag, client.Detached(), null, wrappingTagAttrs: wrappingTagAttrs));
         }
 
         public void Lead(string content, string wrapTag = null, bool encode = false, string wrappingTagAttrs = null)
@@ -40,6 +40,16 @@ namespace Marquite.Core.Rendering
         public virtual void ClearQueue()
         {
             _renderingQueue.Clear();
+        }
+
+        public virtual void Remove(IRenderingClient client)
+        {
+            var items = _renderingQueue.Where(c => c.RenderingClient == client).ToArray();
+            foreach (var renderingItem in items)
+            {
+                _renderingQueue.Remove(renderingItem);
+            }
+
         }
 
         public virtual void RenderQueue(TextWriter tw)

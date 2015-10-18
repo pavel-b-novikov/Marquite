@@ -13,7 +13,7 @@ namespace Marquite.Angular.Expressions
         public NgExpression Right { get; set; }
 
         public string Symbol { get; set; }
-        public override string Build()
+        protected override string BuildCore()
         {
             return String.Format("({1} {0} {2})", Symbol, Left.Build(), Right.Build());
         }

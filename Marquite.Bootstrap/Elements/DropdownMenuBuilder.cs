@@ -62,7 +62,7 @@ namespace Marquite.Bootstrap.Elements
 
         public DropdownMenuBuilder RawItem(IRenderingClient item)
         {
-            RenderingQueue.Trail(item);
+            RenderingQueue.Trail(item.Detached());
 
             return this;
         }

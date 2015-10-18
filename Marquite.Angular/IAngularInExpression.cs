@@ -9,12 +9,10 @@ namespace Marquite.Angular
     public interface IAngularInExpression<TElement, TParent> : IAngularInExpressionNongeneric
     {
         NgCollectionContext<TElement, TParent> Context { get; }
-
-        string Tracking { get; set; }
     }
 
     public interface IAngularInExpressionNongeneric : IAngularExpression
     {
-        
+        string Tracking { get; set; }
     }
 }

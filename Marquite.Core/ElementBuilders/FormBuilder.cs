@@ -76,7 +76,7 @@ namespace Marquite.Core.ElementBuilders
         public override ITagScope Open(bool pullExistingContentAtTop = false)
         {
             Marquite.ViewContext.FormContext = new FormContext {FormId = GetAttr("id")};
-            return base.Open();
+            return base.Open(pullExistingContentAtTop);
         }
 
         public override void RenderAfterClosingTag(TextWriter tw)

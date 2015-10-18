@@ -17,7 +17,7 @@ namespace Marquite.Angular.Expressions
             Arguments = new List<NgExpression>();
         }
 
-        public override string Build()
+        protected override string BuildCore()
         {
             return String.Format("{0}({1})", ExpressionToCall.Build(),
                 string.Join(",", Arguments.Select(c => c.Build())));

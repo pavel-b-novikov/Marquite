@@ -10,7 +10,7 @@ namespace Marquite.Angular.Expressions
     {
         public NgExpression Expression { get; set; }
         public string Symbol { get; set; }
-        public override string Build()
+        protected override string BuildCore()
         {
             return String.Format("({0} {1})",Symbol,Expression.Build());
         }

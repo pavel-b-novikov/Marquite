@@ -17,6 +17,12 @@ namespace Marquite.Angular
             s = s.Replace("'", "\\'").Replace("\"", "\\\"");
             return String.Concat("'", s, "'");
         }
+
+        internal static string DoubleQuoteSafe(this string s)
+        {
+            s = s.Replace("\"", "\\\"");
+            return String.Concat("\"", s, "\"");
+        }
         public static T NgApp<T>(this T builder) where T : IHtmlBuilder
         {
             builder.NonGeneric_SelfCloseAttr("ng-app");
@@ -308,6 +314,21 @@ namespace Marquite.Angular
             return builder;
         }
 
+        public static T NgShow<T>(this T builder, string expression)
+           where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-show", expression);
+            return builder;
+        }
+
+        public static T NgShow<T>(this T builder, IAngularExpression expression)
+            where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-show", expression.Build());
+            return builder;
+        }
+
+
         public static T NgReadonly<T>(this T builder, string expression)
            where T : IHtmlBuilder
         {
@@ -316,7 +337,7 @@ namespace Marquite.Angular
         }
 
         public static T NgReadonly<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : IInputField
         {
             builder.NonGeneric_Attr("ng-readonly", expression.Build());
             return builder;
@@ -335,6 +356,38 @@ namespace Marquite.Angular
             var s = arguments.Select(c => c.ToHtmlString()).Cast<object>().ToArray();
             var fmt = string.Format(expressionFormat, s);
             builder.Attr("ng-href", fmt);
+            return builder;
+        }
+
+        public static T NgSrc<T>(this T builder, string expression)
+           where T : ImageBuilderBase<T>
+        {
+            builder.Attr("ng-src", expression);
+            return builder;
+        }
+
+        public static T NgSrc<T>(this T builder, string expressionFormat, params IAngularExpression[] arguments)
+           where T : ImageBuilderBase<T>
+        {
+            var s = arguments.Select(c => c.ToHtmlString()).Cast<object>().ToArray();
+            var fmt = string.Format(expressionFormat, s);
+            builder.Attr("ng-src", fmt);
+            return builder;
+        }
+
+        public static T NgSrcSet<T>(this T builder, string expression)
+           where T : ImageBuilderBase<T>
+        {
+            builder.Attr("ng-srcset", expression);
+            return builder;
+        }
+
+        public static T NgSrcSet<T>(this T builder, string expressionFormat, params IAngularExpression[] arguments)
+           where T : ImageBuilderBase<T>
+        {
+            var s = arguments.Select(c => c.ToHtmlString()).Cast<object>().ToArray();
+            var fmt = string.Format(expressionFormat, s);
+            builder.Attr("ng-srcset", fmt);
             return builder;
         }
 
@@ -424,6 +477,76 @@ namespace Marquite.Angular
             where T : IHtmlBuilder
         {
             builder.NonGeneric_Attr("ng-repeat", expression.Build());
+            return builder;
+        }
+
+        public static T NgStyle<T>(this T builder, string expression)
+          where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-style", expression);
+            return builder;
+        }
+
+        public static T NgStyle<T>(this T builder, IAngularExpression expression)
+            where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-style", expression.Build());
+            return builder;
+        }
+
+        public static T NgSubmit<T>(this T builder, string expression)
+          where T : FormBuilderBase<T>
+        {
+            builder.Attr("ng-submit", expression);
+            return builder;
+        }
+
+        public static T NgSubmit<T>(this T builder, IAngularExpression expression)
+            where T : FormBuilderBase<T>
+        {
+            builder.Attr("ng-submit", expression.Build());
+            return builder;
+        }
+
+        public static T NgSwitch<T>(this T builder, string expression)
+         where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-switch", expression);
+            return builder;
+        }
+
+        public static T NgSwitch<T>(this T builder, IAngularExpression expression)
+            where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-switch", expression.Build());
+            return builder;
+        }
+
+        public static T NgSwitchWhen<T>(this T builder, string expression)
+        where T : IHtmlBuilder
+        {
+            builder.NonGeneric_Attr("ng-switch-when", expression);
+            return builder;
+        }
+
+        public static T NgSwitchDefault<T>(this T builder)
+        where T : IHtmlBuilder
+        {
+            builder.NonGeneric_SelfCloseAttr("ng-switch-default");
+            return builder;
+        }
+
+        public static T NgValue<T>(this T builder, string modelExpression)
+           where T : IInputField
+        {
+            builder.NonGeneric_Attr("ng-value", modelExpression);
+            return builder;
+        }
+
+        public static T NgValue<T>(this T builder, IAngularExpression modelExpression)
+            where T : IInputField
+        {
+            builder.NonGeneric_Attr("ng-value", modelExpression.Build());
             return builder;
         }
     }
