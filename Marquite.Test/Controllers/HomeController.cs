@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Marquite.Angular;
 using Marquite.CssHoneypot;
+using Marquite.Test.Models;
 
 namespace Marquite.Test.Controllers
 {
@@ -42,7 +43,7 @@ namespace Marquite.Test.Controllers
 
         public ActionResult Forms()
         {
-            return View();
+            return View(new SampleFormModel());
         }
     }
 }

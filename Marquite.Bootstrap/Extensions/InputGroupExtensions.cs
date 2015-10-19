@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Marquite.Bootstrap.Forms;
+using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 using Marquite.Core.Html;
 
@@ -13,6 +14,8 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class InputGroupExtensions
     {
+        
+
         public static InputGroupBuilder ToInputGroup(this InputElementBuilder inputElement)
         {
             return new InputGroupBuilder(inputElement);
@@ -28,7 +31,7 @@ namespace Marquite.Bootstrap.Extensions
             return htmlHelper.TextBoxFor(expression, format).ToInputGroup();
         }
 
-        
+
         public static InputGroupBuilder InputGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             return htmlHelper.TextBoxFor(expression, htmlAttributes).ToInputGroup();
@@ -39,10 +42,10 @@ namespace Marquite.Bootstrap.Extensions
             return htmlHelper.TextBoxFor(expression, format, htmlAttributes).ToInputGroup();
         }
 
-        
+
         public static InputGroupBuilder InputGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes)
         {
-            return htmlHelper.TextBoxFor(expression,htmlAttributes).ToInputGroup();
+            return htmlHelper.TextBoxFor(expression, htmlAttributes).ToInputGroup();
         }
 
         public static InputGroupBuilder InputGroupFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, IDictionary<string, object> htmlAttributes)

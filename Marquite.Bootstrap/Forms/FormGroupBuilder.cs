@@ -1,4 +1,10 @@
-﻿using Marquite.Bootstrap.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Marquite.Bootstrap.Extensions;
+using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.ElementBuilders;
 
@@ -6,191 +12,90 @@ namespace Marquite.Bootstrap.Forms
 {
     public class FormGroupBuilder : ElementHtmlBuilder<FormGroupBuilder>
     {
+        private struct FormLineElement
+        {
+            public int Width;
+            public int Offset;
+            public IHtmlBuilder Element;
+        }
+
+        private readonly List<FormLineElement> _elements = new List<FormLineElement>();
         private readonly BootstrapPlugin _bs;
-        public FormGroupBuilder(Core.IMarquite marquite)
+        public FormGroupBuilder(IMarquite marquite)
             : base(marquite, "div")
         {
             AddClass("form-group");
             _bs = marquite.ResolvePlugin<BootstrapPlugin>();
-            _labelWidth = _bs.CurrentFormLabelWidth;
-            _contentWidth = _bs.CurrentFormContentWidth;
         }
 
-        private LabelBuilder _label;
-        private IHtmlBuilder _renderedControl;
-        private int _labelWidth;
-        private int _contentWidth;
-
-        private IHtmlBuilder _helpBlockClient;
-        private string _helpBlockString;
-
-        public FormGroupBuilder WithLabel(LabelBuilder label)
+        public FormGroupBuilder AddElement(IHtmlBuilder element, int width = 0, int offset = 0)
         {
-            _label = label;
+            if (width < 0 || width > 12) throw new Exception("Form line element width cannot be less than 0 and more than 12");
+            if (offset < 0 || offset > 11) throw new Exception("Form line element offset cannot be less than 0 and more than 11");
+            _elements.Add(new FormLineElement() { Width = width, Offset = offset, Element = element.Detached() });
             return This;
         }
 
-        public FormGroupBuilder WithLabel(string label, bool srOnly = false)
+        public FormGroupBuilder LabelSrOnly()
         {
-            _label = new LabelBuilder(Marquite).TrailingText(label).When(srOnly, c => c.SrOnly());
-            return This;
+            if (!(_elements[0].Element is LabelBuilder)) 
+                return this;
+            _elements[0].Element.NonGeneric_AddClass("sr-only");
+            return this;
         }
 
-        public FormGroupBuilder WithControl(IHtmlBuilder element)
+        public FormGroupBuilder AddElement(IHtmlBuilder label,IHtmlBuilder input)
         {
-            _renderedControl = element;
-            var elem = element as IInputField;
-            if (_label != null && elem != null)
+            int labelWidth = _bs.CurrentFormLabelWidth;
+            int contentWidth = _bs.CurrentFormContentWidth;
+            if (label != null)
             {
-                _label.For(elem.FieldId);
-            }
-            if (element is IInputField)
-            {
-                if (elem.FieldType != MarquiteInputType.CheckBox)
-                {
-                    element.NonGeneric_AddClass("form-control");
-                }
+                _elements.Add(new FormLineElement() {Width = labelWidth, Offset = 0, Element = label.Detached()});
+                _elements.Add(new FormLineElement() {Width = contentWidth, Offset = 0, Element = input.Detached()});
             }
             else
             {
-                if (element.Tag == "p" || element.Tag == "span")
-                {
-                    element.NonGeneric_AddClass("form-control-static");
-                }
+                _elements.Add(new FormLineElement() { Width = contentWidth, Offset = labelWidth, Element = input.Detached() });
             }
+            
             return This;
         }
-
-        public FormGroupBuilder HelpBlock(string helpBlock)
-        {
-            _helpBlockClient = null;
-            _helpBlockString = helpBlock;
-            return this;
-        }
-
-        public FormGroupBuilder HelpBlock(IHtmlBuilder helpBlock)
-        {
-            _helpBlockClient = helpBlock;
-            _helpBlockString = null;
-            return this;
-        }
-
-        public FormGroupBuilder LabelWidth(int w)
-        {
-            _labelWidth = w;
-            return this;
-        }
-
-        public FormGroupBuilder ContentWidth(int w)
-        {
-            _contentWidth = w;
-            return this;
-        }
-
-        #region States
-        public FormGroupBuilder State(FormgroupState state)
-        {
-            CategorizedCssClasses.CleanupAndAdd("frmgrp-state", Lookups.Lookup(state));
-            return this;
-        }
-
-        public FormGroupBuilder Success()
-        {
-            return State(FormgroupState.HasSuccess);
-        }
-
-        public FormGroupBuilder Warning()
-        {
-            return State(FormgroupState.HasWarning);
-        }
-
-        public FormGroupBuilder Error()
-        {
-            return State(FormgroupState.HasError);
-        }
-        #endregion
 
         public override void PrepareForRender()
         {
             base.PrepareForRender();
-            var fld = _renderedControl as IInputField;
-            bool isCheckbox = fld != null && fld.FieldType == MarquiteInputType.CheckBox;
-
-            if (_contentWidth == 0 && _labelWidth != 0) _contentWidth = 12 - _labelWidth;
-            if (_label != null && !isCheckbox)
+            bool isFormHorizontal = Marquite.ResolvePlugin<BootstrapPlugin>().IsCurrentFormHorizontal;
+            foreach (var formLineElement in _elements)
             {
-                if (_bs.IsCurrentFormHorizontal)
+                var element = formLineElement.Element;
+                if (element is IInputField) element.NonGeneric_AddClass("form-control");
+                if (isFormHorizontal)
                 {
-                    _label.AddClass("control-label");
-                    if (_labelWidth != 0)
+                    if (element.Tag == "label")
                     {
-                        _label.AllWidth(_labelWidth);
+                        SetWidth(element, formLineElement);
+                        element.NonGeneric_AddClass("control-label");
+                        TrailingHtml(element);
                     }
-                }
-                RenderingQueue.Trail(_label);
-            }
-
-            SimpleHtmlBuilder divElement = new SimpleHtmlBuilder(Marquite, "div");
-            if (_renderedControl != null)
-            {
-                if (_bs.IsCurrentFormHorizontal)
-                {
-                    if (_label == null)
+                    else
                     {
-                        if (_labelWidth != 0)
-                        {
-                            divElement.AllOffset(_labelWidth);
-                        }
+                        SimpleHtmlBuilder divElement = new SimpleHtmlBuilder(Marquite, "div");
+                        SetWidth(divElement, formLineElement);
+                        divElement.TrailingHtml(formLineElement.Element);
+                        TrailingHtml(divElement);
                     }
-
-                    if (_contentWidth != 0)
-                    {
-                        divElement.AllWidth(_contentWidth);
-                    }
-                }
-
-
-                if (isCheckbox)
-                {
-                    if (_label == null)
-                    {
-                        _label = new LabelBuilder(Marquite);
-                    }
-                    _label.LeadingHtml(fld);
-
-                    SimpleHtmlBuilder checkboxElement = new SimpleHtmlBuilder(Marquite, "div")
-                        .AddClass("checkbox")
-                        .TrailingHtml(_label);
-                    divElement.TrailingHtml(checkboxElement);
-                    if (_bs.IsCurrentFormHorizontal) divElement.AllOffset(_labelWidth);
                 }
                 else
                 {
-                    divElement.TrailingHtml(_renderedControl);
+                    TrailingHtml(element);
                 }
             }
-            var help = ProduceHelpBlock();
-            if (help != null) divElement.TrailingHtml(help);
-
-            RenderingQueue.Trail(divElement);
         }
 
-        private SimpleHtmlBuilder ProduceHelpBlock()
+        private void SetWidth(IHtmlBuilder element, FormLineElement metrics)
         {
-            if (_helpBlockClient != null || _helpBlockString != null)
-            {
-                SimpleHtmlBuilder helpBlock = new SimpleHtmlBuilder(Marquite, "span").AddClass("help-block");
-                if (!string.IsNullOrEmpty(_helpBlockString))
-                {
-                    helpBlock.TrailingText(_helpBlockString);
-                }
-                else
-                {
-                    helpBlock.TrailingHtml(_helpBlockClient);
-                }
-                return helpBlock;
-            }
-            return null;
+            if (metrics.Width > 0) element.AllWidth(metrics.Width);
+            if (metrics.Offset > 0) element.AllOffset(metrics.Offset);
         }
     }
 }

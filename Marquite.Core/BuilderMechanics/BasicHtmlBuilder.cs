@@ -338,7 +338,9 @@ namespace Marquite.Core.BuilderMechanics
 
         public override void RenderContent(TextWriter tw)
         {
+            tw.WriteLine();
             RenderingQueue.RenderQueue(tw);
+            tw.WriteLine();
         }
 
         public override void RenderClosingTag(TextWriter tw)
@@ -346,6 +348,7 @@ namespace Marquite.Core.BuilderMechanics
             if (string.IsNullOrEmpty(TagName)) return;
             if (IsSelfClosing) return;
             tw.ChainWrite("</").ChainWrite(TagName).ChainWrite('>');
+            tw.WriteLine();
         }
 
         public override void RenderBeforeOpenTag(TextWriter tw)
