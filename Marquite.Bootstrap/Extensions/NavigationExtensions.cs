@@ -27,7 +27,7 @@ namespace Marquite.Bootstrap.Extensions
             var b = new NavBuilder(bs.Marquite);
             foreach (var link in links)
             {
-                Item(b, link);
+                NavItem(b, link);
             }
             return b;
         }
@@ -37,7 +37,7 @@ namespace Marquite.Bootstrap.Extensions
             var b = new NavBuilder(bs.Marquite);
             foreach (var link in links)
             {
-                Item(b, link);
+                NavItem(b, link);
             }
             return b;
         }
@@ -117,7 +117,7 @@ namespace Marquite.Bootstrap.Extensions
             return b;
         }
 
-        public static T Item<T>(this T nb, string text, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
+        public static T NavItem<T>(this T nb, string text, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
             b.TrailingHtml(text);
@@ -129,7 +129,7 @@ namespace Marquite.Bootstrap.Extensions
             return nb;
         }
 
-        public static T Item<T>(this T nb, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
+        public static T NavItem<T>(this T nb, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
             b.TrailingHtml(content);
