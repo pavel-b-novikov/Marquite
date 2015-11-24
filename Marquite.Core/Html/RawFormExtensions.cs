@@ -8,6 +8,11 @@ namespace Marquite.Core.Html
 {
     public static class RawFormExtensions
     {
+        public static FormBuilder Form(this HtmlHelper htmlHelper)
+        {
+            var rvd = new RouteValueDictionary();
+            return Form(htmlHelper, null, null, rvd, FormMethod.Post, rvd);
+        }
         public static FormBuilder Form(this HtmlHelper htmlHelper, object routeValues)
         {
             return Form(htmlHelper, null, null, TypeHelper.ObjectToDictionary(routeValues), FormMethod.Post, new RouteValueDictionary());

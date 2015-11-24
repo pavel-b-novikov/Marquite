@@ -21,25 +21,29 @@ namespace Marquite.Core
 
         public RazorMarquite GetInstance(HtmlHelper h)
         {
-            var vdc = h.ViewDataContainer;
+            return GetInstance((WebViewPage) h.ViewDataContainer,h.ViewContext,h.ViewData);
+        }
+
+        public RazorMarquite GetInstance(WebViewPage page, ViewContext vc, ViewDataDictionary vd)
+        {
             if (_global == null)
             {
-                _global = new RazorMarquite(h);
+                _global = new RazorMarquite(page,vc,vd);
                 _global.IsGlobal = true;
-                _globalCache[vdc] = _global;
+                _globalCache[page] = _global;
                 return _global;
             }
 
-            if (!_globalCache.ContainsKey(vdc))
+            if (!_globalCache.ContainsKey(page))
             {
-                var vp = (WebViewPage)vdc;
-                var tlk = new RazorMarquite(h);
+                var vp = (WebViewPage)page;
+                var tlk = new RazorMarquite(page, vc, vd);
                 tlk.IsGlobal = false;
                 tlk.Global = _global;
                 _globalCache[vp] = tlk;
                 return tlk;
             }
-            return _globalCache[vdc];
+            return _globalCache[page];
         }
 
         public static MarquiteInstanceManager GetInstanceManager(HtmlHelper h)

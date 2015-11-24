@@ -36,6 +36,7 @@ namespace Marquite.Bootstrap.Extensions
         public static T HorizontalForm<T>(this T t, int labelWidth = 0, int contentWidth = 0) where T : ElementHtmlBuilder<T>
         {
             var plg = t.Marquite.ResolvePlugin<BootstrapPlugin>();
+            plg.IsCurrentFormHorizontal = true;
             plg.CurrentFormLabelWidth = labelWidth;
             plg.CurrentFormContentWidth = contentWidth;
             return t.AddClass("form-horizontal");

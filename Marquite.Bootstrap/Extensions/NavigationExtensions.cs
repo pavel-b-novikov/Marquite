@@ -66,7 +66,7 @@ namespace Marquite.Bootstrap.Extensions
 
         public static NavbarBuilder Navbar(this BootstrapPlugin bs, params LinkBuilder[] links)
         {
-            var b =  new NavbarBuilder(bs.Marquite);
+            var b = new NavbarBuilder(bs.Marquite);
             if (links.Length > 0)
             {
                 var nav = bs.Navigation(links);
@@ -77,7 +77,7 @@ namespace Marquite.Bootstrap.Extensions
 
         public static NavbarBuilder Navbar(this BootstrapPlugin bs, string brandName, string homeUrl, params LinkBuilder[] links)
         {
-            var b = bs.Navbar(brandName,homeUrl);
+            var b = bs.Navbar(brandName, homeUrl);
             if (links.Length > 0)
             {
                 var nav = bs.Navigation(links);
@@ -96,15 +96,15 @@ namespace Marquite.Bootstrap.Extensions
                 {
                     if (renderingClient is BootstrapButtonBuilder)
                     {
-                        b.AddButton((BootstrapButtonBuilder) renderingClient);
+                        b.AddButton((BootstrapButtonBuilder)renderingClient);
                     }
                     else if (renderingClient is FormBuilder)
                     {
-                        b.AddForm((FormBuilder) renderingClient);
+                        b.AddForm((FormBuilder)renderingClient);
                     }
                     else if (renderingClient is NavBuilder)
                     {
-                        b.AddNavigation((NavBuilder) renderingClient);
+                        b.AddNavigation((NavBuilder)renderingClient);
                     }
                     else
                     {
@@ -113,6 +113,48 @@ namespace Marquite.Bootstrap.Extensions
                 }
             }
             return b;
+        }
+
+        public static T Item<T>(this T nb, string text, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
+        {
+            ListItemBuilder b = new ListItemBuilder(nb.Marquite);
+            b.TrailingHtml(text);
+            if (listItemOptions != null)
+            {
+                listItemOptions(b);
+            }
+            nb.TrailingHtml(b);
+            return nb;
+        }
+
+        public static T Item<T>(this T nb, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
+        {
+            ListItemBuilder b = new ListItemBuilder(nb.Marquite);
+            b.TrailingHtml(content);
+            if (listItemOptions != null)
+            {
+                listItemOptions(b);
+            }
+            nb.TrailingHtml(b);
+            return nb;
+        }
+
+        public static T Link<T>(this T nb, string text, string href, Action<ListItemBuilder> listItemOptions = null, Action<LinkBuilder> linkOptions = null) where T : NavBuilder
+        {
+            ListItemBuilder b = new ListItemBuilder(nb.Marquite);
+            LinkBuilder lb = new LinkBuilder(nb.Marquite);
+            lb.TrailingHtml(text).Href(href);
+            b.TrailingHtml(lb);
+            if (linkOptions != null)
+            {
+                linkOptions(lb);
+            }
+            if (listItemOptions != null)
+            {
+                listItemOptions(b);
+            }
+            nb.TrailingHtml(b);
+            return nb;
         }
     }
 }

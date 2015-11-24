@@ -19,6 +19,13 @@ namespace Marquite.Bootstrap.Extensions
             return func == null ? arg : func(arg);
         }
 
+        public static FormGroupBuilder AddLabel(this FormGroupBuilder b, string label, int width = 0, int offset = 0)
+        {
+            b.AddElement(new LabelBuilder(b.Marquite).TrailingText(label), width, offset);
+            return b;
+        }
+
+
         public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string staticContent, int width = 0, int offset = 0)
         {
             b.AddElement(new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").TrailingText(staticContent), width, offset);

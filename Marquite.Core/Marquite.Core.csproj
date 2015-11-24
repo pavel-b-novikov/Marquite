@@ -69,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ajax\AjaxExtensions.cs" />
+    <Compile Include="Ajax\AjaxOptionsFluentExtensions.cs" />
     <Compile Include="BuilderMechanics\BasicHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\ElementHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\IHtmlBuilder.cs" />

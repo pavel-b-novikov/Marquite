@@ -10,11 +10,16 @@ namespace Marquite.Core
 {
     public class RazorMarquite : IMarquite
     {
-        public RazorMarquite(HtmlHelper h)
+        public RazorMarquite(HtmlHelper h) : this((WebViewPage) h.ViewDataContainer,h.ViewContext,h.ViewData)
         {
-            var vp = (WebViewPage)h.ViewDataContainer;
-            ViewContext = h.ViewContext;
-            ViewData = h.ViewData;
+            
+        }
+
+        public RazorMarquite(WebViewPage page, ViewContext vc, ViewDataDictionary vd)
+        {
+            var vp = page;
+            ViewContext = vc;
+            ViewData = vd;
             OutputStack = vp.OutputStack;
             EventsManager = new MarquiteEventsManager();
             ScopeManager = new ScopeManager(this);

@@ -13,6 +13,18 @@ namespace Marquite.Core.Html
             return im.GetInstance(h);
         }
 
+        public static IMarquite Marq(this AjaxHelper h)
+        {
+            var im = MarquiteInstanceManager.GetInstanceManager(h.ViewContext.TempData);
+            return im.GetInstance((WebViewPage) h.ViewDataContainer,h.ViewContext,h.ViewData);
+        }
+
+        public static IMarquite Marq<TModel>(this AjaxHelper<TModel> h)
+        {
+            var im = MarquiteInstanceManager.GetInstanceManager(h.ViewContext.TempData);
+            return im.GetInstance((WebViewPage)h.ViewDataContainer, h.ViewContext, h.ViewData);
+        }
+
         public static IMarquite Marq<TModel>(this HtmlHelper<TModel> h)
         {
             return Marq((HtmlHelper)h);
