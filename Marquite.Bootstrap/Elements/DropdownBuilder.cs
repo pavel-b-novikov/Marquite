@@ -4,11 +4,11 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Elements
 {
-    public class DropdownBuilder : ElementHtmlBuilder<DropdownBuilder>
+    public class DropdownBuilder : ElementHtmlBuilder
     {
         public DropdownBuilder(Core.IMarquite marquite, string tagName) : base(marquite, tagName)
         {
-            AddClass("dropdown");
+            this.AddClass("dropdown");
         }
 
         public DropdownBuilder(Core.IMarquite marquite, string tagName, IHtmlBuilder triggeringElement, DropdownMenuBuilder menu)
@@ -16,29 +16,11 @@ namespace Marquite.Bootstrap.Elements
         {
             _triggeringElement = triggeringElement.Detached();
             _menu = menu.Detached();
-            AddClass("dropdown");
+            this.AddClass("dropdown");
         }
 
-        public void Dropup()
-        {
-            RemoveClass("dropdown");
-            AddClass("dropup");
-        }
-
-        private IRenderingClient _triggeringElement;
-        private DropdownMenuBuilder _menu;
-
-        public DropdownBuilder TriggeringElement(IRenderingClient element)
-        {
-            _triggeringElement = element.Detached();
-            return this;
-        }
-
-        public DropdownBuilder Menu(DropdownMenuBuilder menu)
-        {
-            _menu = menu.Detached();
-            return this;
-        }
+        internal IRenderingClient _triggeringElement;
+        internal DropdownMenuBuilder _menu;
 
         public override void PrepareForRender()
         {

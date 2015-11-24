@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Marquite.Bootstrap.Elements;
-using Marquite.Core.ElementBuilders;
+using Marquite.Core;
+using Marquite.Core.Html;
 
 namespace Marquite.Bootstrap.Extensions
 {

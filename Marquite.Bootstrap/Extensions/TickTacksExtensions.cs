@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 
 namespace Marquite.Bootstrap.Extensions
@@ -125,8 +126,8 @@ namespace Marquite.Bootstrap.Extensions
         /// <param name="placement">Tooltip placement</param>
         /// <param name="tooltipText">Tooltip text</param>
         /// <returns>ElementHtmlBuilder</returns>
-        public static ElementHtmlBuilder<T> Tooltip<T>(this ElementHtmlBuilder<T> t, TooltipPlacement placement, string tooltipText)
-            where T:ElementHtmlBuilder<T>
+        public static T Tooltip<T>(this T t, TooltipPlacement placement, string tooltipText)
+            where T:ElementHtmlBuilder
         {
             return t.Data("toggle", "tooltip").Data("placement", Lookups.Lookup(placement)).Title(tooltipText);
         }
@@ -148,8 +149,8 @@ namespace Marquite.Bootstrap.Extensions
         /// <param name="content">Popover content</param>
         /// <param name="dismissive">Dismiss popovers on the next click that the user makes</param>
         /// <returns></returns>
-        public static ElementHtmlBuilder<T> Popover<T>(this ElementHtmlBuilder<T> t, TooltipPlacement placement, string title, string content, bool dismissive = true)
-            where T : ElementHtmlBuilder<T>
+        public static T Popover<T>(this T t, TooltipPlacement placement, string title, string content, bool dismissive = true)
+            where T : ElementHtmlBuilder
         {
             return t.Data("toggle", "popover")
                 .Data("placement", Lookups.Lookup(placement))

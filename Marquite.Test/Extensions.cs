@@ -2,6 +2,8 @@
 using Marquite.Bootstrap;
 using Marquite.Bootstrap.Elements;
 using Marquite.Bootstrap.Extensions;
+using Marquite.Core;
+using Marquite.Core.Html;
 
 namespace Marquite.Test
 {

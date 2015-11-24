@@ -1,4 +1,4 @@
-using Marquite.Bootstrap.Grid;
+using Marquite.Bootstrap.Elements;
 
 namespace Marquite.Bootstrap.Extensions
 {

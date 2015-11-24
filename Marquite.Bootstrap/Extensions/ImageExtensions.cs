@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Marquite.Core.ElementBuilders;
+using Marquite.Core;
+using Marquite.Core.Elements;
 
 namespace Marquite.Bootstrap.Extensions
 {

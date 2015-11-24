@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Marquite.Bootstrap.Elements;
+using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
-using Marquite.Core.ElementBuilders;
+using Marquite.Core.Elements;
+using Marquite.Core.Html;
 using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Extensions
@@ -25,7 +27,7 @@ namespace Marquite.Bootstrap.Extensions
             var b = new NavBuilder(bs.Marquite);
             foreach (var link in links)
             {
-                b.Item(link);
+                Item(b, link);
             }
             return b;
         }
@@ -35,7 +37,7 @@ namespace Marquite.Bootstrap.Extensions
             var b = new NavBuilder(bs.Marquite);
             foreach (var link in links)
             {
-                b.Item(link);
+                Item(b, link);
             }
             return b;
         }
@@ -156,5 +158,40 @@ namespace Marquite.Bootstrap.Extensions
             nb.TrailingHtml(b);
             return nb;
         }
+
+        public static T Active<T>(this T b) where T : ListItemBuilder
+        {
+            b.AddClass("active");
+            return b;
+        }
+
+        public static T TabHeader<T>(this T b) where T : IHtmlBuilder
+        {
+            b.Attr("role", "tab");
+            b.Data("toggle", "tab");
+            return b;
+        }
+
+        public static T Stacked<T>(this T b) where T : NavBuilder
+        {
+            b.RemoveClass("nav-justified");
+            b.AddClass("nav-stacked");
+            return b;
+        }
+
+        public static T Justified<T>(this T b) where T : NavBuilder
+        {
+            b.RemoveClass("nav-stacked");
+            b.AddClass("nav-justified");
+            return b;
+        }
+
+        public static T Pills<T>(this T b) where T : NavBuilder
+        {
+            b.RemoveClass("nav-tabs");
+            b.AddClass("nav-pills");
+            return b;
+        }
+
     }
 }

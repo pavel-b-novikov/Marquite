@@ -5,11 +5,11 @@ using Marquite.Core.Rendering;
 
 namespace Marquite.Bootstrap.Elements
 {
-    public class PanelBuilder : ElementHtmlBuilder<PanelBuilder>
+    public class PanelBuilder : ElementHtmlBuilder
     {
         public PanelBuilder(Core.IMarquite marquite) : base(marquite, "div")
         {
-            AddClass("panel");
+            this.AddClass("panel");
         }
 
         public PanelBuilder Color(PanelColor color)

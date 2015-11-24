@@ -1,38 +1,42 @@
 ﻿namespace Marquite.Core.BuilderMechanics
 {
-    public abstract class ElementHtmlBuilder<T> : BasicHtmlBuilder<T> where T : BasicHtmlBuilder<T>
+    public abstract class ElementHtmlBuilder : BasicHtmlBuilder
     {
         protected ElementHtmlBuilder(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
         }
-        public virtual T Tabindex(int idx)
+    }
+
+    public static class ElementHtmlBuilderExtensions
+    {
+        public static T Tabindex<T>(this T b,int idx) where T : ElementHtmlBuilder
         {
-            return Attr("tabindex", idx.ToString());
+            return b.Attr("tabindex", idx.ToString());
         }
 
-        public virtual T Accesskey(char c)
+        public static T Accesskey<T>(this T b, char c) where T : ElementHtmlBuilder
         {
-            return Attr("accesskey", c.ToString());
+            return b.Attr("accesskey", c.ToString());
         }
 
-        public virtual T Lang(string lang)
+        public static T Lang<T>(this T b, string lang) where T : ElementHtmlBuilder
         {
-            return Attr("hreflang", lang);
+            return b.Attr("hreflang", lang);
         }
 
-        public virtual T Title(string title)
+        public static T Title<T>(this T b, string title) where T : ElementHtmlBuilder
         {
-            return Attr("title", title);
+            return b.Attr("title", title);
         }
 
-        public virtual T ContextMenu(string menuId)
+        public static T ContextMenu<T>(this T b, string menuId) where T : ElementHtmlBuilder
         {
-            return Attr("contextmenu", menuId);
+            return b.Attr("contextmenu", menuId);
         }
 
-        public virtual T ContentEditable(bool editable = true)
+        public static T ContentEditable<T>(this T b, bool editable = true) where T : ElementHtmlBuilder
         {
-            return Attr("contenteditable", editable?"true":"false");
+            return b.Attr("contenteditable", editable ? "true" : "false");
         }
     }
 }

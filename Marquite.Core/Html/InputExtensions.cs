@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Marquite.Core.BuilderMechanics;
-using Marquite.Core.ElementBuilders;
-using InputType = Marquite.Core.ElementBuilders.InputType;
+using Marquite.Core.Elements;
+using InputType = Marquite.Core.Elements.InputType;
 
 //using InputType = System.Web.Mvc.InputType;
 

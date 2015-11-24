@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marquite.Core.BuilderMechanics
 {
-    public class SimpleHtmlBuilder : ElementHtmlBuilder<SimpleHtmlBuilder>
+    public class SimpleHtmlBuilder : ElementHtmlBuilder
     {
         public SimpleHtmlBuilder(IMarquite marquite, string tagName) : base(marquite, tagName)
         {
