@@ -70,7 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ajax\AjaxExtensions.cs" />
+    <Compile Include="Ajax\AjaxOptions.cs" />
     <Compile Include="Ajax\AjaxOptionsFluentExtensions.cs" />
+    <Compile Include="Ajax\InsertionMode.cs" />
     <Compile Include="BasicHtmlBuilderExtensions.cs" />
     <Compile Include="BuilderMechanics\BasicHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\ElementHtmlBuilder.cs" />

@@ -4,12 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
-using System.Web.Mvc.Html;
 using System.Web.Routing;
 using Marquite.Core.Elements;
 using Marquite.Core.Html;
@@ -426,7 +422,7 @@ namespace Marquite.Core.Ajax
         private static LinkBuilder GenerateLink(AjaxHelper ajaxHelper, string linkText, string targetUrl, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             LinkBuilder tag = new LinkBuilder(ajaxHelper.Marq());
-            tag.TrailingText(HttpUtility.HtmlEncode(linkText));
+            tag.AppendText(HttpUtility.HtmlEncode(linkText));
             
             tag.MergeAttributes(htmlAttributes);
             tag.Attr("href", targetUrl);
@@ -460,7 +456,7 @@ namespace Marquite.Core.Ajax
         private static string ToJsString(this AjaxOptions options)
         {
             // small hack
-            return (string) _toJsStringMethod.Invoke(options, null);
+            return options.ToJavascriptString();
         }
     }
 }

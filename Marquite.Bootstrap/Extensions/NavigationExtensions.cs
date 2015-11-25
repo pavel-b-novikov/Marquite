@@ -120,24 +120,24 @@ namespace Marquite.Bootstrap.Extensions
         public static T NavItem<T>(this T nb, string text, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
-            b.TrailingHtml(text);
+            b.Append(text);
             if (listItemOptions != null)
             {
                 listItemOptions(b);
             }
-            nb.TrailingHtml(b);
+            nb.Append(b);
             return nb;
         }
 
         public static T NavItem<T>(this T nb, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
-            b.TrailingHtml(content);
+            b.Append(content);
             if (listItemOptions != null)
             {
                 listItemOptions(b);
             }
-            nb.TrailingHtml(b);
+            nb.Append(b);
             return nb;
         }
 
@@ -145,8 +145,8 @@ namespace Marquite.Bootstrap.Extensions
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
             LinkBuilder lb = new LinkBuilder(nb.Marquite);
-            lb.TrailingHtml(text).Href(href);
-            b.TrailingHtml(lb);
+            lb.Append(text).Href(href);
+            b.Append(lb);
             if (linkOptions != null)
             {
                 linkOptions(lb);
@@ -155,23 +155,17 @@ namespace Marquite.Bootstrap.Extensions
             {
                 listItemOptions(b);
             }
-            nb.TrailingHtml(b);
+            nb.Append(b);
             return nb;
         }
 
-        public static T Active<T>(this T b) where T : ListItemBuilder
+        public static ListItemBuilder Active(this ListItemBuilder b)
         {
             b.AddClass("active");
             return b;
         }
 
-        public static T TabHeader<T>(this T b) where T : IHtmlBuilder
-        {
-            b.Attr("role", "tab");
-            b.Data("toggle", "tab");
-            return b;
-        }
-
+        
         public static T Stacked<T>(this T b) where T : NavBuilder
         {
             b.RemoveClass("nav-justified");

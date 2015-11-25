@@ -175,7 +175,7 @@ namespace Marquite.Core.Html
                 routeValues, routeCollection, requestContext, includeImplicitMvcValues);
             var lb = new LinkBuilder(htmlHelper.Marq());
             lb.MergeAttributes(htmlAttributes);
-            lb.Href(url).TrailingText(linkText);
+            BasicHtmlBuilderExtensions.AppendText(lb.Href(url), linkText);
             return lb;
         }
 

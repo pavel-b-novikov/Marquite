@@ -19,7 +19,7 @@ namespace Marquite.Core.Html
             return b;
         }
 
-        public static T AppendText<T>(this T b, string text) where T : ButtonBuilder
+        public static T AppendButtonText<T>(this T b, string text) where T : ButtonBuilder
         {
             if (string.IsNullOrEmpty(text)) return b;
 

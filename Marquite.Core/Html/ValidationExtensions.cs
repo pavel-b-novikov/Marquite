@@ -449,11 +449,11 @@ namespace Marquite.Core.Html
 
             if (!String.IsNullOrEmpty(validationMessage))
             {
-                builder.TrailingText(validationMessage);
+                BasicHtmlBuilderExtensions.AppendText(builder, validationMessage);
             }
             else if (modelError != null)
             {
-                builder.TrailingText(GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, modelError,
+                BasicHtmlBuilderExtensions.AppendText(builder, GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, modelError,
                     modelState));
             }
 
@@ -607,7 +607,7 @@ namespace Marquite.Core.Html
                 }
 
                 SimpleHtmlBuilder spanTag = new SimpleHtmlBuilder(marq,headingTag);
-                spanTag.TrailingText(message);
+                BasicHtmlBuilderExtensions.AppendText(spanTag, message);
                 messageSpan = spanTag;
             }
             else
@@ -643,8 +643,8 @@ namespace Marquite.Core.Html
             divBuilder.AddClass((htmlHelper.ViewData.ModelState.IsValid)
                 ? HtmlHelper.ValidationSummaryValidCssClassName
                 : HtmlHelper.ValidationSummaryCssClassName);
-            divBuilder.TrailingHtml(messageSpan);
-            divBuilder.TrailingHtml(unorderedList);
+            divBuilder.Append(messageSpan);
+            divBuilder.Append(unorderedList);
             
             if (formContext != null)
             {

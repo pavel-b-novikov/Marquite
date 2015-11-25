@@ -14,7 +14,7 @@
         {
             using (Html.Form("Forms").Horizontal(4,8).Open())
             {
-                @Html.FormGroupTextFor(c => c.UserName).AddElement(null,Html.Marq("p").AddClass("help-block").TrailingHtml(Html.ValidationMessageFor(c=>c.UserName)))
+                @Html.FormGroupTextFor(c => c.UserName).AddElement(null,Html.Marq("p").AddClass("help-block").Append(Html.ValidationMessageFor(c=>c.UserName)))
                 @Html.FormGroup().AddElement(Html.LabelFor(c => c.Age), 
                     Html.InputGroupFor(c => c.Age).WithRightAddon("> 18").WithLeftButton(Html.Bs().Button("Pick...")))
     

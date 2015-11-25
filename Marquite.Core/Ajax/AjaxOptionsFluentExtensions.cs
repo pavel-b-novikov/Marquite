@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc.Ajax;
-
-namespace Marquite.Core.Ajax
+﻿namespace Marquite.Core.Ajax
 {
     public static class AjaxOptionsFluentExtensions
     {
@@ -27,7 +20,7 @@ namespace Marquite.Core.Ajax
             return options;
         }
 
-        public static AjaxOptions InsertionMode(this AjaxOptions options, InsertionMode mode = System.Web.Mvc.Ajax.InsertionMode.Replace)
+        public static AjaxOptions InsertionMode(this AjaxOptions options, InsertionMode mode = Marquite.Core.Ajax.InsertionMode.Replace)
         {
             options.InsertionMode = mode;
             return options;

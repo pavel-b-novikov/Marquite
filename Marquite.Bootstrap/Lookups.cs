@@ -129,5 +129,17 @@ namespace Marquite.Bootstrap
             var tVal = typeof(PanelColor);
             return ClassLookup.Cache[tVal][(int)value];
         }
+
+        public static string Lookup(ButtonGroupSize value)
+        {
+            var tVal = typeof(ButtonGroupSize);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
+
+        public static string Lookup(AlertColor value)
+        {
+            var tVal = typeof(AlertColor);
+            return ClassLookup.Cache[tVal][(int)value];
+        }
     }
 }

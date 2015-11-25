@@ -20,6 +20,17 @@ namespace Marquite.Angular.Expressions
             }
         }
 
+        public override Expression Visit(Expression node)
+        {
+            if (node.NodeType == ExpressionType.Convert)
+            {
+                UnaryExpression uex = (UnaryExpression)node;
+                return base.Visit(uex.Operand);
+            }
+            return base.Visit(node);
+
+        }
+
         static AngularLambdaExpressionVisitor()
         {
             VarContextMethod = typeof(AngularEventContext<>).GetMethod("Var");
@@ -181,14 +192,16 @@ namespace Marquite.Angular.Expressions
             }
             if (node.Type == typeof(string))
             {
-                var s = node.Value.ToString().Replace("\"", "\\\"");
+                var s = "\"" + node.Value.ToString().Replace("\"", "\\\"") + "\"";
                 Return(new NgLiteralExpression { Literal = s });
+                return node;
             }
 
             if (node.Type == typeof(bool))
             {
                 var b = (bool)node.Value;
                 Return(new NgLiteralExpression { Literal = b ? "true" : "false" });
+                return node;
             }
             Return(new NgLiteralExpression { Literal = node.Value.ToString() });
             return node;

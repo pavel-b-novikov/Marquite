@@ -403,7 +403,7 @@ namespace Marquite.Core.Html
             var listItemBuilder = BuildItems(marq,optionLabel, selectList);
 
             SelectBuilder tagBuilder = new SelectBuilder(htmlHelper.Marq());
-            listItemBuilder.ForEach(a=>tagBuilder.TrailingHtml(a));
+            listItemBuilder.ForEach(a=>tagBuilder.Append(a));
 
             tagBuilder.MergeAttributes(htmlAttributes);
             tagBuilder.Name(fullName);
@@ -460,7 +460,7 @@ namespace Marquite.Core.Html
                     groupBuilder = new OptgroupBuilder(marq);
                     if (optGroup.Name != null)
                     {
-                        groupBuilder.Label(optGroup.Name);
+                        groupBuilder.LabelAttr(optGroup.Name);
                     }
                     if (optGroup.Disabled)
                     {

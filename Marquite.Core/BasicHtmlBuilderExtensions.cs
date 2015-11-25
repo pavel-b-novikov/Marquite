@@ -11,12 +11,26 @@ namespace Marquite.Core
 {
     public static class BasicHtmlBuilderExtensions
     {
-        public static T Css<T>(this T b,Css property, string value) where T:IHtmlBuilder
+        public static T ApplyFn<T>(this Action<T> action, T obj)
+        {
+            if (action != null) action(obj);
+            return obj;
+        }
+        #region CSS
+        public static T Css<T>(this T b, Css property, string value) where T : IHtmlBuilder
         {
             b.Style[property] = value;
             return b;
         }
 
+        public static T RemoveClass<T>(this T b, string clazz) where T : IHtmlBuilder
+        {
+            b.Attributes.Remove(clazz);
+            return b;
+        }
+        #endregion
+
+        #region Add attributes
         public static T Attr<T>(this T b, string attrName, string value, bool replaceExisting) where T : IHtmlBuilder
         {
             // To self-closed attributes use method 'SelfCloseAttr'
@@ -37,7 +51,7 @@ namespace Marquite.Core
 
         public static T Attr<T>(this T b, string attrName, string value) where T : IHtmlBuilder
         {
-            return Attr(b,attrName, value, true);
+            return Attr(b, attrName, value, true);
         }
 
         public static T SelfCloseAttr<T>(this T b, string attrName) where T : IHtmlBuilder
@@ -49,7 +63,7 @@ namespace Marquite.Core
 
         public static T Data<T>(this T b, string key, string value) where T : IHtmlBuilder
         {
-            return Attr(b,"data-" + key, value);
+            return Attr(b, "data-" + key, value);
         }
 
         public static T Aria<T>(this T b, string key, string value) where T : IHtmlBuilder
@@ -63,17 +77,13 @@ namespace Marquite.Core
             if (!b.CssClasses.Contains(clazz)) b.CssClasses.Add(clazz);
             return b;
         }
+        #endregion
 
+        #region Remove attributes
         public static T RemoveAttr<T>(this T b, string attr) where T : IHtmlBuilder
         {
             if (attr == "class") throw new Exception("Dont try to remove class attribute. Use AddClass and RemoveClass for manupulation with classes.");
             b.Attributes.Remove(attr);
-            return b;
-        }
-
-        public static T RemoveClass<T>(this T b, string clazz) where T : IHtmlBuilder
-        {
-            b.Attributes.Remove(clazz);
             return b;
         }
 
@@ -86,42 +96,82 @@ namespace Marquite.Core
         {
             return RemoveAttr(b, "aria-" + clazz);
         }
+        #endregion
 
-        public static T LeadingHtml<T>(this T b, string html) where T : IHtmlBuilder
+        #region Prepend
+        public static T Prepend<T>(this T b, string html) where T : IHtmlBuilder
         {
             b.RenderingQueue.LeadingHtml(html);
             return b;
         }
 
-        public static T LeadingText<T>(this T b, string text) where T : IHtmlBuilder
+        public static T PrependText<T>(this T b, string text) where T : IHtmlBuilder
         {
             b.RenderingQueue.LeadingText(text);
             return b;
         }
 
-        public static T LeadingHtml<T>(this T b, IRenderingClient content) where T : IHtmlBuilder
+        public static T Prepend<T>(this T b, IRenderingClient content) where T : IHtmlBuilder
         {
             b.RenderingQueue.LeadingHtml(content);
             return b;
         }
+        public static T Prepend<T>(this T b, string html, bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.Prepend(html);
+            return b;
+        }
 
-        public static T TrailingHtml<T>(this T b, string html) where T : IHtmlBuilder
+        public static T PrependText<T>(this T b, string text, bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.PrependText(text);
+            return b;
+        }
+
+        public static T Prepend<T>(this T b, IRenderingClient content,bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.Prepend(content);
+            return b;
+        }
+        #endregion
+
+        #region Append
+        public static T Append<T>(this T b, string html) where T : IHtmlBuilder
         {
             b.RenderingQueue.TrailingHtml(html);
             return b;
         }
 
-        public static T TrailingText<T>(this T b, string text) where T : IHtmlBuilder
+        public static T AppendText<T>(this T b, string text) where T : IHtmlBuilder
         {
             b.RenderingQueue.TrailingText(text);
             return b;
         }
 
-        public static T TrailingHtml<T>(this T b, IRenderingClient content) where T : IHtmlBuilder
+        public static T Append<T>(this T b, IRenderingClient content) where T : IHtmlBuilder
         {
             b.RenderingQueue.TrailingHtml(content);
             return b;
         }
+
+        public static T Append<T>(this T b, string html,bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.Append(html);
+            return b;
+        }
+
+        public static T AppendText<T>(this T b, string text, bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.AppendText(text);
+            return b;
+        }
+
+        public static T Append<T>(this T b, IRenderingClient content, bool condition) where T : IHtmlBuilder
+        {
+            if (condition) b.Append(content);
+            return b;
+        }
+        #endregion
 
         public static T When<T>(this T b, bool condition, Func<T, T> properties) where T : IHtmlBuilder
         {
@@ -137,7 +187,7 @@ namespace Marquite.Core
             return mixin(b);
         }
 
-        public static T Id<T>(this T b,string id) where T : IHtmlBuilder
+        public static T Id<T>(this T b, string id) where T : IHtmlBuilder
         {
             b.IdVal = id;
             b.Attr("id", id);
@@ -159,7 +209,7 @@ namespace Marquite.Core
                             var classes = value.Split(' ');
                             foreach (var @class in classes)
                             {
-                                AddClass(b,@class);
+                                AddClass(b, @class);
                             }
                         }
                         else
@@ -177,7 +227,7 @@ namespace Marquite.Core
 
         public static void MergeAttributes<T, TKey, TValue>(this T b, IDictionary<TKey, TValue> attributes) where T : IHtmlBuilder
         {
-            MergeAttributes(b,attributes, replaceExisting: false);
+            MergeAttributes(b, attributes, replaceExisting: false);
         }
 
         public static void FindAndRemoveClass<T>(this T b, string clazz) where T : IHtmlBuilder
@@ -211,7 +261,7 @@ namespace Marquite.Core
         public static string GetData<T>(this T b, string data) where T : IHtmlBuilder
         {
             data = "data-" + data;
-            return GetAttr(b,data);
+            return GetAttr(b, data);
         }
         public static string GetAria<T>(this T b, string data) where T : IHtmlBuilder
         {

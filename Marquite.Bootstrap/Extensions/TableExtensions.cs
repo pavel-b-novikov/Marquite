@@ -39,7 +39,7 @@ namespace Marquite.Bootstrap.Extensions
             return table.AddClass(str);
         }
 
-        public static T Active<T>(this T rb) where T : TableRowBuilder
+        public static TableRowBuilder Active(this TableRowBuilder rb)
         {
             rb.CategorizedCssClasses.CleanupAndAdd("el-color", Lookups.Lookup(Bootstrap.Color.Active));
             return rb;

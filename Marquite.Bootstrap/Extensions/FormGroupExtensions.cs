@@ -20,16 +20,35 @@ namespace Marquite.Bootstrap.Extensions
             return func == null ? arg : func(arg);
         }
 
-        public static FormGroupBuilder AddLabel(this FormGroupBuilder b, string label, int width = 0, int offset = 0)
+        public static FormGroupBuilder AddLabel(this FormGroupBuilder b, string label, int width = 0, int offset = 0,Action<LabelBuilder> labelOptions = null )
         {
-            b.AddElement(new LabelBuilder(b.Marquite).TrailingText(label), width, offset);
+            var lbl = new LabelBuilder(b.Marquite).AppendText(label);
+            labelOptions.ApplyFn(lbl);
+            b.AddElement(lbl, width, offset);
             return b;
         }
 
-
-        public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string staticContent, int width = 0, int offset = 0)
+        public static SimpleHtmlBuilder FormGroupStatic(this BootstrapPlugin bs, string staticContent)
         {
-            b.AddElement(new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").TrailingText(staticContent), width, offset);
+            return new SimpleHtmlBuilder(bs.Marquite, "p").AddClass("form-control-static").AppendText(staticContent);
+        }
+
+        public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string staticContent, int width = 0, int offset = 0,Action<SimpleHtmlBuilder> staticContentOptions = null)
+        {
+            var statics =b.Bootstrap.FormGroupStatic(staticContent);
+            staticContentOptions.ApplyFn(statics);
+            b.AddElement(statics, width, offset);
+            return b;
+        }
+
+        public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string label, string staticContent, int width = 0, int offset = 0, Action<SimpleHtmlBuilder> staticContentOptions = null, Action<LabelBuilder> labelOptions = null)
+        {
+            var lbl = new LabelBuilder(b.Marquite).AppendText(label);
+            labelOptions.ApplyFn(lbl);
+            var statics =
+                new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").AppendText(staticContent);
+            staticContentOptions.ApplyFn(statics);
+            b.AddElement(lbl,statics);
             return b;
         }
         public static FormGroupBuilder FormGroup(this HtmlHelper b)

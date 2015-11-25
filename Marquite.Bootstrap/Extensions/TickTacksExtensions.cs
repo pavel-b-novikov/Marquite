@@ -41,7 +41,7 @@ namespace Marquite.Bootstrap.Extensions
                 .Attr("type","button")
                 .AddClass("close")
                 .Attr("aria-label",label)
-                .TrailingHtml("<span aria-hidden=\"true\">&times;</span>")
+                .Append("<span aria-hidden=\"true\">&times;</span>")
                 ;
         }
 
@@ -107,7 +107,7 @@ namespace Marquite.Bootstrap.Extensions
         /// <returns>SimpleHtmlBuilder</returns>
         public static SimpleHtmlBuilder Badge(this BootstrapPlugin t, string badgeText)
         {
-            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("badge").TrailingText(badgeText);
+            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("badge").AppendText(badgeText);
         }
 
         /// <summary>
@@ -159,6 +159,16 @@ namespace Marquite.Bootstrap.Extensions
                 .Title(title)
                 .When(dismissive, c => c.Data("trigger","focus"))
                 ;
+        }
+
+        public static SimpleHtmlBuilder Alert(this BootstrapPlugin bs, AlertColor color, string alertText = null)
+        {
+            return new SimpleHtmlBuilder(bs.Marquite,"div").Alert(color,alertText);
+        }
+
+        public static T Alert<T>(this T bs, AlertColor color, string alertText = null) where T:IHtmlBuilder
+        {
+            return bs.AddClass("alert").AddClass(Lookups.Lookup(color)).Append(alertText);
         }
     }
 }

@@ -157,7 +157,7 @@ namespace Marquite.Core.Html
 
             // The first newline is always trimmed when a TextArea is rendered, so we add an extra one
             // in case the value being rendered is something like "\r\nHello".
-            tagBuilder.TrailingHtml((innerHtmlPrefix ?? Environment.NewLine) + HttpUtility.HtmlEncode(value));
+            tagBuilder.Append((innerHtmlPrefix ?? Environment.NewLine) + HttpUtility.HtmlEncode(value));
 
             return tagBuilder;
         }

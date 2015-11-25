@@ -14,30 +14,30 @@ namespace Marquite.Bootstrap.Extensions
         {
             ListItemBuilder lb = new ListItemBuilder(b.Marquite).AddClass("divider");
             if (listItemOptions != null) listItemOptions(lb);
-            b.TrailingHtml(lb);
+            b.Append(lb);
             return b;
         }
 
         public static T Item<T>(this T b, string text, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).TrailingHtml(text);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(text);
             if (listItemOptions != null) listItemOptions(lb);
-            b.TrailingHtml(lb);
+            b.Append(lb);
             return b;
         }
 
         public static T Item<T>(this T b, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).TrailingHtml(content);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(content);
             if (listItemOptions != null) listItemOptions(lb);
-            b.TrailingHtml(lb);
+            b.Append(lb);
             return b;
         }
 
         public static T LinkItem<T>(this T b, string text, string href, Action<LinkBuilder> linkOptions = null, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
             LinkBuilder lb = new LinkBuilder(b.Marquite);
-            lb.TrailingText(text).Href(href).Tabindex(-1);
+            BasicHtmlBuilderExtensions.AppendText(lb, text).Href(href).Tabindex(-1);
             if (linkOptions != null) linkOptions(lb);
             return Item(b, lb, listItemOptions);
         }
@@ -50,9 +50,9 @@ namespace Marquite.Bootstrap.Extensions
 
         public static T Header<T>(this T b, string header, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).TrailingHtml(header).AddClass("dropdown-header");
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(header).AddClass("dropdown-header");
             if (listItemOptions != null) listItemOptions(lb);
-            b.TrailingHtml(lb);
+            b.Append(lb);
             return b;
         }
     }

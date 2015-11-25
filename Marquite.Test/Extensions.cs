@@ -14,8 +14,8 @@ namespace Marquite.Test
             return
                 h.Bs()
                     .Button()
-                    .When(condition, c => c.AppendText("Больше двух"))
-                    .When(!condition, c => c.AppendText("Меньше двух"))
+                    .When(condition, c => ButtonBuilderExtensions.AppendButtonText(c, "Больше двух"))
+                    .When(!condition, c => ButtonBuilderExtensions.AppendButtonText(c, "Меньше двух"))
                     .Large()
                     .Danger()
                     .LeadIcon(GlyphIcon.Bell).Render();

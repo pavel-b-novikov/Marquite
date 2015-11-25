@@ -55,7 +55,7 @@ namespace Marquite.Bootstrap.Extensions
         public static T AddText<T>(this T b, string text, NavbarPlacement placement = NavbarPlacement.None) where T : NavbarBuilder 
         {
             SimpleHtmlBuilder pElement = new SimpleHtmlBuilder(b.Marquite, "p");
-            pElement.TrailingText(text);
+            BasicHtmlBuilderExtensions.AppendText(pElement, text);
             pElement.AddClass("navbar-text");
             return AddItem(b, pElement, placement);
         }
@@ -69,7 +69,7 @@ namespace Marquite.Bootstrap.Extensions
         {
             if (b._brandLink == null) b._brandLink = BrandLink(b);
             b._brandLink.Href(navUrl);
-            b._brandLink.TrailingText(brandName);
+            BasicHtmlBuilderExtensions.AppendText(b._brandLink, brandName);
 
             return b;
         }
@@ -78,7 +78,7 @@ namespace Marquite.Bootstrap.Extensions
         {
             if (b._brandLink == null) b._brandLink = BrandLink(b);
             b._brandLink.Href(navUrl);
-            b._brandLink.TrailingHtml(brandElement.Detached());
+            b._brandLink.Append(brandElement.Detached());
             return b;
         }
 

@@ -421,4 +421,17 @@ namespace Marquite.Bootstrap
         [LookupString("has-error")]
         HasError
     }
+
+    [LookupEnum]
+    public enum AlertColor
+    {
+        [LookupString("alert-success")]
+        Success,
+        [LookupString("alert-info")]
+        Info,
+        [LookupString("alert-warning")]
+        Warning,
+        [LookupString("alert-danger")]
+        Danger
+    }
 }

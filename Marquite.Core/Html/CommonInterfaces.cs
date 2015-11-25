@@ -28,7 +28,7 @@ namespace Marquite.Core.Html
 
         public static T Text<T>(this T b, string text) where T : ITextable
         {
-            return b.TrailingText(text);
+            return BasicHtmlBuilderExtensions.AppendText(b, text);
         }
 
         public static T Disabled<T>(this T b) where T : IDisableable
@@ -41,7 +41,7 @@ namespace Marquite.Core.Html
             return b.Attr("name", fieldName);
         }
 
-        public static T Label<T>(this T b, string label) where T : ILabelable
+        public static T LabelAttr<T>(this T b, string label) where T : ILabelable
         {
             return b.Attr("label", label);
         }

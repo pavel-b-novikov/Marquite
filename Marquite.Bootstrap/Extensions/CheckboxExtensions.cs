@@ -20,17 +20,17 @@ namespace Marquite.Bootstrap.Extensions
         {
             var input = htmlHelper.CheckBoxFor(expression);
             var label = htmlHelper.LabelFor(expression);
-            label.LeadingHtml(input);
+            label.Prepend(input);
             BootstrapCheckableBuilder builder = new BootstrapCheckableBuilder(input.Marquite);
             builder.AddClass("checkbox");
-            builder.TrailingHtml(label);
+            builder.Append(label);
             return builder;
         }
         public static BootstrapCheckableBuilder ToBootstrapCheckbox(this IInputField inputElement, string label = null)
         {
             LabelBuilder lb = string.IsNullOrEmpty(label)
                 ? null
-                : new LabelBuilder(inputElement.Marquite).TrailingText(label);
+                : BasicHtmlBuilderExtensions.AppendText(new LabelBuilder(inputElement.Marquite), label);
             return BootstrapCheckable(inputElement, "checkbox", lb);
         }
 
@@ -38,7 +38,7 @@ namespace Marquite.Bootstrap.Extensions
         {
             LabelBuilder lb = string.IsNullOrEmpty(label)
                 ? null
-                : new LabelBuilder(inputElement.Marquite).TrailingText(label);
+                : BasicHtmlBuilderExtensions.AppendText(new LabelBuilder(inputElement.Marquite), label);
             return BootstrapCheckable(inputElement, "radio", lb);
         }
 
@@ -63,8 +63,8 @@ namespace Marquite.Bootstrap.Extensions
             {
                 label = new LabelBuilder(inputElement.Marquite);
             }
-            label.LeadingHtml(inputElement);
-            builder.TrailingHtml(label);
+            label.Prepend(inputElement);
+            builder.Append(label);
             return builder;
         }
     }

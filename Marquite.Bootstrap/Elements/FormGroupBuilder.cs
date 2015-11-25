@@ -38,19 +38,19 @@ namespace Marquite.Bootstrap.Elements
                     {
                         SetWidth(element, formLineElement);
                         element.AddClass("control-label");
-                        this.TrailingHtml(element);
+                        this.Append(element);
                     }
                     else
                     {
                         SimpleHtmlBuilder divElement = new SimpleHtmlBuilder(Marquite, "div");
                         SetWidth(divElement, formLineElement);
-                        divElement.TrailingHtml(formLineElement.Element);
-                        this.TrailingHtml(divElement);
+                        divElement.Append(formLineElement.Element);
+                        this.Append(divElement);
                     }
                 }
                 else
                 {
-                    this.TrailingHtml(element);
+                    this.Append(element);
                 }
             }
         }

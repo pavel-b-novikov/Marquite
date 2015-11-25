@@ -92,31 +92,5 @@ namespace Marquite.Bootstrap.Extensions
             return Size(b, ButtonSize.Large);
         }
         #endregion
-
-        public static T TrailIcon<T>(this T b,GlyphIcon icon) where T : BootstrapButtonBuilder 
-        {
-            if (b.TagName == "input")
-            {
-                throw new Exception("Cannot place icons to input-kind buttons");
-            }
-            else
-            {
-                b.RenderingQueue.Trail(b.Bootstrap.CompiledGlyphIcon(icon));
-            }
-            return b;
-        }
-
-        public static BootstrapButtonBuilder LeadIcon(this BootstrapButtonBuilder b, GlyphIcon icon)
-        {
-            if (b.TagName == "input")
-            {
-                throw new Exception("Cannot place icons to input-kind buttons");
-            }
-            else
-            {
-                b.RenderingQueue.Lead(b.Bootstrap.CompiledGlyphIcon(icon));
-            }
-            return b;
-        }
     }
 }

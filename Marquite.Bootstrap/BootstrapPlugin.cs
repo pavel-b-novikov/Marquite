@@ -24,14 +24,14 @@ namespace Marquite.Bootstrap
             IsCurrentFormInline = false;
         }
 
-        internal bool IsCurrentFormHorizontal { get; set; }
+        public bool IsCurrentFormHorizontal { get; set; }
 
-        internal bool IsCurrentFormInline { get; set; }
+        public bool IsCurrentFormInline { get; set; }
 
-        internal int CurrentFormLabelWidth { get; set; }
+        public int CurrentFormLabelWidth { get; set; }
 
-        internal int CurrentFormContentWidth { get; set; }
+        public int CurrentFormContentWidth { get; set; }
 
-        internal string CurrentActiveTab { get; set; }
+        public string CurrentActiveTab { get; set; }
     }
 }
