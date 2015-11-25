@@ -35,7 +35,7 @@ namespace Marquite.Core
         {
             // To self-closed attributes use method 'SelfCloseAttr'
             if (attrName == "class") throw new Exception("Dont try to operate directly with class attribute. Use AddClass and RemoveClass for manupulation with classes.");
-            if (string.IsNullOrEmpty(value))
+            if (value == null)
             {
                 if (b.Attributes.ContainsKey(attrName)) b.Attributes.Remove(attrName);
                 return b;
