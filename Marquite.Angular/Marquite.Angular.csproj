@@ -62,7 +62,7 @@
     <Compile Include="Expressions\NgBinaryExpression.cs" />
     <Compile Include="Expressions\NgCallExpression.cs" />
     <Compile Include="Expressions\NgExpression.cs" />
-    <Compile Include="Expressions\NgIdentExpression.cs" />
+    <Compile Include="Expressions\NgLiteralExpression.cs" />
     <Compile Include="Expressions\NgIndexerExpression.cs" />
     <Compile Include="Expressions\NgMemberExpression.cs" />
     <Compile Include="Expressions\NgUnaryExpression.cs" />

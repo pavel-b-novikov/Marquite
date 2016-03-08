@@ -33,6 +33,7 @@
                 Hi! It is marquite Bootstrap demo.
                 Please find out bootstrap demo elements on other pages<br />
                 @Html.Bs().Button("Save").NgEvent(NgEvent.Click, ctx.Command(c => c.Model.SaveResults()))
+                @Html.Bs().Button("Save").NgBind(ctx.Bind(c=>c.IsSimple()))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.HandleMove(c.Event)))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.Simple(c.Var<int>("10"))))
 

@@ -57,14 +57,14 @@ namespace Marquite.Angular.Expressions
             return _resultsStack.Pop();
         }
 
-        private bool DetectModelMemberAccess(MemberExpression node)
+        private bool DetectModelMemberAccess(Expression node)
         {
-            return !_isParametrizedByEventContext && node.Expression is ParameterExpression;
+            return !_isParametrizedByEventContext && node is ParameterExpression;
         }
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (DetectModelMemberAccess(node))
+            if (DetectModelMemberAccess(node.Expression))
             {
                 var ngex = new NgLiteralExpression { Literal = "??model??", IsModelReference = true };
                 var prop = new NgMemberExpression() { Accessed = ngex, MemberName = node.Member.Name };
@@ -127,10 +127,18 @@ namespace Marquite.Angular.Expressions
                 Return(new NgLiteralExpression { Literal = arg.Value.ToString() });
                 return node;
             }
-
-            Visit(node.Object);
-            var callee = new NgMemberExpression() { Accessed = Retrieve(), MemberName = node.Method.Name };
-
+            NgMemberExpression callee;
+            if (DetectModelMemberAccess(node.Object))
+            {
+                var ngex = new NgLiteralExpression {Literal = "??model??", IsModelReference = true};
+                callee = new NgMemberExpression() {Accessed = ngex, MemberName = node.Method.Name};
+                _unboundModelReferences.Add(ngex);
+            }
+            else
+            {
+                Visit(node.Object);
+                callee = new NgMemberExpression() {Accessed = Retrieve(), MemberName = node.Method.Name};
+            }
             var methodCall = new NgCallExpression { ExpressionToCall = callee };
             foreach (var expression in node.Arguments)
             {
@@ -204,7 +212,7 @@ namespace Marquite.Angular.Expressions
             }
             if (node.Type == typeof(string))
             {
-                var s = "\"" + node.Value.ToString().Replace("\"", "\\\"") + "\"";
+                var s = "\'" + node.Value.ToString().Replace("\"", "\\\"") + "\'";
                 Return(new NgLiteralExpression { Literal = s });
                 return node;
             }

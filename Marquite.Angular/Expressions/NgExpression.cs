@@ -26,5 +26,10 @@ namespace Marquite.Angular.Expressions
         {
             return String.Format("{{{{{0}}}}}", Build());
         }
+
+        public override string ToString()
+        {
+            return String.Format("{{{{{0}}}}}", Build());
+        }
     }
 }
