@@ -10,9 +10,10 @@ namespace Marquite.Core
 {
     public class RazorMarquite : IMarquite
     {
-        public RazorMarquite(HtmlHelper h) : this((WebViewPage) h.ViewDataContainer,h.ViewContext,h.ViewData)
+        public RazorMarquite(HtmlHelper h)
+            : this((WebViewPage)h.ViewDataContainer, h.ViewContext, h.ViewData)
         {
-            
+
         }
 
         public RazorMarquite(WebViewPage page, ViewContext vc, ViewDataDictionary vd)
@@ -64,9 +65,11 @@ namespace Marquite.Core
                 if (value)
                 {
                     //_scaffoldedCache = new SortedDictionary<string, List<IRenderingClient>>(StringComparer.OrdinalIgnoreCase);
-                    _pluginsCache = new Dictionary<Type, IMarquitePlugin>();
+
                     Global = this;
                 }
+
+                _pluginsCache = new Dictionary<Type, IMarquitePlugin>();
             }
         }
 
@@ -107,7 +110,6 @@ namespace Marquite.Core
 
         public T ResolvePlugin<T>() where T : IMarquitePlugin, new()
         {
-            if (!_isGlobal) return Global.ResolvePlugin<T>();
             if (_pluginsCache.ContainsKey(typeof(T))) return (T)_pluginsCache[typeof(T)];
             T pluginInstance = new T();
             pluginInstance.Marquite = this;

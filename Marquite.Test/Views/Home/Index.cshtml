@@ -17,12 +17,12 @@
 {
     using (Html.Bs().Row().NgController("UserController").Open())
     {
-        <text>
-            @this.FirstColumn()
-        </text>
+        this.FirstColumn();
 
         using (Html.Bs().Column(6).Open())
         {
+            Ajax.ActionLink("bbbbbb", "Index", new AjaxOptions());
+                
             <h1>Column 1 @ctx.Bind(c => c.User.Age)</h1>
         }
 

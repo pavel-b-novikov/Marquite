@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AngularEventContext.cs" />
-    <Compile Include="AngularPropertyExpression.cs" />
     <Compile Include="Expressions\NgInExpression.cs" />
     <Compile Include="NgExpressionExtensions.cs" />
     <Compile Include="Expressions\NgBinaryExpression.cs" />

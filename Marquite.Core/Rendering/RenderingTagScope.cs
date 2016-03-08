@@ -23,12 +23,12 @@ namespace Marquite.Core.Rendering
             _parentTagBuilder.RenderBeforeOpenTag(_writer);
             _parentTagBuilder.RenderOpeningTag(_writer);
             _parentTagBuilder.RenderAfterOpeningTag(_writer);
-            if (!_renderContentAtTop) _parentTagBuilder.RenderContent(_writer); 
+            if (_renderContentAtTop) _parentTagBuilder.RenderContent(_writer); 
         }
 
         public void Dispose()
         {
-            if (_renderContentAtTop) _parentTagBuilder.RenderContent(_writer);
+            if (!_renderContentAtTop) _parentTagBuilder.RenderContent(_writer);
             _parentTagBuilder.RenderBeforeClosingTag(_writer);
             _parentTagBuilder.RenderClosingTag(_writer);
             _parentTagBuilder.RenderAfterClosingTag(_writer);

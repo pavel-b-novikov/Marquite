@@ -39,8 +39,8 @@ namespace Marquite.Test.MarqForms
             var m = html.Marq();
             var bs = html.Marq().Bs();
 
-            using (var mScope = new TagScope(m))
-            {
+            //using (var mScope = new TagScope(m))
+            //{
                 using (bs.Column(3).Open())
                 {
                     bs.Button("Hello!");
@@ -54,8 +54,8 @@ namespace Marquite.Test.MarqForms
                         m.Tr("C", "D", "E");
                         m.Tr("C", "D", "E");
                     }
-                }
-                return mScope.Scope;
+                //}
+                return MvcHtmlString.Empty;
             }
         }
 

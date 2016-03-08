@@ -22,7 +22,8 @@ namespace Marquite.Core
         {
             if (element == null) return default(T);
             var scope = element.Marquite.ScopeManager.CurrentScope;
-            if (scope != null) scope.Detach(element);
+            if (scope != null) 
+                scope.Detach(element);
             return element;
         }
     }
