@@ -34,6 +34,7 @@
                 Please find out bootstrap demo elements on other pages<br />
                 @Html.Bs().Button("Save").NgEvent(NgEvent.Click, ctx.Command(c => c.Model.SaveResults()))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.HandleMove(c.Event)))
+                @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.Simple(c.Var<int>("10"))))
 
                 @ctx.Bind(c => 1 + 3)
                 @ctx.Bind(c=>c.User.Age + " ages")

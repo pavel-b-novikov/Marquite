@@ -13,5 +13,7 @@ namespace Marquite.Test.Models
         void SaveResults();
 
         void HandleMove(IEvent mouseMoveEvent);
+
+        void Simple(int v);
     }
 }

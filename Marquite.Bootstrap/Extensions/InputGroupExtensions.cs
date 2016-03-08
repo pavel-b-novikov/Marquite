@@ -14,6 +14,11 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class InputGroupExtensions
     {
+        public static InputGroupBuilder InputGroup(this BootstrapPlugin bs)
+        {
+            return new InputGroupBuilder(bs.Marquite);
+        }
+
         public static InputGroupBuilder ToInputGroup(this InputElementBuilder inputElement)
         {
             return new InputGroupBuilder(inputElement);

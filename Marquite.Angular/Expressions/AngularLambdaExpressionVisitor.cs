@@ -106,9 +106,21 @@ namespace Marquite.Angular.Expressions
             return node;
         }
 
+        private bool IsVarCalling(MethodInfo mi)
+        {
+            if (!mi.IsGenericMethod) return false;
+            if (mi.Name != VarContextMethod.Name) return false;
+            var genericDef = mi.GetGenericMethodDefinition();
+            if (!genericDef.DeclaringType.IsGenericType) return false;
+            var decGeneric = genericDef.DeclaringType.GetGenericTypeDefinition();
+            if (VarContextMethod.DeclaringType != decGeneric) return false;
+            
+            return true;
+        }
+
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (node.Method.IsGenericMethod && node.Method.GetGenericMethodDefinition() == VarContextMethod)
+            if (IsVarCalling(node.Method))
             {
                 var arg = node.Arguments[0] as ConstantExpression;
                 if (arg == null) throw new Exception("Please specify only constant strings as parameter for .Var call");

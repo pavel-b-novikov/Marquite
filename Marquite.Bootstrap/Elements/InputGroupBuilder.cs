@@ -9,7 +9,7 @@ namespace Marquite.Bootstrap.Elements
     public class InputGroupBuilder : ElementHtmlBuilder
     {
         public InputGroupBuilder(IMarquite marquite)
-            : base(marquite, "div ")
+            : base(marquite, "div")
         {
            this.AddClass("input-group");
         }
