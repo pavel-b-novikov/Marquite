@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marquite.Angular.Expressions
 {
-    internal abstract class NgExpression : IAngularExpression
+    public abstract class NgExpression : IAngularExpression
     {
         protected abstract string BuildCore();
         private readonly List<string> _filters = new List<string>();

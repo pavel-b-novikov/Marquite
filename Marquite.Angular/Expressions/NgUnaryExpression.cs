@@ -12,7 +12,7 @@ namespace Marquite.Angular.Expressions
         public string Symbol { get; set; }
         protected override string BuildCore()
         {
-            return String.Format("({0} {1})",Symbol,Expression.Build());
+            return String.Format("({0}{1})",Symbol,Expression.Build());
         }
     }
 }

@@ -8,15 +8,36 @@ namespace Marquite.Angular.Expressions
     class AngularLambdaExpressionVisitor : ExpressionVisitor
     {
         private readonly Stack<NgExpression> _resultsStack = new Stack<NgExpression>();
-        private static readonly MethodInfo VarContextMethod;
-        private readonly List<NgLiteralExpression> _unboundModelReferences = new List<NgLiteralExpression>();
+        private readonly List<NgUnboundExpression> _unboundModelReferences = new List<NgUnboundExpression>();
         private readonly LambdaExpression _rootExpression;
-        private bool _isParametrizedByEventContext;
+        private readonly bool _isParametrizedByEventContext;
+
+        public List<NgUnboundExpression> UnboundModelReferences
+        {
+            get { return _unboundModelReferences; }
+        }
+
         public void BindModel(string modelLiteral)
         {
             foreach (var unboundModelReference in _unboundModelReferences)
             {
-                unboundModelReference.Literal = modelLiteral;
+                unboundModelReference.Boundee = new NgLiteralExpression() {Literal = modelLiteral};
+            }
+        }
+
+        public void Bind(NgExpression expression)
+        {
+            foreach (var unboundModelReference in _unboundModelReferences)
+            {
+                unboundModelReference.Boundee = expression;
+            }
+        }
+
+        public void BindEmpty()
+        {
+            foreach (var unboundModelReference in _unboundModelReferences)
+            {
+                unboundModelReference.IsEmpty = true;
             }
         }
 
@@ -31,17 +52,12 @@ namespace Marquite.Angular.Expressions
 
         }
 
-        static AngularLambdaExpressionVisitor()
-        {
-            VarContextMethod = typeof(AngularEventContext<>).GetMethod("Var");
-        }
-
         public AngularLambdaExpressionVisitor(LambdaExpression rootExpression)
         {
             _rootExpression = rootExpression;
             var param = _rootExpression.Parameters[0];
             var ptype = param.Type;
-            if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(AngularEventContext<>))
+            if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(NgEventContext<>))
             {
                 _isParametrizedByEventContext = true;
             }
@@ -66,7 +82,7 @@ namespace Marquite.Angular.Expressions
         {
             if (DetectModelMemberAccess(node.Expression))
             {
-                var ngex = new NgLiteralExpression { Literal = "??model??", IsModelReference = true };
+                var ngex = new NgUnboundExpression();
                 var prop = new NgMemberExpression() { Accessed = ngex, MemberName = node.Member.Name };
                 Return(prop);
                 _unboundModelReferences.Add(ngex);
@@ -83,7 +99,7 @@ namespace Marquite.Angular.Expressions
             var modelAttr = node.Member.GetCustomAttribute<IsModelAttribute>();
             if (modelAttr != null)
             {
-                var ngex = new NgLiteralExpression { Literal = "??model??", IsModelReference = true };
+                var ngex = new NgUnboundExpression();
                 _unboundModelReferences.Add(ngex);
                 Return(ngex);
                 return node;
@@ -106,38 +122,27 @@ namespace Marquite.Angular.Expressions
             return node;
         }
 
-        private bool IsVarCalling(MethodInfo mi)
-        {
-            if (!mi.IsGenericMethod) return false;
-            if (mi.Name != VarContextMethod.Name) return false;
-            var genericDef = mi.GetGenericMethodDefinition();
-            if (!genericDef.DeclaringType.IsGenericType) return false;
-            var decGeneric = genericDef.DeclaringType.GetGenericTypeDefinition();
-            if (VarContextMethod.DeclaringType != decGeneric) return false;
-            
-            return true;
-        }
-
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (IsVarCalling(node.Method))
+            var customAttr = node.Method.GetCustomAttribute<CustomMethodCallTranslationAttribute>();
+            if (customAttr != null)
             {
-                var arg = node.Arguments[0] as ConstantExpression;
-                if (arg == null) throw new Exception("Please specify only constant strings as parameter for .Var call");
-                Return(new NgLiteralExpression { Literal = arg.Value.ToString() });
+                var result = customAttr.TranslationFunction.Invoke(null, new object[] { node, this });
+                Return((NgExpression)result);
                 return node;
             }
+
             NgMemberExpression callee;
             if (DetectModelMemberAccess(node.Object))
             {
-                var ngex = new NgLiteralExpression {Literal = "??model??", IsModelReference = true};
-                callee = new NgMemberExpression() {Accessed = ngex, MemberName = node.Method.Name};
+                var ngex = new NgUnboundExpression();
+                callee = new NgMemberExpression() { Accessed = ngex, MemberName = node.Method.Name };
                 _unboundModelReferences.Add(ngex);
             }
             else
             {
                 Visit(node.Object);
-                callee = new NgMemberExpression() {Accessed = Retrieve(), MemberName = node.Method.Name};
+                callee = new NgMemberExpression() { Accessed = Retrieve(), MemberName = node.Method.Name };
             }
             var methodCall = new NgCallExpression { ExpressionToCall = callee };
             foreach (var expression in node.Arguments)

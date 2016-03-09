@@ -10,7 +10,7 @@ namespace Marquite.Angular
     /// Context for event binding 
     /// </summary>
     /// <typeparam name="TModel">Your ViewModel</typeparam>
-    public class AngularEventContext<TModel>
+    public class NgEventContext<TModel>
     {
         /// <summary>
         /// Event object exposed as $event
@@ -30,6 +30,7 @@ namespace Marquite.Angular
         /// </summary>
         /// <param name="varName">Variable name</param>
         /// <returns>Mock.</returns>
+        [CustomMethodCallTranslation(typeof(Translations), "TranslateVar")]
         public T Var<T>(string varName)
         {
             throw new Exception("This method is used only while parsering expressions. Dont call it ever.");

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Marquite.Angular.Expressions
 {
-    class NgLiteralExpression : NgExpression
+    class NgUnboundExpression : NgExpression
     {
-        public string Literal { get; set; }
-        
+        public NgExpression Boundee { get; set; }
+
+        public bool IsEmpty { get; set; }
+
         protected override string BuildCore()
         {
-            return Literal;
+            return Boundee == null ? (IsEmpty ? string.Empty : "<unbound>") : Boundee.Build();
         }
     }
 }

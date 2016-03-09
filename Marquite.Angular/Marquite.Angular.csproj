@@ -56,8 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AngularEventContext.cs" />
+    <Compile Include="Expressions\NgUnboundExpression.cs" />
+    <Compile Include="NgClassBuilder.cs" />
+    <Compile Include="NgEventContext.cs" />
+    <Compile Include="CustomMethodCallTransaltion.cs" />
     <Compile Include="Expressions\NgInExpression.cs" />
+    <Compile Include="NgFormContext.cs" />
     <Compile Include="NgExpressionExtensions.cs" />
     <Compile Include="Expressions\NgBinaryExpression.cs" />
     <Compile Include="Expressions\NgCallExpression.cs" />
@@ -76,11 +80,13 @@
     <Compile Include="MarquiteAngularExtensions.cs" />
     <Compile Include="NgContext.cs" />
     <Compile Include="Expressions\AngularLambdaExpressionVisitor.cs" />
+    <Compile Include="NgFormContextWrapper.cs" />
     <Compile Include="NgLookups.cs" />
     <Compile Include="NgModelOptions.cs" />
     <Compile Include="NgPluralize.cs" />
     <Compile Include="OverrideNameAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Translations.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marquite.Core\Marquite.Core.csproj">

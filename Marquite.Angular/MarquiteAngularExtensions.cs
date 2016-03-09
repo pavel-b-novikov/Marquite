@@ -145,6 +145,15 @@ namespace Marquite.Angular
             return builder;
         }
 
+        public static T NgClass<T>(this T builder, Action<NgClassBuilder> classBuilderConf)
+            where T : IHtmlBuilder
+        {
+            NgClassBuilder clb = new NgClassBuilder();
+            classBuilderConf(clb);
+            builder.Attr("ng-class", clb.Build());
+            return builder;
+        }
+
         public static T NgClassEven<T>(this T builder, string expression)
            where T : IHtmlBuilder
         {
