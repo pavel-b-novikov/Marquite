@@ -1,6 +1,6 @@
 ﻿namespace Marquite.Core.Elements
 {
-    public class TextareaBuilder : BaseInputField
+    public class TextareaBuilder : BaseInputField,IInputField
     {
         public TextareaBuilder(IMarquite marquite) : base(marquite, "textarea")
         {

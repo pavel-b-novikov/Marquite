@@ -2,6 +2,7 @@
 using Marquite.Core;
 using Marquite.Core.BuilderMechanics;
 using Marquite.Core.Elements;
+using Marquite.Core.Html;
 
 namespace Marquite.Bootstrap.Extensions
 {
@@ -13,7 +14,7 @@ namespace Marquite.Bootstrap.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static T Inline<T>(this T t) where T : FormBuilder
+        public static T Inline<T>(this T t) where T : IFieldset
         {
             var plg = t.Marquite.ResolvePlugin<BootstrapPlugin>();
             plg.IsCurrentFormInline = true;
@@ -25,7 +26,7 @@ namespace Marquite.Bootstrap.Extensions
             return t.AddClass("form-inline");
         }
 
-        public static T Horizontal<T>(this T t, int labelWidth = 0, int contentWidth = 0) where T : FormBuilder
+        public static T Horizontal<T>(this T t, int labelWidth = 0, int contentWidth = 0) where T : IFieldset
         {
             var plg = t.Marquite.ResolvePlugin<BootstrapPlugin>();
             plg.IsCurrentFormHorizontal = true;

@@ -56,7 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomNgContextExtensions.cs" />
     <Compile Include="Expressions\NgUnboundExpression.cs" />
+    <Compile Include="HtmlAngularExtensions.cs" />
     <Compile Include="NgClassBuilder.cs" />
     <Compile Include="NgEventContext.cs" />
     <Compile Include="CustomMethodCallTransaltion.cs" />

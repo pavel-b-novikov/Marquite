@@ -79,6 +79,7 @@
     <Compile Include="BuilderMechanics\IHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\SimpleHtmlBuilder.cs" />
     <Compile Include="BuilderMechanics\StringCategory.cs" />
+    <Compile Include="Elements\FieldsetBuilder.cs" />
     <Compile Include="Html\BaseInputFieldExtensions.cs" />
     <Compile Include="Html\ButtonBuilderExtensions.cs" />
     <Compile Include="Html\CommonInterfaces.cs" />

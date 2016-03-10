@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Marquite.Core.BuilderMechanics;
+using Marquite.Core.Elements;
 
 namespace Marquite.Core.Html
 {
@@ -43,6 +44,11 @@ namespace Marquite.Core.Html
         public static SimpleHtmlBuilder Marq<TModel>(this HtmlHelper<TModel> h, string tagName)
         {
             return new SimpleHtmlBuilder(h.Marq(), tagName);
+        }
+
+        public static FieldsetBuilder Fieldset<TModel>(this HtmlHelper<TModel> h)
+        {
+            return new FieldsetBuilder(h.Marq());
         }
     }
 }

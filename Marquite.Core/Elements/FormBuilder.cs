@@ -5,8 +5,8 @@ using Marquite.Core.Html;
 
 namespace Marquite.Core.Elements
 {
-    
-    public class FormBuilder : ElementHtmlBuilder, INameable
+
+    public class FormBuilder : ElementHtmlBuilder, IFieldset
     {
         public FormBuilder(IMarquite marquite)
             : base(marquite, "form")

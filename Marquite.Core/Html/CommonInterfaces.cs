@@ -9,6 +9,8 @@ namespace Marquite.Core.Html
     public interface INameable : IHtmlBuilder { }
     public interface ILabelable : IHtmlBuilder { }
 
+    public interface IFieldset : INameable, IDisableable { }
+
     public static class CommonBuildersExtensions
     {
         public static T Value<T>(this T b, string value) where T : IValuable

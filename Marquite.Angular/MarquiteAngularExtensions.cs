@@ -80,6 +80,24 @@ namespace Marquite.Angular
 
         }
 
+        public static T NgRequired<T>(this T builder, string condition)
+            where T : IInputField
+        {
+            CheckAllowedTextField(builder);
+            builder.Attr("ng-required", condition);
+            return builder;
+
+        }
+
+        public static T NgRequired<T>(this T builder, IAngularExpression condition)
+            where T : IInputField
+        {
+            CheckAllowedTextField(builder);
+            builder.Attr("ng-required", condition.Build());
+            return builder;
+
+        }
+
         public static T NgTrim<T>(this T builder, bool trim = true)
             where T : IInputField
         {
@@ -196,6 +214,13 @@ namespace Marquite.Angular
             return builder;
         }
 
+        public static T NgModelButton<T>(this T builder)
+           where T : ButtonBuilder
+        {
+            builder.Attr("ng-model", "button");
+            return builder;
+        }
+
         public static T NgModel<T>(this T builder, IAngularExpression modelExpression)
             where T : IInputField
         {
@@ -258,17 +283,17 @@ namespace Marquite.Angular
             return builder;
         }
 
-        public static T NgForm<T>(this T builder, string name)
-            where T : IHtmlBuilder
+        public static T NgDisabled<T>(this T builder, IAngularExpression expression)
+            where T : IDisableable
         {
-            builder.Attr("ng-form", name);
+            builder.Attr("ng-disabled", expression.Build());
             return builder;
         }
 
-        public static T NgDisabled<T>(this T builder, IAngularExpression expression)
-            where T : IInputField
+        public static T NgForm<T>(this T builder, string name)
+            where T : IFieldset
         {
-            builder.Attr("ng-disabled", expression.Build());
+            builder.Attr("ng-form", name);
             return builder;
         }
 
@@ -292,7 +317,7 @@ namespace Marquite.Angular
            where T : IInputField
         {
             CheckAllowedTextField(builder);
-            builder.Attr("ng-pattern", regexPattern);
+            builder.Attr("ng-pattern", string.Format("/{0}/",regexPattern));
             return builder;
         }
 
