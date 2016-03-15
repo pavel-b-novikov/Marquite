@@ -12,46 +12,42 @@ namespace Marquite.Bootstrap.Extensions
     {
         public static T Divider<T>(this T b, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).AddClass("divider");
-            if (listItemOptions != null) listItemOptions(lb);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).AddClass("divider").Mixin(listItemOptions);
             b.Append(lb);
             return b;
         }
-
+        public static T Item<T>(this T b, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
+        {
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Mixin(listItemOptions);
+            b.Append(lb);
+            return b;
+        }
         public static T Item<T>(this T b, string text, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(text);
-            if (listItemOptions != null) listItemOptions(lb);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(text).Mixin(listItemOptions);
             b.Append(lb);
             return b;
         }
 
-        public static T Item<T>(this T b, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
+        public static T LinkItem<T>(this T b, string text, string href,
+            Action<LinkBuilder> linkOptions = null,
+            Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(content);
-            if (listItemOptions != null) listItemOptions(lb);
-            b.Append(lb);
-            return b;
-        }
+            LinkBuilder lb = new LinkBuilder(b.Marquite)
+                .AppendText(text)
+                .Href(href)
+                .Tabindex(-1)
+                .Mixin(linkOptions);
 
-        public static T LinkItem<T>(this T b, string text, string href, Action<LinkBuilder> linkOptions = null, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
-        {
-            LinkBuilder lb = new LinkBuilder(b.Marquite);
-            BasicHtmlBuilderExtensions.AppendText(lb, text).Href(href).Tabindex(-1);
-            if (linkOptions != null) linkOptions(lb);
-            return Item(b, lb, listItemOptions);
-        }
-
-        public static T RawItem<T>(this T b, IRenderingClient item) where T : DropdownMenuBuilder
-        {
-            b.RenderingQueue.Trail(item.Detached());
-            return b;
+            return Item(b, c => c.Append(lb).Mixin(listItemOptions));
         }
 
         public static T Header<T>(this T b, string header, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(header).AddClass("dropdown-header");
-            if (listItemOptions != null) listItemOptions(lb);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite)
+                .Append(header)
+                .AddClass("dropdown-header")
+                .Mixin(listItemOptions);
             b.Append(lb);
             return b;
         }

@@ -28,16 +28,16 @@ namespace Marquite.Angular
             return string.Format("(function(a){{ {1} }}){0}", scpFun, apply);
         }
 
-        public static string FromOutOfScope<T,TData>(this NgContext<T> context, string contollerName, Expression<Func<NgEventContext<T>, TData>> method)
+        public static string FromOutOfScope<T,TData>(this NgContext<T> context, Expression<Func<NgEventContext<T>, TData>> method)
         {
             var fn = context.Command(method).Build();
-            return ConstructOutOfScopeCall(context.ModelName, contollerName, fn);
+            return ConstructOutOfScopeCall(context.ModelName, context.ControllerName, fn);
         }
 
-        public static string FromOutOfScope<T>(this NgContext<T> context, string contollerName, Expression<Action<NgEventContext<T>>> method)
+        public static string FromOutOfScope<T>(this NgContext<T> context, Expression<Action<NgEventContext<T>>> method)
         {
             var fn = context.Command(method).Build();
-            return ConstructOutOfScopeCall(context.ModelName, contollerName, fn);
+            return ConstructOutOfScopeCall(context.ModelName, context.ControllerName, fn);
         }
     }
 }

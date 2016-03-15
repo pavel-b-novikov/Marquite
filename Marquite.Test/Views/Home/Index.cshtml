@@ -1,4 +1,5 @@
-﻿@using Marquite.Angular
+﻿@using System.Web.Mvc.Html
+@using Marquite.Angular
 @using Marquite.Bootstrap
 @using Marquite.Bootstrap.Extensions
 @using Marquite.Core
@@ -9,14 +10,14 @@
     Random r = new Random();
     bool condition = r.Next(5) > 2;
     var t = base.GetType();
-    var ctx = new NgContext<ISampleAngularModel>();
+    var ctx = new NgContext<ISampleAngularModel>("UserController");
     var formCtx = new NgFormContext<ISampleAngularModel>("myForm");
 }
 
 
 @using (Html.Bs().Container(true).Open())
 {
-    using (Html.Bs().Row().NgController("UserController").Open())
+    using (Html.Bs().Row().NgController(ctx).Open())
     {
         this.FirstColumn();
 
@@ -30,13 +31,16 @@
         using (Html.Bs().Column(3).Open())
         {
             <p>
-                <br />
+                @Html.Bs().Button("Great").Dropdown(c=>c.LinkItem("Whoa","#",a=>a.Attr("data-hide","none")))
+
+                <br/>
                 Hi! It is marquite Bootstrap demo.
-                Please find out bootstrap demo elements on other pages<br />
+                Please find out bootstrap demo elements on other pages<br/>
                 @Html.Bs().Button("Save").NgEvent(NgEvent.Click, ctx.Command(c => c.Model.SaveResults()))
                 @Html.Bs().Button("Save").NgBind(ctx.Bind(c => c.IsSimple()))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.HandleMove(c.Event)))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.Simple(c.Var<int>("10"))))
+                @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.Simple(c.Constant<int>("10" + "2"))))
 
                 @ctx.Bind(c => 1 + 3)
                 @ctx.Bind(c => c.User.Age + " ages")
@@ -44,9 +48,9 @@
                 @formCtx.Bind(c => c.Pristine(v => v.User.Age) && !c.Invalid(v => v.User.Age))
                 @formCtx.Bind(c => c.Pristine())
                 @formCtx.Bind(c => c.Error())
-                @formCtx.Bind(c => c.Error(v=>v.User.UserName))
-                @formCtx.Bind(c => c.Error(v=>v.User.UserName,BuiltInValidatorToken.Email))
-                @formCtx.Bind(c => c.Error(v=>v.User.UserName,"mytoken"))
+                @formCtx.Bind(c => c.Error(v => v.User.UserName))
+                @formCtx.Bind(c => c.Error(v => v.User.UserName, BuiltInValidatorToken.Email))
+                @formCtx.Bind(c => c.Error(v => v.User.UserName, "mytoken"))
                 @formCtx.Bind(c => c.Error(BuiltInValidatorToken.Email))
                 @formCtx.Bind(c => c.Error("mytoken"))
             </p>

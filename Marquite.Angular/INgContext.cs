@@ -9,5 +9,7 @@ namespace Marquite.Angular
     public interface INgContext
     {
         string ModelName { get; }
+
+        string ControllerName { get; }
     }
 }

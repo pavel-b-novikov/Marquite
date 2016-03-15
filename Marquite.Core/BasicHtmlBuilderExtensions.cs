@@ -11,11 +11,6 @@ namespace Marquite.Core
 {
     public static class BasicHtmlBuilderExtensions
     {
-        public static T ApplyFn<T>(this Action<T> action, T obj)
-        {
-            if (action != null) action(obj);
-            return obj;
-        }
         #region CSS
         public static T Css<T>(this T b, Css property, string value) where T : IHtmlBuilder
         {
@@ -182,9 +177,26 @@ namespace Marquite.Core
             return b;
         }
 
+        public static T When<T>(this T b, bool condition, Action<T> properties) where T : IHtmlBuilder
+        {
+            if (condition && properties != null)
+            {
+                properties(b);
+            }
+            return b;
+        }
+
         public static T Mixin<T>(this T b, Func<T, T> mixin) where T : IHtmlBuilder
         {
+            if (mixin == null) return b;
             return mixin(b);
+        }
+
+        public static T Mixin<T>(this T b, Action<T> mixin) where T : IHtmlBuilder
+        {
+            if (mixin == null) return b;
+            mixin(b);
+            return b;
         }
 
         public static T Id<T>(this T b, string id) where T : IHtmlBuilder
@@ -287,6 +299,16 @@ namespace Marquite.Core
             where T2 : IHtmlBuilder
         {
             return converter(b);
+        }
+
+        public static T EnsureId<T>(this T b)
+            where T : IHtmlBuilder
+        {
+            if (string.IsNullOrEmpty(b.IdVal))
+            {
+                b.Id(b.Marquite.GenerateNewId());
+            }
+            return b;
         }
 
     }

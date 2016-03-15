@@ -27,6 +27,13 @@ namespace Marquite.Angular
             return new NgLiteralExpression { Literal = arg.Value.ToString() };
         }
 
+        public static NgExpression TranslateConstant(Expression n, AngularLambdaExpressionVisitor visitor)
+        {
+            var node = n as MethodCallExpression;
+            var ex = Expression.Lambda(node.Arguments[0]).Compile();
+            return new NgLiteralExpression { Literal = ex.DynamicInvoke().ToString() };
+        }
+
         public static NgExpression TranslateParametrizedPristine(Expression n, AngularLambdaExpressionVisitor visitor)
         {
             return TranslateFormPropertyAccess(n as MethodCallExpression, Pristine, visitor);

@@ -39,6 +39,14 @@ namespace Marquite.Angular
             return builder;
         }
 
+        public static T NgController<T>(this T builder, INgContext ngContext) where T : IHtmlBuilder
+        {
+            if (string.IsNullOrEmpty(ngContext.ModelName))
+            {
+                return builder.NgController(ngContext.ControllerName);
+            }
+            return builder.NgController(ngContext.ControllerName, ngContext.ModelName);
+        }
         public static T NgController<T>(this T builder, string controllerName) where T : IHtmlBuilder
         {
             builder.Attr("ng-controller", controllerName);
@@ -294,6 +302,13 @@ namespace Marquite.Angular
             where T : IFieldset
         {
             builder.Attr("ng-form", name);
+            return builder;
+        }
+
+        public static T NgForm<T>(this T builder, INgFormContext formContext)
+            where T : IFieldset
+        {
+            builder.Attr("ng-form", formContext.ModelName);
             return builder;
         }
 

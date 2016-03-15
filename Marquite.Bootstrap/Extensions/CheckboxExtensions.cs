@@ -19,7 +19,7 @@ namespace Marquite.Bootstrap.Extensions
             Expression<Func<TModel, bool>> expression, Action<InputElementBuilder> checkbox = null)
         {
             var input = htmlHelper.CheckBoxFor(expression);
-            checkbox.ApplyFn(input);
+            input.Mixin(checkbox);
             var label = htmlHelper.LabelFor(expression);
             label.Prepend(input);
             BootstrapCheckableBuilder builder = new BootstrapCheckableBuilder(input.Marquite);

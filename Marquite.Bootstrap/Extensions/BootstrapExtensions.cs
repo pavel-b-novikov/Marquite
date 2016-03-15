@@ -41,9 +41,9 @@ namespace Marquite.Bootstrap.Extensions
             DropdownBuilder ddb = new DropdownBuilder(bs.Marquite, "ul");
             bg.Append(bbs).Append(ddb);
 
-            dropdownOptions.ApplyFn(ddb);
-            toggleButtonOptions.ApplyFn(bbs);
-            caretOptions.ApplyFn(caret);
+            ddb.Mixin(dropdownOptions);
+            bbs.Mixin(toggleButtonOptions);
+            caret.Mixin(caretOptions);
             return bg;
         }
     }

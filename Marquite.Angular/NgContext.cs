@@ -16,9 +16,12 @@ namespace Marquite.Angular
     {
         public string ModelName { get; set; }
 
-        public NgContext(string modelName = null)
+        public string ControllerName { get; set; }
+
+        public NgContext(string controllerName,string controllerAs = null)
         {
-            ModelName = modelName;
+            ModelName = controllerAs;
+            ControllerName = controllerName;
         }
 
         public virtual IAngularInExpression<TElement, TModel> In<TElement>(string variableName,

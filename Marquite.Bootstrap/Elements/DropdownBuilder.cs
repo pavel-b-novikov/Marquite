@@ -10,23 +10,5 @@ namespace Marquite.Bootstrap.Elements
         {
             this.AddClass("dropdown");
         }
-
-        public DropdownBuilder(Core.IMarquite marquite, string tagName, IHtmlBuilder triggeringElement, DropdownMenuBuilder menu)
-            : base(marquite, tagName)
-        {
-            _triggeringElement = triggeringElement.Detached();
-            _menu = menu.Detached();
-            this.AddClass("dropdown");
-        }
-
-        internal IRenderingClient _triggeringElement;
-        internal DropdownMenuBuilder _menu;
-
-        public override void PrepareForRender()
-        {
-            RenderingQueue.Trail(_triggeringElement);
-            RenderingQueue.Trail(_menu);
-            base.PrepareForRender();
-        }
     }
 }

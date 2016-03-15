@@ -32,19 +32,47 @@ namespace Marquite.Core
 
         internal Stack<TextWriter> OutputStack;
 
-        private int _formsCount = 0;
-        private int _marquiteElements = 0;
+        private const string ElementsCounterKey = "MerquiteElementsCounter";
+        private const string FormsCounterKey = "MerquiteFormsCounter";
+
+        private int MarquiteElements
+        {
+            get
+            {
+                if (!ViewContext.TempData.ContainsKey(ElementsCounterKey))
+                {
+                    ViewContext.TempData[ElementsCounterKey] = 0;
+                    return 0;
+                }
+                return (int) ViewContext.TempData[ElementsCounterKey];
+            }
+            set { ViewContext.TempData[ElementsCounterKey] = value; }
+        }
+
+        private int FormsCount
+        {
+            get
+            {
+                if (!ViewContext.TempData.ContainsKey(FormsCounterKey))
+                {
+                    ViewContext.TempData[FormsCounterKey] = 0;
+                    return 0;
+                }
+                return (int)ViewContext.TempData[FormsCounterKey];
+            }
+            set { ViewContext.TempData[FormsCounterKey] = value; }
+        }
 
         public string GenerateNewId()
         {
-            return String.Format("__marquite{0}", ++_marquiteElements);
+            return String.Format("__el__{0}", ++MarquiteElements);
         }
 
         public string GenerateNewFormId()
         {
             if (!_isGlobal) return Global.GenerateNewFormId();
-            _formsCount++;
-            return String.Format("form{0}", _formsCount);
+            FormsCount++;
+            return String.Format("__form{0}", FormsCount);
         }
 
         #region Global cache and context nesting

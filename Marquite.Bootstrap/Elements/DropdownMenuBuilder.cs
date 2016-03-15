@@ -6,15 +6,11 @@ namespace Marquite.Bootstrap.Elements
 {
     public class DropdownMenuBuilder : ElementHtmlBuilder
     {
-        public DropdownMenuBuilder(Core.IMarquite marquite, string labell = null)
+        public DropdownMenuBuilder(Core.IMarquite marquite)
             : base(marquite, "ul")
         {
             this.AddClass("dropdown-menu");
             this.Role("menu");
-            if (!string.IsNullOrEmpty(labell))
-            {
-                this.Aria("labelledby", labell);
-            }
         }
     }
 }

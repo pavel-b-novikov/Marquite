@@ -35,5 +35,17 @@ namespace Marquite.Angular
         {
             throw new Exception("This method is used only while parsering expressions. Dont call it ever.");
         }
+
+        /// <summary>
+        /// Denotes variable of specified type from specified name. 
+        /// This method is used only while parsering expressions. Dont call it ever.
+        /// </summary>
+        /// <param name="varName">Variable name</param>
+        /// <returns>Mock.</returns>
+        [CustomMethodCallTranslation(typeof(Translations), "TranslateConstant")]
+        public T Constant<T>(string varName)
+        {
+            throw new Exception("This method is used only while parsering expressions. Dont call it ever.");
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Marquite.Bootstrap.Extensions
         public static FormGroupBuilder AddLabel(this FormGroupBuilder b, string label, int width = 0, int offset = 0,Action<LabelBuilder> labelOptions = null )
         {
             var lbl = new LabelBuilder(b.Marquite).AppendText(label);
-            labelOptions.ApplyFn(lbl);
+            lbl.Mixin(labelOptions);
             b.AddElement(lbl, width, offset);
             return b;
         }
@@ -36,7 +36,7 @@ namespace Marquite.Bootstrap.Extensions
         public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string staticContent, int width = 0, int offset = 0,Action<SimpleHtmlBuilder> staticContentOptions = null)
         {
             var statics =b.Bootstrap.FormGroupStatic(staticContent);
-            staticContentOptions.ApplyFn(statics);
+            statics.Mixin(staticContentOptions);
             b.AddElement(statics, width, offset);
             return b;
         }
@@ -44,10 +44,10 @@ namespace Marquite.Bootstrap.Extensions
         public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string label, string staticContent, int width = 0, int offset = 0, Action<SimpleHtmlBuilder> staticContentOptions = null, Action<LabelBuilder> labelOptions = null)
         {
             var lbl = new LabelBuilder(b.Marquite).AppendText(label);
-            labelOptions.ApplyFn(lbl);
+            lbl.Mixin(labelOptions);
             var statics =
                 new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").AppendText(staticContent);
-            staticContentOptions.ApplyFn(statics);
+            statics.Mixin(staticContentOptions);
             b.AddElement(lbl,statics);
             return b;
         }

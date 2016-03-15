@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace Marquite.Angular
 {
-    public class NgFormContext<TModel> : NgContext<NgFormContextWrapper<TModel>>
+    public interface INgFormContext : INgContext
+    {
+        
+    }
+
+    public class NgFormContext<TModel> : NgContext<NgFormContextWrapper<TModel>>, INgFormContext
     {
         public NgFormContext(string formName)
+            : base("FormController", formName)
         {
-            ModelName = formName;
+
+        }
+
+        public NgFormContext(string controllerName, string controllerAs = null) : base(controllerName, controllerAs)
+        {
         }
     }
 

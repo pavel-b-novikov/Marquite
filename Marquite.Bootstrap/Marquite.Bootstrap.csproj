@@ -93,7 +93,6 @@
     <Compile Include="Extensions\ButtonGroupExtensions.cs" />
     <Compile Include="Extensions\CheckboxExtensions.cs" />
     <Compile Include="Extensions\ColumnGridBuilderExtensions.cs" />
-    <Compile Include="Extensions\DropdownBuilderExtensions.cs" />
     <Compile Include="Extensions\DropdownExtensions.cs" />
     <Compile Include="Extensions\DropdownMenuBuilderExtensions.cs" />
     <Compile Include="Extensions\FormGroupBuilderExtensions.cs" />
