@@ -10,8 +10,9 @@
     Random r = new Random();
     bool condition = r.Next(5) > 2;
     var t = base.GetType();
-    var ctx = new NgContext<ISampleAngularModel>("UserController");
+    var ctx = new NgContext<ISampleAngularModel>("UserController","ctl");
     var formCtx = new NgFormContext<ISampleAngularModel>("myForm");
+    NgCollectionContext<SampleFormModel, ISampleAngularModel> manycontext;
 }
 
 
@@ -26,16 +27,21 @@
             Ajax.ActionLink("bbbbbb", "Index", new AjaxOptions());
 
             <h1>Column 1 @ctx.Bind(c => c.User.Age)</h1>
+
+            using (Html.Marq("div").NgRepeat(ctx.In("a", c => c.AllUsers, out manycontext)).Open())
+            {
+                <p>@manycontext.Bind(c=>c.Model.Age)</p>
+            }
         }
 
         using (Html.Bs().Column(3).Open())
         {
             <p>
-                @Html.Bs().Button("Great").Dropdown(c=>c.LinkItem("Whoa","#",a=>a.Attr("data-hide","none")))
+                @Html.Bs().Button("Great").Dropdown(c => c.LinkItem("Whoa", "#", a => a.Attr("data-hide", "none")))
 
-                <br/>
+                <br />
                 Hi! It is marquite Bootstrap demo.
-                Please find out bootstrap demo elements on other pages<br/>
+                Please find out bootstrap demo elements on other pages<br />
                 @Html.Bs().Button("Save").NgEvent(NgEvent.Click, ctx.Command(c => c.Model.SaveResults()))
                 @Html.Bs().Button("Save").NgBind(ctx.Bind(c => c.IsSimple()))
                 @Html.Bs().Button("Mode").NgEvent(NgEvent.Mousemove, ctx.Command(c => c.Model.HandleMove(c.Event)))

@@ -49,6 +49,13 @@ namespace Marquite.Angular
                     string.Format("{0} as {1}", controllerName, contextWithModelName.ModelName)));
         }
 
+        public static MvcHtmlString Controller(this Ng builder, INgContext contextWithModelName)
+        {
+            return
+                MvcHtmlString.Create(string.Format("ng-controller=\"{0}\"",
+                    string.Format("{0} as {1}", contextWithModelName.ControllerName, contextWithModelName.ModelName)));
+        }
+
         public static MvcHtmlString Event(this Ng builder, NgEvent evt, string handler)
         {
             var evtAttr = NgLookups.Lookup(evt);

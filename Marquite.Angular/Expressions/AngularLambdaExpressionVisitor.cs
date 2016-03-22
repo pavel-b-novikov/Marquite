@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -9,8 +10,6 @@ namespace Marquite.Angular.Expressions
     {
         private readonly Stack<NgExpression> _resultsStack = new Stack<NgExpression>();
         private readonly List<NgUnboundExpression> _unboundModelReferences = new List<NgUnboundExpression>();
-        private readonly LambdaExpression _rootExpression;
-        private readonly bool _isParametrizedByEventContext;
 
         public List<NgUnboundExpression> UnboundModelReferences
         {
@@ -52,17 +51,6 @@ namespace Marquite.Angular.Expressions
 
         }
 
-        public AngularLambdaExpressionVisitor(LambdaExpression rootExpression)
-        {
-            _rootExpression = rootExpression;
-            var param = _rootExpression.Parameters[0];
-            var ptype = param.Type;
-            if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(NgEventContext<>))
-            {
-                _isParametrizedByEventContext = true;
-            }
-        }
-
         private void Return(NgExpression expr)
         {
             _resultsStack.Push(expr);
@@ -73,22 +61,8 @@ namespace Marquite.Angular.Expressions
             return _resultsStack.Pop();
         }
 
-        private bool DetectModelMemberAccess(Expression node)
-        {
-            return !_isParametrizedByEventContext && node is ParameterExpression;
-        }
-
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (DetectModelMemberAccess(node.Expression))
-            {
-                var ngex = new NgUnboundExpression();
-                var prop = new NgMemberExpression() { Accessed = ngex, MemberName = node.Member.Name };
-                Return(prop);
-                _unboundModelReferences.Add(ngex);
-                return node;
-            }
-
             var attr = node.Member.GetCustomAttribute<OverrideNameAttribute>();
             if (attr != null)
             {
@@ -108,7 +82,15 @@ namespace Marquite.Angular.Expressions
 
             Visit(node.Expression);
             var accessedExpression = Retrieve();
-            Return(new NgMemberExpression { Accessed = accessedExpression, MemberName = node.Member.Name });
+            var memberName = node.Member.Name;
+            if (node.Member.Name == "Length")
+            {
+                if (node.Expression.Type.IsArray)
+                {
+                    memberName = "length";
+                }
+            }
+            Return(new NgMemberExpression { Accessed = accessedExpression, MemberName = memberName });
             return node;
         }
 
@@ -132,18 +114,9 @@ namespace Marquite.Angular.Expressions
                 return node;
             }
 
-            NgMemberExpression callee;
-            if (DetectModelMemberAccess(node.Object))
-            {
-                var ngex = new NgUnboundExpression();
-                callee = new NgMemberExpression() { Accessed = ngex, MemberName = node.Method.Name };
-                _unboundModelReferences.Add(ngex);
-            }
-            else
-            {
-                Visit(node.Object);
-                callee = new NgMemberExpression() { Accessed = Retrieve(), MemberName = node.Method.Name };
-            }
+            Visit(node.Object);
+            NgMemberExpression callee = new NgMemberExpression() { Accessed = Retrieve(), MemberName = node.Method.Name };
+            
             var methodCall = new NgCallExpression { ExpressionToCall = callee };
             foreach (var expression in node.Arguments)
             {
@@ -159,6 +132,11 @@ namespace Marquite.Angular.Expressions
         {
             Visit(node.Operand);
             var operand = Retrieve();
+            if (node.NodeType == ExpressionType.ArrayLength)
+            {
+                Return(new NgMemberExpression(){Accessed = operand,MemberName = "length"});
+                return node;
+            }
             var sym = GetNodeSymbol(node.NodeType);
             Return(new NgUnaryExpression { Expression = operand, Symbol = sym });
             return node;
@@ -205,6 +183,9 @@ namespace Marquite.Angular.Expressions
         }
         protected override Expression VisitParameter(ParameterExpression node)
         {
+            var ngex = new NgUnboundExpression();
+            _unboundModelReferences.Add(ngex);
+            Return(ngex);
             return base.VisitParameter(node);
         }
 

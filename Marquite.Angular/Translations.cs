@@ -179,7 +179,7 @@ namespace Marquite.Angular
         {
             var lambdaArg = expr.Arguments[0] as UnaryExpression;
             var operand = lambdaArg.Operand as LambdaExpression;
-            AngularLambdaExpressionVisitor handyVisitor = new AngularLambdaExpressionVisitor(operand);
+            AngularLambdaExpressionVisitor handyVisitor = new AngularLambdaExpressionVisitor();
             handyVisitor.Visit(operand.Body);
             var acc = new NgUnboundExpression();
             visitor.UnboundModelReferences.Add(acc);

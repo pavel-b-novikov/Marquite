@@ -18,9 +18,10 @@ namespace Marquite.Angular
 
         public string ControllerName { get; set; }
 
-        public NgContext(string controllerName,string controllerAs = null)
+        
+        public NgContext(string controllerName,string controllerAsModel = null)
         {
-            ModelName = controllerAs;
+            ModelName = controllerAsModel;
             ControllerName = controllerName;
         }
 
@@ -55,7 +56,7 @@ namespace Marquite.Angular
 
         protected virtual NgExpression Translate(LambdaExpression property)
         {
-            AngularLambdaExpressionVisitor visitor = new AngularLambdaExpressionVisitor(property);
+            AngularLambdaExpressionVisitor visitor = new AngularLambdaExpressionVisitor();
             visitor.Visit(property.Body);
             visitor.BindModel(ModelName);
             return visitor.Retrieve();

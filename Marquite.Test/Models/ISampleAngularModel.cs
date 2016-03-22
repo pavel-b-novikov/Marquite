@@ -10,6 +10,8 @@ namespace Marquite.Test.Models
     {
         SampleFormModel User { get; set; }
 
+        SampleFormModel[] AllUsers { get; }
+
         void SaveResults();
 
         void HandleMove(IEvent mouseMoveEvent);

@@ -60,6 +60,7 @@
     <Compile Include="Expressions\NgUnboundExpression.cs" />
     <Compile Include="HtmlAngularExtensions.cs" />
     <Compile Include="NgClassBuilder.cs" />
+    <Compile Include="NgCollectionContextWrapper.cs" />
     <Compile Include="NgEventContext.cs" />
     <Compile Include="CustomMethodCallTransaltion.cs" />
     <Compile Include="Expressions\NgInExpression.cs" />
