@@ -12,7 +12,7 @@ namespace Marquite.Bootstrap.Elements
         {
             public int Width;
             public int Offset;
-            public IHtmlBuilder Element;
+            public BasicHtmlBuilder Element;
         }
 
         internal readonly List<FormLineElement> _elements = new List<FormLineElement>();
@@ -55,7 +55,7 @@ namespace Marquite.Bootstrap.Elements
             }
         }
 
-        private void SetWidth(IHtmlBuilder element, FormLineElement metrics)
+        private void SetWidth(BasicHtmlBuilder element, FormLineElement metrics)
         {
             if (metrics.Width > 0) element.AllWidth(metrics.Width);
             if (metrics.Offset > 0) element.AllOffset(metrics.Offset);

@@ -5,11 +5,8 @@
         public TextareaBuilder(IMarquite marquite) : base(marquite, "textarea")
         {
         }
-        
-        
-        public string FieldId { get { return IdVal; } }
-        public string FieldName { get { return this.GetAttr("name"); } }
-        public MarquiteInputType FieldType { get { return MarquiteInputType.Textarea; } }
+
+        public override MarquiteInputType FieldType { get {return MarquiteInputType.Textarea;} }
     }
 
     [LookupEnum]

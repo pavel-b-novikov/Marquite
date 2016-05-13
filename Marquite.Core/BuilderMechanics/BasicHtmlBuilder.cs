@@ -15,22 +15,27 @@ namespace Marquite.Core.BuilderMechanics
     public class BasicHtmlBuilder : RenderingClientBase, IHtmlBuilder
     {
         #region Private fields
-        private RenderingQueue _renderingQueue = new RenderingQueue();
+        private RenderingQueue _content = new RenderingQueue();
+        private readonly RenderingQueue _before = new RenderingQueue();
+        private readonly RenderingQueue _after = new RenderingQueue();
         private readonly IMarquite _marquite;
         private readonly HashSet<string> _cssClasses = new HashSet<string>();
         private readonly SortedDictionary<Css, string> _style = new SortedDictionary<Css, string>();
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         private readonly StringCategory _categorizedCssClasses;
         private readonly bool _isScoped;
-
         #endregion
+
+        internal RenderingQueue Before { get { return _before; } }
+
+        internal RenderingQueue After { get { return _after; } }
 
         public BasicHtmlBuilder(IMarquite marquite, string tagName)
         {
             _marquite = marquite;
             _categorizedCssClasses = new StringCategory(_cssClasses);
             TagName = tagName;
-            Marquite.EventsManager.OnCreated(this);
+            marquite.EventsManager.OnCreated(this);
             if (marquite.ScopeManager.HasActiveScope)
             {
                 marquite.ScopeManager.CurrentScope.Append(this);
@@ -40,20 +45,20 @@ namespace Marquite.Core.BuilderMechanics
 
         #region IHtmlBuilder implementation
 
-        public SortedDictionary<string, string> Attributes { get { return _attributes; } }
-        public RenderingQueue RenderingQueue { get { return _renderingQueue; } }
-        public bool IsSelfClosing { get; set; }
+        internal SortedDictionary<string, string> Attributes { get { return _attributes; } }
+        internal RenderingQueue Content { get { return _content; } }
+        internal bool IsSelfClosing { get; set; }
         public string TagName { get; set; }
         public string IdVal { get; set; }
         public StringCategory CategorizedCssClasses { get { return _categorizedCssClasses; } }
-        public HashSet<string> CssClasses { get { return _cssClasses; } }
-        public SortedDictionary<Css, string> Style { get { return _style; } }
-        
+        internal HashSet<string> CssClasses { get { return _cssClasses; } }
+        internal SortedDictionary<Css, string> Style { get { return _style; } }
+
         public override IMarquite Marquite
         {
             get { return _marquite; }
         }
-        
+
         #endregion
 
         #region Rendering
@@ -92,8 +97,8 @@ namespace Marquite.Core.BuilderMechanics
             if (_isScoped)
             {
                 var ts = new TagScope(_marquite);
-                _renderingQueue.CopyTo(ts.Scope.RenderingQueue);
-                _renderingQueue = ts.Scope.RenderingQueue;
+                _content.CopyTo(ts.Scope.RenderingQueue);
+                _content = ts.Scope.RenderingQueue;
                 return ts;
             }
             PrepareForRender();
@@ -137,33 +142,35 @@ namespace Marquite.Core.BuilderMechanics
                 }
                 tw.Write("\"");
             }
-            if (((IHtmlBuilder) this).IsSelfClosing) tw.Write('/');
+            if (IsSelfClosing) tw.Write('/');
             tw.Write('>');
         }
 
         public override void RenderContent(TextWriter tw)
         {
             tw.WriteLine();
-            _renderingQueue.RenderQueue(tw);
+            _content.RenderQueue(tw);
             tw.WriteLine();
         }
 
         public override void RenderClosingTag(TextWriter tw)
         {
             if (string.IsNullOrEmpty(TagName)) return;
-            if (((IHtmlBuilder) this).IsSelfClosing) return;
+            if (IsSelfClosing) return;
             tw.ChainWrite("</").ChainWrite(TagName).ChainWrite('>');
             tw.WriteLine();
         }
 
         public override void RenderBeforeOpenTag(TextWriter tw)
         {
+            _before.RenderQueue(tw);
             Marquite.EventsManager.OnRenderBegin(this);
         }
 
         public override void RenderAfterClosingTag(TextWriter tw)
         {
             Marquite.EventsManager.OnRenderEnd(this);
+            _after.RenderQueue(tw);
         }
 
         #endregion

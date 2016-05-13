@@ -24,7 +24,7 @@ namespace Marquite.Bootstrap.Extensions
         }
         public static T Item<T>(this T b, string text, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
-            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Append(text).Mixin(listItemOptions);
+            ListItemBuilder lb = new ListItemBuilder(b.Marquite).Content(c => c.Append(text)).Mixin(listItemOptions);
             b.Append(lb);
             return b;
         }
@@ -34,7 +34,7 @@ namespace Marquite.Bootstrap.Extensions
             Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
             LinkBuilder lb = new LinkBuilder(b.Marquite)
-                .AppendText(text)
+                .Content(c => c.AppendText(text))
                 .Href(href)
                 .Tabindex(-1)
                 .Mixin(linkOptions);
@@ -45,7 +45,7 @@ namespace Marquite.Bootstrap.Extensions
         public static T Header<T>(this T b, string header, Action<ListItemBuilder> listItemOptions = null) where T : DropdownMenuBuilder
         {
             ListItemBuilder lb = new ListItemBuilder(b.Marquite)
-                .Append(header)
+                .Content(c => c.Append(header))
                 .AddClass("dropdown-header")
                 .Mixin(listItemOptions);
             b.Append(lb);

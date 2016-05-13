@@ -26,5 +26,6 @@ namespace Marquite.Core
                 scope.Detach(element);
             return element;
         }
+        
     }
 }

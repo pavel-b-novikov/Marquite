@@ -6,14 +6,11 @@ namespace Marquite.Core.Elements
     {
         public InputElementBuilder(IMarquite marquite) : base(marquite, "input")
         {
-            IsSelfClosing = true;
+            this.SelfClose();
             this.Type(InputType.Text);
         }
        
-        public string FieldId { get { return IdVal; } }
-        public string FieldName { get { return this.GetAttr("name"); } }
-        
-        public MarquiteInputType FieldType { get; set; }
+        public override MarquiteInputType FieldType { get; set; }
 
     }
 

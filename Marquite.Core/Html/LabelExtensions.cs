@@ -155,7 +155,7 @@ namespace Marquite.Core.Html
             }
 
             lb.For(TagBuilder.CreateSanitizedId(html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName)));
-            BasicHtmlBuilderExtensions.AppendText(lb, resolvedLabelText);
+            lb.Content(c => c.AppendText(resolvedLabelText));
             lb.MergeAttributes(htmlAttributes, replaceExisting: true);
             return lb;
         }

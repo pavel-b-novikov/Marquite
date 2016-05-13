@@ -449,12 +449,12 @@ namespace Marquite.Core.Html
 
             if (!String.IsNullOrEmpty(validationMessage))
             {
-                BasicHtmlBuilderExtensions.AppendText(builder, validationMessage);
+                builder.Content(c => c.AppendText(validationMessage));
             }
             else if (modelError != null)
             {
-                BasicHtmlBuilderExtensions.AppendText(builder, GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, modelError,
-                    modelState));
+                builder.Content(c => c.AppendText(GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, modelError,
+                    modelState)));
             }
 
             if (formContext != null)
@@ -607,7 +607,7 @@ namespace Marquite.Core.Html
                 }
 
                 SimpleHtmlBuilder spanTag = new SimpleHtmlBuilder(marq,headingTag);
-                BasicHtmlBuilderExtensions.AppendText(spanTag, message);
+                spanTag.Content(c => c.AppendText(message));
                 messageSpan = spanTag;
             }
             else
@@ -633,7 +633,7 @@ namespace Marquite.Core.Html
                 }
             }
 
-            if (unorderedList.RenderingQueue.Count==0)
+            if (unorderedList.Content.Count==0)
             {
                 unorderedList.AddItem((new ListItemBuilder(marq)).Css(Css.Display, "none"));
             }

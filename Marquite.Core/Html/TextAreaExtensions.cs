@@ -15,7 +15,7 @@ namespace Marquite.Core.Html
         // the Rows and Columns attributes.
         private const int TextAreaRows = 2;
         private const int TextAreaColumns = 20;
-        
+
         public static TextareaBuilder TextArea(this HtmlHelper htmlHelper, string name)
         {
             return TextArea(htmlHelper, name, null /* value */, null /* htmlAttributes */);
@@ -65,7 +65,7 @@ namespace Marquite.Core.Html
                 metadata.Model = value;
             }
 
-            return TextAreaHelper(htmlHelper, metadata, name, htmlAttributes,rows:rows,columns:columns);
+            return TextAreaHelper(htmlHelper, metadata, name, htmlAttributes, rows: rows, columns: columns);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
@@ -111,11 +111,11 @@ namespace Marquite.Core.Html
             return TextAreaHelper(htmlHelper,
                                   ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData),
                                   ExpressionHelper.GetExpressionText(expression),
-                                  htmlAttributes,rows:rows,columns:columns);
+                                  htmlAttributes, rows: rows, columns: columns);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "If this fails, it is because the string-based version had an empty 'name' parameter")]
-        internal static TextareaBuilder TextAreaHelper(HtmlHelper htmlHelper, ModelMetadata modelMetadata, string name, IDictionary<string, object> htmlAttributes, string innerHtmlPrefix = null,int rows = TextAreaRows, int columns = TextAreaColumns
+        internal static TextareaBuilder TextAreaHelper(HtmlHelper htmlHelper, ModelMetadata modelMetadata, string name, IDictionary<string, object> htmlAttributes, string innerHtmlPrefix = null, int rows = TextAreaRows, int columns = TextAreaColumns
             )
         {
             string fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
@@ -157,8 +157,8 @@ namespace Marquite.Core.Html
 
             // The first newline is always trimmed when a TextArea is rendered, so we add an extra one
             // in case the value being rendered is something like "\r\nHello".
-            tagBuilder.Append((innerHtmlPrefix ?? Environment.NewLine) + HttpUtility.HtmlEncode(value));
-
+            tagBuilder.Content(c => c.Append((innerHtmlPrefix ?? Environment.NewLine) + HttpUtility.HtmlEncode(value)));
+            
             return tagBuilder;
         }
     }

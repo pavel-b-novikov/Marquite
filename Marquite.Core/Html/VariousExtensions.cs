@@ -17,7 +17,7 @@ namespace Marquite.Core.Html
         public static LinkBuilder Link(this Core.IMarquite b, string innerHtml = null, string href = null)
         {
             LinkBuilder lb = new LinkBuilder(b);
-            if (!string.IsNullOrEmpty(innerHtml)) lb.Append(innerHtml);
+            if (!string.IsNullOrEmpty(innerHtml)) lb.Content(c => c.Append(innerHtml));
             if (!string.IsNullOrEmpty(href)) lb.Href(href);
 
             return lb;

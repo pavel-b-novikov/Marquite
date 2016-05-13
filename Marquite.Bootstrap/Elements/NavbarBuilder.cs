@@ -17,15 +17,15 @@ namespace Marquite.Bootstrap.Elements
 
         public NavbarToggleButton Default(string navId, string text = "Toggle navigation")
         {
-            RenderingQueue.Trail(text, "span", wrappingTagAttrs: HtmlText.Class("sr-only"));
-            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
-            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
-            RenderingQueue.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar"));
+            this.Content(c => c.Trail(text, "span", wrappingTagAttrs: HtmlText.Class("sr-only")));
+            this.Content(c => c.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar")));
+            this.Content(c => c.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar")));
+            this.Content(c => c.Trail(String.Empty, "span", wrappingTagAttrs: HtmlText.Class("icon-bar")));
             SetToggleButtonAttributes(this, navId);
             return this;
         }
 
-        public static void SetToggleButtonAttributes(IHtmlBuilder toggleButton, string navId)
+        public static void SetToggleButtonAttributes(BasicHtmlBuilder toggleButton, string navId)
         {
             toggleButton.AddClass("navbar-toggle");
             toggleButton.AddClass("collapsed");
@@ -37,7 +37,7 @@ namespace Marquite.Bootstrap.Elements
     public class NavbarBuilder : ElementHtmlBuilder
     {
 
-        internal IHtmlBuilder _toggleButton;
+        internal BasicHtmlBuilder _toggleButton;
         internal string _collapseId;
         internal LinkBuilder _brandLink;
 
@@ -52,7 +52,7 @@ namespace Marquite.Bootstrap.Elements
             _brandLink = null;
         }
 
-        
+
 
         public override void RenderAfterOpeningTag(TextWriter tw)
         {

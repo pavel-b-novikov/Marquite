@@ -59,7 +59,7 @@ namespace Marquite.Test.MarqForms
             }
         }
 
-        public static IHtmlBuilder GenderGropdown(this HtmlHelper<SampleFormModel> h)
+        public static BasicHtmlBuilder GenderGropdown(this HtmlHelper<SampleFormModel> h)
         {
             return  h.DropDownListFor(c => c.Gender, new SelectListItem[]
             {

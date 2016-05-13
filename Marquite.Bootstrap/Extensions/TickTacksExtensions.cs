@@ -15,7 +15,7 @@ namespace Marquite.Bootstrap.Extensions
         /// <returns>SimpleHtmlBuilder</returns>
         public static SimpleHtmlBuilder Clearfix(this BootstrapPlugin t)
         {
-            return new SimpleHtmlBuilder(t.Marquite,"div").AddClass("clearfix");
+            return new SimpleHtmlBuilder(t.Marquite, "div").AddClass("clearfix");
         }
 
         /// <summary>
@@ -35,13 +35,13 @@ namespace Marquite.Bootstrap.Extensions
         /// <param name="t">Bootstrap</param>
         /// <param name="label">Close button label</param>
         /// <returns>SimpleHtmlBuilder</returns>
-        public static SimpleHtmlBuilder CloseButton(this BootstrapPlugin t,string label = "Close")
+        public static SimpleHtmlBuilder CloseButton(this BootstrapPlugin t, string label = "Close")
         {
             return new SimpleHtmlBuilder(t.Marquite, "button")
-                .Attr("type","button")
+                .Attr("type", "button")
                 .AddClass("close")
-                .Attr("aria-label",label)
-                .Append("<span aria-hidden=\"true\">&times;</span>")
+                .Attr("aria-label", label)
+                .Content(c => c.Append("<span aria-hidden=\"true\">&times;</span>"))
                 ;
         }
 
@@ -54,10 +54,10 @@ namespace Marquite.Bootstrap.Extensions
 
         private static void CompileGlyphicons()
         {
-            var vals = Enum.GetValues(typeof (GlyphIcon));
+            var vals = Enum.GetValues(typeof(GlyphIcon));
             foreach (var v in vals)
             {
-                CompiledGlyphIcons[(GlyphIcon) v] =
+                CompiledGlyphIcons[(GlyphIcon)v] =
                     (string.Format("<span class=\"{0}\" aria-hidden=\"true\"></span>",
                         Lookups.Lookup((GlyphIcon)v)));
             }
@@ -107,7 +107,7 @@ namespace Marquite.Bootstrap.Extensions
         /// <returns>SimpleHtmlBuilder</returns>
         public static SimpleHtmlBuilder Badge(this BootstrapPlugin t, string badgeText)
         {
-            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("badge").AppendText(badgeText);
+            return new SimpleHtmlBuilder(t.Marquite, "span").AddClass("badge").Content(c => c.AppendText(badgeText));
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Marquite.Bootstrap.Extensions
         /// <param name="tooltipText">Tooltip text</param>
         /// <returns>ElementHtmlBuilder</returns>
         public static T Tooltip<T>(this T t, TooltipPlacement placement, string tooltipText)
-            where T:ElementHtmlBuilder
+            where T : ElementHtmlBuilder
         {
             return t.Data("toggle", "tooltip").Data("placement", Lookups.Lookup(placement)).Title(tooltipText);
         }
@@ -154,21 +154,21 @@ namespace Marquite.Bootstrap.Extensions
         {
             return t.Data("toggle", "popover")
                 .Data("placement", Lookups.Lookup(placement))
-                .Data("container","body")
-                .Data("content",content)
+                .Data("container", "body")
+                .Data("content", content)
                 .Title(title)
-                .When(dismissive, c => c.Data("trigger","focus"))
+                .When(dismissive, c => c.Data("trigger", "focus"))
                 ;
         }
 
         public static SimpleHtmlBuilder Alert(this BootstrapPlugin bs, AlertColor color, string alertText = null)
         {
-            return new SimpleHtmlBuilder(bs.Marquite,"div").Alert(color,alertText);
+            return new SimpleHtmlBuilder(bs.Marquite, "div").Alert(color, alertText);
         }
 
-        public static T Alert<T>(this T bs, AlertColor color, string alertText = null) where T:IHtmlBuilder
+        public static T Alert<T>(this T bs, AlertColor color, string alertText = null) where T : BasicHtmlBuilder
         {
-            return bs.AddClass("alert").AddClass(Lookups.Lookup(color)).Append(alertText);
+            return bs.AddClass("alert").AddClass(Lookups.Lookup(color)).Content(c => c.Append(alertText));
         }
     }
 }

@@ -89,7 +89,7 @@ namespace Marquite.Bootstrap.Extensions
         }
 
 
-        public static NavbarBuilder Navbar(this BootstrapPlugin bs, string brandName, string homeUrl, params IHtmlBuilder[] elements)
+        public static NavbarBuilder Navbar(this BootstrapPlugin bs, string brandName, string homeUrl, params BasicHtmlBuilder[] elements)
         {
             var b = bs.Navbar(brandName, homeUrl);
             if (elements.Length > 0)
@@ -120,7 +120,7 @@ namespace Marquite.Bootstrap.Extensions
         public static T NavItem<T>(this T nb, string text, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
-            b.Append(text);
+            b.Content(c => c.Append(text));
             if (listItemOptions != null)
             {
                 listItemOptions(b);
@@ -132,12 +132,12 @@ namespace Marquite.Bootstrap.Extensions
         public static T NavItem<T>(this T nb, IRenderingClient content, Action<ListItemBuilder> listItemOptions = null) where T : NavBuilder
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
-            b.Append(content);
+            b.Content(c => c.Append(content));
             if (listItemOptions != null)
             {
                 listItemOptions(b);
             }
-            nb.Append(b);
+            nb.Content(c => c.Append(b));
             return nb;
         }
 
@@ -145,8 +145,8 @@ namespace Marquite.Bootstrap.Extensions
         {
             ListItemBuilder b = new ListItemBuilder(nb.Marquite);
             LinkBuilder lb = new LinkBuilder(nb.Marquite);
-            lb.Append(text).Href(href);
-            b.Append(lb);
+            lb.Content(c => c.Append(text)).Href(href);
+            b.Content(c => c.Append(lb));
             if (linkOptions != null)
             {
                 linkOptions(lb);
@@ -155,7 +155,7 @@ namespace Marquite.Bootstrap.Extensions
             {
                 listItemOptions(b);
             }
-            nb.Append(b);
+            nb.Content(c => c.Append(b));
             return nb;
         }
 

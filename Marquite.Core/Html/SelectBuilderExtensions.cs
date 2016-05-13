@@ -6,7 +6,7 @@ namespace Marquite.Core.Html
     {
         public static T AddItem<T>(this T b,OptionBuilder option) where T : SelectBuilder 
         {
-            b.RenderingQueue.Trail(option);
+            b.Content.Trail(option);
             return b;
         }
 
@@ -14,7 +14,7 @@ namespace Marquite.Core.Html
         {
             OptionBuilder ob = new OptionBuilder(b.Marquite);
             ob.Detached().Text(option).Value(value).When(selected, c => c.Selected());
-            b.RenderingQueue.Trail(ob);
+            b.Content.Trail(ob);
             return b;
         }
 
@@ -23,7 +23,7 @@ namespace Marquite.Core.Html
             OptionBuilder ob = new OptionBuilder(b.Marquite);
             ob = ob.Detached();
             ob.Text(option).Value(value);
-            b.RenderingQueue.Trail(ob);
+            b.Content.Trail(ob);
             return b;
         }
 

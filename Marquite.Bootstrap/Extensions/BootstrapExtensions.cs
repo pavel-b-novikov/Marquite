@@ -18,7 +18,7 @@ namespace Marquite.Bootstrap.Extensions
             ButtonGroup bg = new ButtonGroup(bs.Marquite);
             foreach (var bootstrapButtonBuilder in buttons)
             {
-                bg.Append(bootstrapButtonBuilder);
+                bg.Content(c => c.Append(bootstrapButtonBuilder));
             }
             return bg;
         }
@@ -33,13 +33,13 @@ namespace Marquite.Bootstrap.Extensions
                 .Aria("haspopup", "true")
                 .Aria("expanded", "false");
 
-            bbs.AppendText(text);
+            bbs.Content(c => c.AppendText(text));
             SimpleHtmlBuilder caret = new SimpleHtmlBuilder(bs.Marquite, "span");
             caret.AddClass("caret");
-            bbs.Append(caret);
+            bbs.Content(c => c.Append(caret));
 
             DropdownBuilder ddb = new DropdownBuilder(bs.Marquite, "ul");
-            bg.Append(bbs).Append(ddb);
+            bg.Content(c => c.Append(bbs).Append(ddb));
 
             ddb.Mixin(dropdownOptions);
             bbs.Mixin(toggleButtonOptions);

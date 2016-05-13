@@ -8,7 +8,7 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class FormGroupBuilderExtensions
     {
-        public static T AddElement<T>(this T b, IHtmlBuilder element, int width = 0, int offset = 0) where T:FormGroupBuilder
+        public static T AddElement<T>(this T b, BasicHtmlBuilder element, int width = 0, int offset = 0) where T:FormGroupBuilder
         {
             if (width < 0 || width > 12) throw new Exception("Form line element width cannot be less than 0 and more than 12");
             if (offset < 0 || offset > 11) throw new Exception("Form line element offset cannot be less than 0 and more than 11");
@@ -24,7 +24,7 @@ namespace Marquite.Bootstrap.Extensions
             return b;
         }
 
-        public static T AddElement<T>(this T b, IHtmlBuilder label, IHtmlBuilder input) where T : FormGroupBuilder
+        public static T AddElement<T>(this T b, BasicHtmlBuilder label, BasicHtmlBuilder input) where T : FormGroupBuilder
         {
             int labelWidth = b.Bootstrap.CurrentFormLabelWidth;
             int contentWidth = b.Bootstrap.CurrentFormContentWidth;

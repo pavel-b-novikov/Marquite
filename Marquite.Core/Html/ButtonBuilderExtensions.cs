@@ -13,8 +13,8 @@ namespace Marquite.Core.Html
             }
             else
             {
-                b.RenderingQueue.ClearQueue();
-                b.RenderingQueue.Trail(text);
+                b.Content.ClearQueue();
+                b.Content.Trail(text);
             }
             return b;
         }
@@ -29,7 +29,7 @@ namespace Marquite.Core.Html
             }
             else
             {
-                b.RenderingQueue.Trail(text);
+                b.Content.Trail(text);
             }
             return b;
         }

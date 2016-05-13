@@ -6,11 +6,6 @@
         {
         }
 
-        
-
-        public string FieldId { get { return IdVal; } }
-
-        public string FieldName { get { return this.GetAttr("name"); } }
-        public MarquiteInputType FieldType { get { return MarquiteInputType.Select; } }
+        public override MarquiteInputType FieldType { get { return MarquiteInputType.Select; } }
     }
 }

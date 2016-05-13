@@ -38,13 +38,13 @@ namespace Marquite.Bootstrap.Elements
 
         public override void PrepareForRender()
         {
-            if (_leftText != null) RenderingQueue.Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_leftContent != null) RenderingQueue.Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_leftButton != null) RenderingQueue.Trail(_leftButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
-            RenderingQueue.Trail(_inputElement);
-            if (_rightText != null) RenderingQueue.Trail(_rightText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_rightContent != null) RenderingQueue.Trail(_rightContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon"));
-            if (_rightButton != null) RenderingQueue.Trail(_rightButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn"));
+            if (_leftText != null) this.Content(c=>c.Trail(_leftText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon")));
+            if (_leftContent != null) this.Content(c=>c.Trail(_leftContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon")));
+            if (_leftButton != null) this.Content(c=>c.Trail(_leftButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn")));
+            this.Content(c=>c.Trail(_inputElement));
+            if (_rightText != null) this.Content(c=>c.Trail(_rightText, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon")));
+            if (_rightContent != null) this.Content(c=>c.Trail(_rightContent, "span", wrappingTagAttrs: HtmlText.Class("input-group-addon")));
+            if (_rightButton != null) this.Content(c=>c.Trail(_rightButton, "span", wrappingTagAttrs: HtmlText.Class("input-group-btn")));
 
             base.PrepareForRender();
         }

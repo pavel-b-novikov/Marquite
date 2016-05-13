@@ -21,25 +21,25 @@ namespace Marquite.Angular
             s = s.Replace("\"", "\\\"");
             return String.Concat("\"", s, "\"");
         }
-        public static T NgApp<T>(this T builder) where T : IHtmlBuilder
+        public static T NgApp<T>(this T builder) where T : BasicHtmlBuilder
         {
             builder.SelfCloseAttr("ng-app");
             return builder;
         }
 
-        public static T NgApp<T>(this T builder, string appModuleName) where T : IHtmlBuilder
+        public static T NgApp<T>(this T builder, string appModuleName) where T : BasicHtmlBuilder
         {
             builder.Attr("ng-app", appModuleName);
             return builder;
         }
 
-        public static T NgCsp<T>(this T builder) where T : IHtmlBuilder
+        public static T NgCsp<T>(this T builder) where T : BasicHtmlBuilder
         {
             builder.SelfCloseAttr("ng-csp");
             return builder;
         }
 
-        public static T NgController<T>(this T builder, INgContext ngContext) where T : IHtmlBuilder
+        public static T NgController<T>(this T builder, INgContext ngContext) where T : BasicHtmlBuilder
         {
             if (string.IsNullOrEmpty(ngContext.ModelName))
             {
@@ -47,32 +47,32 @@ namespace Marquite.Angular
             }
             return builder.NgController(ngContext.ControllerName, ngContext.ModelName);
         }
-        public static T NgController<T>(this T builder, string controllerName) where T : IHtmlBuilder
+        public static T NgController<T>(this T builder, string controllerName) where T : BasicHtmlBuilder
         {
             builder.Attr("ng-controller", controllerName);
             return builder;
         }
 
-        public static T NgController<T>(this T builder, string controllerName, string asAlias) where T : IHtmlBuilder
+        public static T NgController<T>(this T builder, string controllerName, string asAlias) where T : BasicHtmlBuilder
         {
             builder.Attr("ng-controller", String.Format("{0} as {1}", controllerName, asAlias));
             return builder;
         }
 
-        public static T NgController<T>(this T builder, string controllerName, INgContext contextWithModelName) where T : IHtmlBuilder
+        public static T NgController<T>(this T builder, string controllerName, INgContext contextWithModelName) where T : BasicHtmlBuilder
         {
             builder.Attr("ng-controller", String.Format("{0} as {1}", controllerName, contextWithModelName.ModelName));
             return builder;
         }
 
-        public static T NgEvent<T>(this T builder, NgEvent evt, string handler) where T : IHtmlBuilder
+        public static T NgEvent<T>(this T builder, NgEvent evt, string handler) where T : BasicHtmlBuilder
         {
             var evtAttr = NgLookups.Lookup(evt);
             builder.Attr(evtAttr, handler, true);
             return builder;
         }
 
-        public static T NgEvent<T>(this T builder, NgEvent evt, IAngularExpression handler) where T : IHtmlBuilder
+        public static T NgEvent<T>(this T builder, NgEvent evt, IAngularExpression handler) where T : BasicHtmlBuilder
         {
             var evtAttr = NgLookups.Lookup(evt);
             builder.Attr(evtAttr, handler.Build(), true);
@@ -80,7 +80,7 @@ namespace Marquite.Angular
         }
 
         public static T NgRequired<T>(this T builder, bool required = true)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-required", required ? "true" : "false");
@@ -89,7 +89,7 @@ namespace Marquite.Angular
         }
 
         public static T NgRequired<T>(this T builder, string condition)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-required", condition);
@@ -98,7 +98,7 @@ namespace Marquite.Angular
         }
 
         public static T NgRequired<T>(this T builder, IAngularExpression condition)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-required", condition.Build());
@@ -107,7 +107,7 @@ namespace Marquite.Angular
         }
 
         public static T NgTrim<T>(this T builder, bool trim = true)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-trim", trim ? "true" : "false");
@@ -116,63 +116,63 @@ namespace Marquite.Angular
         }
 
         public static T NgBind<T>(this T builder, string expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind", expression);
             return builder;
         }
 
         public static T NgBind<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind", expression.Build());
             return builder;
         }
 
         public static T NgBindHtml<T>(this T builder, string expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind-html", expression);
             return builder;
         }
 
         public static T NgBindHtml<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind-html", expression.Build());
             return builder;
         }
 
         public static T NgBindTemplate<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind-template", expression);
             return builder;
         }
 
         public static T NgBindTemplate<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-bind-template", expression.ToHtmlString());
             return builder;
         }
 
         public static T NgClass<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class", expression);
             return builder;
         }
 
         public static T NgClass<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class", expression.ToHtmlString());
             return builder;
         }
 
         public static T NgClass<T>(this T builder, Action<NgClassBuilder> classBuilderConf)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             NgClassBuilder clb = new NgClassBuilder();
             classBuilderConf(clb);
@@ -181,42 +181,42 @@ namespace Marquite.Angular
         }
 
         public static T NgClassEven<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class-even", expression);
             return builder;
         }
 
         public static T NgClassEven<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class-even", expression.ToHtmlString());
             return builder;
         }
 
         public static T NgClassOdd<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class-odd", expression);
             return builder;
         }
 
         public static T NgClassOdd<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-class-odd", expression.ToHtmlString());
             return builder;
         }
 
         public static T NgCloak<T>(this T builder)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.SelfCloseAttr("ng-cloak");
             return builder;
         }
 
         public static T NgModel<T>(this T builder, string modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             builder.Attr("ng-model", modelExpression);
             return builder;
@@ -230,14 +230,14 @@ namespace Marquite.Angular
         }
 
         public static T NgModel<T>(this T builder, IAngularExpression modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             builder.Attr("ng-model", modelExpression.Build());
             return builder;
         }
 
         public static T NgTrueValue<T>(this T builder, string modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgTrueValue and NgFalseValue are only applyable to checkboxes");
             builder.Attr("ng-true-value", modelExpression);
@@ -245,7 +245,7 @@ namespace Marquite.Angular
         }
 
         public static T NgTrueValue<T>(this T builder, IAngularExpression modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgTrueValue and NgFalseValue are only applyable to checkboxes");
             builder.Attr("ng-true-value", modelExpression.Build());
@@ -253,7 +253,7 @@ namespace Marquite.Angular
         }
 
         public static T NgFalseValue<T>(this T builder, string modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgTrueValue and NgFalseValue are only applyable to checkboxes");
             builder.Attr("ng-false-value", modelExpression);
@@ -261,7 +261,7 @@ namespace Marquite.Angular
         }
 
         public static T NgFalseValue<T>(this T builder, IAngularExpression modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgTrueValue and NgFalseValue are only applyable to checkboxes");
             builder.Attr("ng-false-value", modelExpression.Build());
@@ -269,7 +269,7 @@ namespace Marquite.Angular
         }
 
         public static T NgChecked<T>(this T builder, string expression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgTrueValue and NgFalseValue are only applyable to checkboxes");
             builder.Attr("ng-checked", expression);
@@ -277,7 +277,7 @@ namespace Marquite.Angular
         }
 
         public static T NgChecked<T>(this T builder, IAngularExpression expression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             if (!builder.FieldType.IsCheckable()) throw new Exception("NgChecked is only applyable to checkboxes");
             builder.Attr("ng-checked", expression.Build());
@@ -285,35 +285,35 @@ namespace Marquite.Angular
         }
 
         public static T NgDisabled<T>(this T builder, string expression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IDisableable
         {
             builder.Attr("ng-disabled", expression);
             return builder;
         }
 
         public static T NgDisabled<T>(this T builder, IAngularExpression expression)
-            where T : IDisableable
+            where T : BasicHtmlBuilder, IDisableable
         {
             builder.Attr("ng-disabled", expression.Build());
             return builder;
         }
 
         public static T NgForm<T>(this T builder, string name)
-            where T : IFieldset
+            where T : BasicHtmlBuilder, IFieldset
         {
             builder.Attr("ng-form", name);
             return builder;
         }
 
         public static T NgForm<T>(this T builder, INgFormContext formContext)
-            where T : IFieldset
+            where T : BasicHtmlBuilder, IFieldset
         {
             builder.Attr("ng-form", formContext.ModelName);
             return builder;
         }
 
         public static T NgMinlength<T>(this T builder, int length)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-minlength", length.ToString());
@@ -321,7 +321,7 @@ namespace Marquite.Angular
         }
 
         public static T NgMaxlength<T>(this T builder, int length)
-           where T : IInputField
+           where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-maxlength", length.ToString());
@@ -329,7 +329,7 @@ namespace Marquite.Angular
         }
 
         public static T NgPattern<T>(this T builder, string regexPattern)
-           where T : IInputField
+           where T : BasicHtmlBuilder,IInputField
         {
             CheckAllowedTextField(builder);
             builder.Attr("ng-pattern", string.Format("/{0}/",regexPattern));
@@ -348,28 +348,28 @@ namespace Marquite.Angular
         }
 
         public static T NgHide<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-hide", expression);
             return builder;
         }
 
         public static T NgHide<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-hide", expression.Build());
             return builder;
         }
 
         public static T NgShow<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-show", expression);
             return builder;
         }
 
         public static T NgShow<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-show", expression.Build());
             return builder;
@@ -377,14 +377,14 @@ namespace Marquite.Angular
 
 
         public static T NgReadonly<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-readonly", expression);
             return builder;
         }
 
         public static T NgReadonly<T>(this T builder, IAngularExpression expression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             builder.Attr("ng-readonly", expression.Build());
             return builder;
@@ -439,63 +439,63 @@ namespace Marquite.Angular
         }
 
         public static T NgIf<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-if", expression);
             return builder;
         }
 
         public static T NgIf<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-if", expression.Build());
             return builder;
         }
 
         public static T NgInit<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-init", expression);
             return builder;
         }
 
         public static T NgInit<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-init", expression.Build());
             return builder;
         }
 
         public static T NgList<T>(this T builder, string delimiter)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-list", delimiter);
             return builder;
         }
 
         public static T NgOpen<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-open", expression);
             return builder;
         }
 
         public static T NgOpen<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-open", expression.Build());
             return builder;
         }
 
         public static T NgModelOptions<T>(this T builder, NgModelOptions options)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-model-options", options.ToString());
             return builder;
         }
 
         public static T NgNonBindable<T>(this T builder)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.SelfCloseAttr("ng-non-bindable");
             return builder;
@@ -514,28 +514,28 @@ namespace Marquite.Angular
         }
 
         public static T NgRepeat<T>(this T builder, string expression)
-           where T : IHtmlBuilder
+           where T : BasicHtmlBuilder
         {
             builder.Attr("ng-repeat", expression);
             return builder;
         }
 
         public static T NgRepeat<T>(this T builder, IAngularInExpressionNongeneric expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-repeat", expression.Build());
             return builder;
         }
 
         public static T NgStyle<T>(this T builder, string expression)
-          where T : IHtmlBuilder
+          where T : BasicHtmlBuilder
         {
             builder.Attr("ng-style", expression);
             return builder;
         }
 
         public static T NgStyle<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-style", expression.Build());
             return builder;
@@ -556,42 +556,42 @@ namespace Marquite.Angular
         }
 
         public static T NgSwitch<T>(this T builder, string expression)
-         where T : IHtmlBuilder
+         where T : BasicHtmlBuilder
         {
             builder.Attr("ng-switch", expression);
             return builder;
         }
 
         public static T NgSwitch<T>(this T builder, IAngularExpression expression)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             builder.Attr("ng-switch", expression.Build());
             return builder;
         }
 
         public static T NgSwitchWhen<T>(this T builder, string expression)
-        where T : IHtmlBuilder
+        where T : BasicHtmlBuilder
         {
             builder.Attr("ng-switch-when", expression);
             return builder;
         }
 
         public static T NgSwitchDefault<T>(this T builder)
-        where T : IHtmlBuilder
+        where T : BasicHtmlBuilder
         {
             builder.SelfCloseAttr("ng-switch-default");
             return builder;
         }
 
         public static T NgValue<T>(this T builder, string modelExpression)
-           where T : IInputField
+           where T : BasicHtmlBuilder,IInputField
         {
             builder.Attr("ng-value", modelExpression);
             return builder;
         }
 
         public static T NgValue<T>(this T builder, IAngularExpression modelExpression)
-            where T : IInputField
+            where T : BasicHtmlBuilder,IInputField
         {
             builder.Attr("ng-value", modelExpression.Build());
             return builder;

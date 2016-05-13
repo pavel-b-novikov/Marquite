@@ -33,7 +33,7 @@ namespace Marquite.Core.Html
 
         public static SimpleHtmlBuilder Spn(this HtmlHelper h, string text)
         {
-            return new SimpleHtmlBuilder(h.Marq(),"span").Append(text);
+            return new SimpleHtmlBuilder(h.Marq(),"span").Content(c=>c.Append(text));
         }
 
         public static SimpleHtmlBuilder Marq(this IMarquite m, string tagName)

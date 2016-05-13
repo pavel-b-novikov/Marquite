@@ -11,7 +11,7 @@ namespace Marquite.Core.Rendering
     /// More fast way to collect and render various items
     /// One-directional collection with rendering wrappers
     /// </summary>
-    public class RenderingQueue
+    public class RenderingQueue : IRenderingQueue
     {
         public int Count { get { return _renderingQueue.Count; } }
 

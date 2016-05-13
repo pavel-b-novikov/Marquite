@@ -15,14 +15,9 @@ namespace Marquite.Bootstrap.Extensions
 {
     public static class FormGroupExtensions
     {
-        private static T Apply<T>(this Func<T, T> func, T arg)
-        {
-            return func == null ? arg : func(arg);
-        }
-
         public static FormGroupBuilder AddLabel(this FormGroupBuilder b, string label, int width = 0, int offset = 0,Action<LabelBuilder> labelOptions = null )
         {
-            var lbl = new LabelBuilder(b.Marquite).AppendText(label);
+            var lbl = new LabelBuilder(b.Marquite).Content(c => c.AppendText(label));
             lbl.Mixin(labelOptions);
             b.AddElement(lbl, width, offset);
             return b;
@@ -30,7 +25,7 @@ namespace Marquite.Bootstrap.Extensions
 
         public static SimpleHtmlBuilder FormGroupStatic(this BootstrapPlugin bs, string staticContent)
         {
-            return new SimpleHtmlBuilder(bs.Marquite, "p").AddClass("form-control-static").AppendText(staticContent);
+            return new SimpleHtmlBuilder(bs.Marquite, "p").AddClass("form-control-static").Content(c => c.AppendText(staticContent));
         }
 
         public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string staticContent, int width = 0, int offset = 0,Action<SimpleHtmlBuilder> staticContentOptions = null)
@@ -43,20 +38,20 @@ namespace Marquite.Bootstrap.Extensions
 
         public static FormGroupBuilder AddStatic(this FormGroupBuilder b, string label, string staticContent, int width = 0, int offset = 0, Action<SimpleHtmlBuilder> staticContentOptions = null, Action<LabelBuilder> labelOptions = null)
         {
-            var lbl = new LabelBuilder(b.Marquite).AppendText(label);
+            var lbl = new LabelBuilder(b.Marquite).Content(c => c.AppendText(label));
             lbl.Mixin(labelOptions);
             var statics =
-                new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").AppendText(staticContent);
+                new SimpleHtmlBuilder(b.Marquite, "p").AddClass("form-control-static").Content(c => c.AppendText(staticContent));
             statics.Mixin(staticContentOptions);
             b.AddElement(lbl,statics);
             return b;
         }
-        public static FormGroupBuilder FormGroup(this HtmlHelper b)
+        public static FormGroupBuilder BsFormGroup(this HtmlHelper b)
         {
             return new FormGroupBuilder(b.Marq());
         }
 
-        public static FormGroupBuilder FormGroupDisplayFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
+        public static FormGroupBuilder BsFormGroupDisplayFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
             int labelWidth = 0, int fieldWidth = 0)
         {
             var line = new FormGroupBuilder(b.Marq());
@@ -69,36 +64,47 @@ namespace Marquite.Bootstrap.Extensions
             return line;
         }
 
-        public static FormGroupBuilder FormGroupTextFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
+        public static FormGroupBuilder BsFormGroupTextFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
             Func<InputElementBuilder,InputElementBuilder> withInput = null,
             Func<LabelBuilder, LabelBuilder> withLabel = null,
             int labelWidth = 0, int fieldWidth = 0)
         {
             return FormGroupBuilderFor(
-                withInput.Apply(b.TextBoxFor(expression)), 
-                withLabel.Apply(b.LabelFor(expression)), 
+                b.TextBoxFor(expression).Mixin(withInput),
+                b.LabelFor(expression).Mixin(withLabel), 
                 labelWidth, fieldWidth);
         }
 
-        public static FormGroupBuilder FormGroupDropdownFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
+        public static FormGroupBuilder BsFormGroupTextareaFor<TModel, TData>(this HtmlHelper<TModel> h,
+            Expression<Func<TModel, TData>> expression,Action<LabelBuilder> label = null,Action<TextareaBuilder> textarea = null,int labelWidth = 0, int fieldWidth = 0)
+        {
+            if (labelWidth == 0) labelWidth = h.Bs().CurrentFormLabelWidth;
+            if (fieldWidth == 0) fieldWidth = h.Bs().CurrentFormContentWidth;
+            return h.BsFormGroup()
+                .AddElement(h.LabelFor(expression), labelWidth)
+                .AddElement(h.TextAreaFor(expression), fieldWidth);
+        }
+        public static FormGroupBuilder BsFormGroupDropdownFor<TModel, TData>(this HtmlHelper<TModel> b, Expression<Func<TModel, TData>> expression,
             IEnumerable<SelectListItem> listItems,
             Func<SelectBuilder, SelectBuilder> withSelect = null,
             Func<LabelBuilder, LabelBuilder> withLabel = null,
             int labelWidth = 0, int fieldWidth = 0)
         {
             return FormGroupBuilderFor(
-                withSelect.Apply(b.DropDownListFor(expression, listItems)), 
-                withLabel.Apply(b.LabelFor(expression))
+                (b.DropDownListFor(expression, listItems)).Mixin(withSelect),
+                (b.LabelFor(expression)).Mixin(withLabel)
                 , labelWidth, fieldWidth);
         }
 
-        public static FormGroupBuilder FormGroupCheckboxFor<TModel>(this HtmlHelper<TModel> b, Expression<Func<TModel, bool>> expression,
+        public static FormGroupBuilder BsFormGroupCheckboxFor<TModel>(this HtmlHelper<TModel> b, Expression<Func<TModel, bool>> expression,
             int fieldWidth = 0)
         {
             return FormGroupBuilderFor(b.CheckBoxFor(expression).ToBootstrapCheckbox(b.LabelFor(expression)), null, 0, fieldWidth);
         }
 
-        private static FormGroupBuilder FormGroupBuilderFor(IHtmlBuilder input, LabelBuilder labelFor, int labelWidth = 0, int fieldWidth = 0)
+
+
+        private static FormGroupBuilder FormGroupBuilderFor(BasicHtmlBuilder input, LabelBuilder labelFor, int labelWidth = 0, int fieldWidth = 0)
         {
             var line = new FormGroupBuilder(input.Marquite);
             var bs = line.Marquite.ResolvePlugin<BootstrapPlugin>();

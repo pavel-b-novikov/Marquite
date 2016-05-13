@@ -95,6 +95,8 @@
     <Compile Include="Html\TableBuilderExtensions.cs" />
     <Compile Include="Html\TableRowBuilderExtensions.cs" />
     <Compile Include="Html\TextareaBuilderExtensions.cs" />
+    <Compile Include="RenderingQueueExtensions.cs" />
+    <Compile Include="Rendering\IRenderingQueue.cs" />
     <Compile Include="ScopeExtensions.cs" />
     <Compile Include="TagScope.cs" />
     <Compile Include="Css.cs" />

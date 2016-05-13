@@ -14,17 +14,17 @@
         {
             using (Html.Form("Forms").Horizontal(4,8).Open())
             {
-                @Html.FormGroupTextFor(c => c.UserName).AddElement(null,Html.Marq("p").AddClass("help-block").Append(Html.ValidationMessageFor(c=>c.UserName)))
-                @Html.FormGroup().AddElement(Html.LabelFor(c => c.Age), 
+                @Html.BsFormGroupTextFor(c => c.UserName).AddElement(null,Html.Marq("p").AddClass("help-block").Append(Html.ValidationMessageFor(c=>c.UserName)))
+                @Html.BsFormGroup().AddElement(Html.LabelFor(c => c.Age), 
                     Html.InputGroupFor(c => c.Age).WithRightAddon("> 18").WithLeftButton(Html.Bs().Button("Pick...")))
     
-                @Html.FormGroupDropdownFor(c => c.Gender, new []
+                @Html.BsFormGroupDropdownFor(c => c.Gender, new []
                 {
                     new SelectListItem() { Value = "1", Text = "Male" }, 
                     new SelectListItem() { Value = "0", Text = "Female" }
                 })
-                @Html.FormGroupDisplayFor(c => c.UserId)
-                @Html.FormGroupCheckboxFor(c=>c.IsActive)
+                @Html.BsFormGroupDisplayFor(c => c.UserId)
+                @Html.BsFormGroupCheckboxFor(c=>c.IsActive)
 
                 @Html.Bs().Button("Сохранить").Large().Danger().Pull(BootstrapPull.Right)
                 @Html.Bs().Button("Отменить").Large().Pull(BootstrapPull.Right).Css(Css.MarginRight, "10px")

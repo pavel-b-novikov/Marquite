@@ -14,7 +14,7 @@ namespace Marquite.Bootstrap.Extensions
         public static DropdownBuilder Dropdown<T>(this T element, 
             Action<DropdownMenuBuilder> menu = null,
             Action<SimpleHtmlBuilder> caret = null )
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             element.AddClass("dropdown-toggle")
                 .Data("toggle", "dropdown")
@@ -36,7 +36,7 @@ namespace Marquite.Bootstrap.Extensions
             Action<BootstrapButtonBuilder> button = null,
             Action<DropdownMenuBuilder> menu = null,
             Action<SimpleHtmlBuilder> caret = null)
-            where T : IHtmlBuilder
+            where T : BasicHtmlBuilder
         {
             var btn = bs.Button().Mixin(button)
                 .AddClass("dropdown-toggle")

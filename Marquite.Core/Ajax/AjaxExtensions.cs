@@ -422,7 +422,7 @@ namespace Marquite.Core.Ajax
         private static LinkBuilder GenerateLink(AjaxHelper ajaxHelper, string linkText, string targetUrl, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             LinkBuilder tag = new LinkBuilder(ajaxHelper.Marq());
-            tag.AppendText(HttpUtility.HtmlEncode(linkText));
+            tag.Content(c => c.AppendText(HttpUtility.HtmlEncode(linkText)));
             
             tag.MergeAttributes(htmlAttributes);
             tag.Attr("href", targetUrl);

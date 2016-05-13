@@ -570,7 +570,7 @@ namespace Marquite.Core.Html
                 InputElementBuilder hiddenInput = new InputElementBuilder(marq);
                 hiddenInput.Type(InputType.Hidden).Name(fullName).Value(false);
                 
-                return tagBuilder.Append(hiddenInput);
+                return tagBuilder.After(c => c.Append(hiddenInput));
             }
 
             return tagBuilder;
