@@ -78,6 +78,12 @@ namespace Marquite.Core
             if (!b.CssClasses.Contains(clazz)) b.CssClasses.Add(clazz);
             return b;
         }
+
+        public static T FreeAttribute<T>(this T b, string content) where T : BasicHtmlBuilder
+        {
+            b.Free.Add(content);
+            return b;
+        }
         #endregion
 
         #region Remove attributes

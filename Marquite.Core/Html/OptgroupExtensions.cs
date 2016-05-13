@@ -4,13 +4,13 @@ namespace Marquite.Core.Html
 {
     public static class OptgroupExtensions
     {
-        public static T AddItem<T>(this T b,OptionBuilder option) where T : OptgroupBuilder 
+        public static T AddOption<T>(this T b,OptionBuilder option) where T : OptgroupBuilder 
         {
             b.Content.Trail(option.Detached());
             return b;
         }
 
-        public static T AddItem<T>(this T b,string option, string value, bool selected) where T : OptgroupBuilder 
+        public static T AddOption<T>(this T b, string option, string value, bool selected) where T : OptgroupBuilder 
         {
             OptionBuilder ob = new OptionBuilder(b.Marquite);
             ob.Text(option).Value(value).When(selected, c => c.Selected());
@@ -18,7 +18,7 @@ namespace Marquite.Core.Html
             return b;
         }
 
-        public static T AddItem<T>(this T b,string option, string value) where T : OptgroupBuilder 
+        public static T AddOption<T>(this T b, string option, string value) where T : OptgroupBuilder 
         {
             OptionBuilder ob = new OptionBuilder(b.Marquite);
             ob.Text(option).Value(value);

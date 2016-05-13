@@ -24,6 +24,7 @@ namespace Marquite.Core.BuilderMechanics
         private readonly SortedDictionary<string, string> _attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
         private readonly StringCategory _categorizedCssClasses;
         private readonly bool _isScoped;
+        private readonly List<string> _freeOpening = new List<string>();
         #endregion
 
         internal RenderingQueue Before { get { return _before; } }
@@ -47,6 +48,7 @@ namespace Marquite.Core.BuilderMechanics
 
         internal SortedDictionary<string, string> Attributes { get { return _attributes; } }
         internal RenderingQueue Content { get { return _content; } }
+        internal List<string> Free { get { return _freeOpening; } }
         internal bool IsSelfClosing { get; set; }
         public string TagName { get; set; }
         public string IdVal { get; set; }
@@ -140,7 +142,11 @@ namespace Marquite.Core.BuilderMechanics
                         .ChainWrite(':').ChainWrite(s.Value)
                         .ChainWrite(";");
                 }
-                tw.Write("\"");
+                tw.Write("\" ");
+            }
+            foreach (var v in _freeOpening)
+            {
+                tw.ChainWrite(v).ChainWrite(' ');
             }
             if (IsSelfClosing) tw.Write('/');
             tw.Write('>');

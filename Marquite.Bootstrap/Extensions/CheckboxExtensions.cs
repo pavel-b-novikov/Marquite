@@ -46,6 +46,8 @@ namespace Marquite.Bootstrap.Extensions
             builder.Content(c => c.Append(label));
             return builder;
         }
+
+
         public static BootstrapCheckableBuilder ToBootstrapCheckbox(this BaseInputField inputElement, string label = null)
         {
             LabelBuilder lb = string.IsNullOrEmpty(label)
